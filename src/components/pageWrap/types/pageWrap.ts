@@ -6,7 +6,8 @@ export interface TopBarProps {
 }
 export interface PageWrapProps {
   children?:  React.ReactElement,
-  topBarProps: TopBarProps
+  topBarProps: TopBarProps,
+  hasNavbar?: boolean
 }
 
 export interface BackButtonProps {

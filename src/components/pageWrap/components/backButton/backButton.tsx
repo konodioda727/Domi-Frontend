@@ -18,12 +18,12 @@ const BackButton: React.FC<BackButtonProps> = (props) => {
     left: '2%'
   }
   const handleClick = () => {
-    Taro.switchTab({
-      url: `pages/${naviBackURL}`
+    Taro.navigateTo({
+      url: `/pages/${naviBackURL}`
     })
   }
   return <>
-    <Image style={backButtonStyle} className='back-button-image' src='https://s2.loli.net/2024/01/24/YS7geQohqWUv5L4.png' onClick={handleClick}></Image>
+    <Image style={backButtonStyle} className='back-button-image' src='https://s2.loli.net/2024/01/25/ckHYaL1SbNf62QM.png' onClick={handleClick}></Image>
   </>
 }
 
