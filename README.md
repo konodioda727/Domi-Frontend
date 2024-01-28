@@ -23,6 +23,6 @@
   - `topbarprops`中`pos`为文字摆放位置，`leftWithButton` 为带返回按钮，
   - `hasNavbar`为是否带下方`navbar`，会根据文件在`teachers`还是`tudents`自动区分导航栏功能，具体配置见`configs`中的`navbarConfig`
 
-2. contentField
-   
-  大白布，带圆角和阴影和padding，当view用
+2. ContentField
+   大白布，带圆角和阴影和padding，当view用
+  
