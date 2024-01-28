@@ -24,4 +24,5 @@
   - `hasNavbar`为是否带下方`navbar`，会根据文件在`teachers`还是`tudents`自动区分导航栏功能，具体配置见`configs`中的`navbarConfig`
 
 2. contentField
+   
   大白布，带圆角和阴影和padding，当view用
