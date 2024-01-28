@@ -1,4 +1,42 @@
-.index {
-  width: 100vw;
-  height: 100vh;
+.index-wrap {
+  position: absolute;
+  top: 16%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90vw;
+  height: 70vh;
+  .header {
+    margin: 4vh auto 6vh auto;
+    width: 100%;
+    text-align: center;
+    font-size: 3vh;
+    color: #005767;
+  }
+  .index-item {
+    position: relative;
+    width: 98%;
+    margin: 5vh auto;
+    align-items: center;
+    .index-item-text {
+      display: inline-block;
+      font-size: 2.6vh;
+      width: 44vw;
+      height: 7vh;
+      text-align: center;
+      line-height: 7vh;
+      border-radius: 3vw;
+      color: #005767;
+      border: 2px solid #005767;
+      vertical-align: center;
+      margin: 1vh;
+    }
+    .index-item-img {
+      position: absolute;
+      margin: auto;
+      width: 8vh;
+      height: 8vh;
+      right: 10px;
+      display: inline-block;
+    }
+  }
 }

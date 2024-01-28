@@ -11,7 +11,7 @@ const TopBar: React.FC<TopBarProps> = (props) => {
   return (
     <>
       <View className='topbar' style={useGenerateBarCSS()}>
-        {props.pos === 'leftWithButton' && <BackButton naviBackURL='/index' />}
+        {props.pos === 'leftWithButton' && <BackButton naviBackURL='index/index' />}
         <View className='topbar-text' style={useGenerateTextCSS(props)}>{props.children}</View>
       </View>
     </>
