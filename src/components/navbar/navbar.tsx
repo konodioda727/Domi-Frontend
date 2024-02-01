@@ -9,7 +9,6 @@ import './navbar.less'
 
 const Navbar: React.FC<NavBarProps> = (props) => {
   const {items} = props;
-  // useImagePreload(preloadImgList)
   return (
     <View className='navbar'>
       {items && items.map((item) => {

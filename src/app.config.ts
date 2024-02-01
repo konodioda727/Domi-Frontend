@@ -5,7 +5,10 @@ export default defineAppConfig({
   navigationStyle: "custom",
   pages: [
     'pages/index/index',
-    'pages/teacher/index/index'
+    'pages/teacher/login/login',
+    'pages/student/prelogin/prelogin',
+    'pages/student/login/login',
+    'pages/student/application/application'
   ],
 
   window: {

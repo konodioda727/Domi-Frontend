@@ -1,8 +1,35 @@
+@gray: rgb(178,204,209);
+@green: rgb(35,121,121);
 @deep-green: #005767;
 @deep-blue: #023850;
+
+@font-big: 3vh;
+@font-medium: 2.2vh;
+@font-small: 1.4vh;
+
+@font-bold: 550;
+@font-common: 520;
 
 body {
   background-color: @deep-blue;
   margin: 0;
   padding: 0;
+}
+
+.center-abs {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flex-column-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
