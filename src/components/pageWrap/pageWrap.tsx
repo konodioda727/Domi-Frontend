@@ -6,12 +6,12 @@ import React from "react";
 import './pageWrap.less'
 
 const PageWrap:React.FC<PageWrapProps> = (props)=> {
-  const {topBarProps, hasNavbar} = props
+  const {topBarProps, hasNavbar,children,className, ...restProps} = props
   return (
     <>
       <TopBar {...topBarProps}>{topBarProps?.children}</TopBar>
-      <View className='page-wrap-default'>
-          {props.children}
+      <View className={`page-wrap-default ${className}`} {...restProps}>
+          {children}
       </View>
       {hasNavbar && <Navbar></Navbar>}
     </>

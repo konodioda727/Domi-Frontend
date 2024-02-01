@@ -9,8 +9,11 @@ export function useGenerateTextCSS(props: TopBarProps): CSSProperties {
     position: 'absolute',
     top: `${capsulePos.top}px`,
     lineHeight: `${capsulePos.height}px`,
-    // fontSize: `${capsulePos.height}px`,
     color: '#fff',
+  }
+  const centerStyle: CSSProperties = {
+    left: "50%",
+    transform: "translateX(-50%)"
   }
   const ret:Record<TopBarProps['pos'], CSSProperties> = {
     "left": {
@@ -23,8 +26,11 @@ export function useGenerateTextCSS(props: TopBarProps): CSSProperties {
     },
     "center": {
       ...text_unchangeable,
-      left: "50%",
-      transform: "translateX(-50%)"
+      ...centerStyle
+    },
+    "centerWithButton": {
+      ...text_unchangeable,
+      ...centerStyle
     }
   }
   return ret[pos]

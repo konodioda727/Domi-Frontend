@@ -1,3 +1,4 @@
+import Taro from "@tarojs/taro";
 import ContentFiled from "@/components/contentField/contentFiled";
 import {IdentityMap} from "@/pages/index/indexProps";
 import {indexConfig} from "@/configs/indexConfig";
@@ -9,6 +10,7 @@ import './index.less'
 
 export default function Index() {
   return (
+
     <PageWrap topBarProps={{pos:'center',children: 'CCNU换宿申请', }}>
       <ContentFiled className='index-wrap'>
         <View className='header'>请选择您的身份:</View>
@@ -22,9 +24,14 @@ export default function Index() {
 }
 
 export const IndexItem: React.FC<IdentityMap> = (props) => {
-  const {text, imgURL, textStyle} = props;
+  const {text, imgURL, textStyle, navURL} = props;
+  const handleNav = () => {
+     Taro.navigateTo({
+      url: `/pages/${navURL}`
+    })
+  }
   return <View className='index-item' >
-    <View className='index-item-text' style={textStyle}>{text}</View>
+    <View className='index-item-text' onClick={handleNav} style={textStyle}>{text}</View>
     <Image className='index-item-img' src={imgURL} ></Image>
   </View>
 }

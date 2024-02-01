@@ -8,11 +8,12 @@ import './topBar.less'
 
 
 const TopBar: React.FC<TopBarProps> = (props) => {
+  const {pos, navURL, children} = props
   return (
     <>
       <View className='topbar' style={useGenerateBarCSS()}>
-        {props.pos === 'leftWithButton' && <BackButton naviBackURL='index/index' />}
-        <View className='topbar-text' style={useGenerateTextCSS(props)}>{props.children}</View>
+        {pos.includes('WithButton') && <BackButton naviBackURL={navURL} />}
+        <View className='topbar-text' style={useGenerateTextCSS(props)}>{children}</View>
       </View>
     </>
   )
