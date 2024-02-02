@@ -2,7 +2,7 @@ import {NavbarItemProps} from "@/components/navbar/types/navbarItem";
 
 
 export const defaultStuNavbarProps: NavbarItemProps[] = [{
-  navURL:'/pages/teacher/index/index',
+  navURL:'/pages/student/application/application',
   imgURL: 'review-selected',
 }, {
   navURL:'',

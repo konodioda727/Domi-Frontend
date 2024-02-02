@@ -3,6 +3,7 @@ import {Image, View} from "@tarojs/components";
 import {NavbarItemProps} from "@/components/navbar/types/navbarItem";
 import Taro from "@tarojs/taro";
 import './navbarItem.less'
+
 const NavbarItem: React.FC<NavbarItemProps> = (props) => {
   const {imgURL, navURL, text} = props
   let regPath = imgURL;
