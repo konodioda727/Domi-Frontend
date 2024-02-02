@@ -30,8 +30,9 @@
 3. Input Button
 
    加了样式的 `Input` 和 `Button`，支持自定义，`Button`自带 100ms 的防抖， `Input` 没加，可以根据需求加上 `throttle`（使用 `useThrottle` 这个 `hook` ）
+   > `Button` 新增 `disable` , 和 `disabledPrompt` 属性, 负责按钮禁用以及禁用弹窗
 
-4. Login
+5. Login
 
    老师、辅导员、学生登录的公用组件，接受参数如下：
 
@@ -64,10 +65,10 @@
 
 # 更新日志
 
-### 2月2日1：11 
+### 2月2日
 
 - 增加了 `useThrottle` 和 `useDebounce` 两个 `hook`
 - 增加了 `loginPage`
 - 增加了 `Input`， `Button`，`Login`组件,详情见 `componnents概述`
 - 重构 `PageWrap` 和 `NavBar`，将复杂提到配置文件夹 `Config` 中
-  
+- 重构 申请界面，将 颜色配置、跳转链接配置等提到配置文件夹 `Config` 中
