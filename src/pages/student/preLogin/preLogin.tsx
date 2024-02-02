@@ -1,15 +1,15 @@
 import React from "react";
-import Taro from "@tarojs/taro";
 import Button from "@/components/button/button";
 import ContentFiled from "@/components/contentField/contentFiled";
 import Input from "@/components/input/input";
+import {Nav} from "@/utils/nav";
 import PageWrap from "@/components/pageWrap/pageWrap";
 import {View} from "@tarojs/components";
 import './prelogin.less'
 
 const PreLogin: React.FC = () => {
   const handleNav = () => {
-    Taro.navigateTo({url:'/pages/student/login/login'})
+    Nav('/pages/student/login/login')
   }
   return (
     <>

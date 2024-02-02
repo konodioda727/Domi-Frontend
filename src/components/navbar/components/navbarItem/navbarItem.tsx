@@ -1,8 +1,10 @@
 import React from "react";
 import {Image, View} from "@tarojs/components";
+import {Nav} from "@/utils/nav";
 import {NavbarItemProps} from "@/components/navbar/types/navbarItem";
 import Taro from "@tarojs/taro";
 import './navbarItem.less'
+
 
 const NavbarItem: React.FC<NavbarItemProps> = (props) => {
   const {imgURL, navURL, text} = props
@@ -15,9 +17,7 @@ const NavbarItem: React.FC<NavbarItemProps> = (props) => {
     regPath = imgURL.replace(/(un)?selected/g, "unselected")
   }
   const handleClick = () => {
-    Taro.navigateTo({
-      url: navURL
-    })
+    Nav(navURL)
   }
   return <>
     <View className='navbar-item' onClick={handleClick}>
