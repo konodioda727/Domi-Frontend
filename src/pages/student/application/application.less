@@ -1,15 +1,72 @@
 @import "../../../styles/variables";
+@stop-width: 10vw;
+@stop-height: 3vh;
+@elem-margin-left: 8vw;
+@stop-transform-left: -(@elem-margin-left + @stop-width / 2 + 1vw);
+@task-elem-state-size: 20vw;
 
 .application-wrap {
   .flex-center;
   .task-wrap {
-    width: 60vw;
-    height: 80vh;
-    display: flex;
+    width: 80vw;
+    height: 70vh;
     .flex-column-center;
+    .task-desc {
+      font-size: @font-medium;
+      font-weight: @font-common;
+    }
+    .task-button-wrap {
+      width: 100%;
+      display: flex;
+      margin-top: 2vh;
+      justify-content: space-evenly;
+      .task-default-button {
+        height: 4vh;
+        font-size: @font-small;
+        background-color: @green;
+      }
+      .task-short-button {
+        width: 22vw;
+       .task-default-button;
+      }
+      .task-long-button {
+        width: 40vw;
+        .task-default-button;
+      }
+    }
+    .task-special {
+      justify-content: space-between;
+    }
+    .application-task-elem {
+      width: 90%;
+      height: 20%;
+      margin-left: @elem-margin-left ;
+      position: relative;
+      .flex-column-center;
+      overflow: visible;
+      .task-elem-state {
+        position: absolute;
+        width: @task-elem-state-size;
+        height: @task-elem-state-size;
+        right: -(@task-elem-state-size/4);
+        bottom: -(@task-elem-state-size/4);
+      }
+      .progress-stop-point {
+        position: absolute;
+        left: @stop-transform-left;
+        top: 50%;
+        transform: translateY(-50%);
+        width: @stop-width;
+        height: @stop-height;
+        background-color: @yellow;
+      }
+    }
   }
+
   .progress-bar {
-    height: 80vh;
+    height: 70vh;
     width: 2vw;
   }
 }
+
+
