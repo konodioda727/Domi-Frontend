@@ -1,9 +1,9 @@
-import Taro from "@tarojs/taro";
 import ContentFiled from "@/components/contentField/contentFiled";
 import {IdentityMap} from "@/pages/index/indexProps";
 import {indexConfig} from "@/configs/indexConfig";
 import {View, Image} from "@tarojs/components";
 import React from "react";
+import {Nav} from "@/utils/nav";
 import PageWrap from "../../components/pageWrap/pageWrap";
 import './index.less'
 
@@ -26,9 +26,7 @@ export default function Index() {
 export const IndexItem: React.FC<IdentityMap> = (props) => {
   const {text, imgURL, textStyle, navURL} = props;
   const handleNav = () => {
-     Taro.navigateTo({
-      url: `/pages/${navURL}`
-    })
+    Nav(`/pages/${navURL}`)
   }
   return <View className='index-item' >
     <View className='index-item-text' onClick={handleNav} style={textStyle}>{text}</View>

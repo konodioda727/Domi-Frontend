@@ -1,5 +1,5 @@
 import {LoginPageProps} from "@/pages/types/loginProps";
-import Taro from "@tarojs/taro";
+import {Nav} from "@/utils/nav";
 
 export const teaLoginConfig: LoginPageProps = {
   loginProps: {
@@ -57,5 +57,5 @@ export const stuLoginConfig: LoginPageProps = {
 }
 
 const ToApplication = () => {
-  Taro.navigateTo({url:'/pages/student/application/application'})
+  Nav('/pages/student/application/application')
 }

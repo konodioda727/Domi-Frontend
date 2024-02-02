@@ -5,3 +5,9 @@ export interface TaskElemProps {
   children?: React.ReactNode,
   state?: applicationTaskState
 }
+export type applicationType = {
+  submitPath: string,
+  editPath: string,
+  counselorPath: string,
+  studentAffairPath: string
+}
