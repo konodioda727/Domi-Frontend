@@ -1,5 +1,10 @@
 # domi-frontend-v1
-采用react+ts+less+taro开发的华师智能换宿小程序
+采用react+ts+less+taro开发的华师换宿小程序
+
+# 迭代须知
+除组件特有逻辑之外，常规配置（如页面跳转和页面标题等）都提出到 `config` 文件夹中， 简单修改页面内容、跳转直接修改对应 `config`文件即可，
+后续开发仍建议把此类逻辑提出到 `config` 中, 让组件中只包含主干逻辑，方便修改、重构
+
 # components概述
 1. PageWrap
    
@@ -64,6 +69,13 @@
 > 其中，`onRegister` 和 `onLogin` 接受 两个参数， 一个为`paramSet`, 即各个输入框内容集合，以`loginConfigType`中的`title`为属性名， 另一个为`clear`，是回调函数，负责清除输入框内容
 
 # 更新日志
+
+### 2月3日
+
+- 新增了 `PersonalInfo` 组件，对应教师和学生的个人页面， 但感觉教师端个人页面可能要改，待定，之后可能会删除
+- 增加了 `studentPersonalInfo` 页面
+- 重构 `studentPersonalInfo` 页面，把跳转逻辑提到 `Config`文件夹中
+- `Taro.navigateTo` 写起来太烦了，简单封装了一下，放在， `utils`中，目前有 `Nav` 和 `Redirect` 两个函数，分别对应 `Taro.navigateTo` 和 `Taro.redirectTo`, 要加其他的自己加
 
 ### 2月2日
 
