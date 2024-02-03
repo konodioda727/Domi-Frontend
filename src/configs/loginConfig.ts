@@ -1,5 +1,5 @@
 import {LoginPageProps} from "@/pages/types/loginProps";
-import {Nav} from "@/utils/nav";
+import {Redirect} from "@/utils/nav";
 
 export const teaLoginConfig: LoginPageProps = {
   loginProps: {
@@ -57,5 +57,5 @@ export const stuLoginConfig: LoginPageProps = {
 }
 
 const ToApplication = () => {
-  Nav('/pages/student/application/application')
+  Redirect('/pages/student/application/application')
 }
