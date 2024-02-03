@@ -1,6 +1,6 @@
 import React from "react";
 import {Image, View} from "@tarojs/components";
-import {Nav} from "@/utils/nav";
+import {Redirect} from "@/utils/nav";
 import {NavbarItemProps} from "@/components/navbar/types/navbarItem";
 import Taro from "@tarojs/taro";
 import './navbarItem.less'
@@ -8,7 +8,7 @@ import './navbarItem.less'
 
 const NavbarItem: React.FC<NavbarItemProps> = (props) => {
   const {imgURL, navURL, text} = props
-  let regPath = imgURL;
+  let regPath: string;
   // 判断当前路径是否与navURL相同，相同则改变颜色
   const router = Taro.getCurrentInstance().router || Taro.useRouter();
   if(router && router.path === navURL) {
@@ -17,7 +17,7 @@ const NavbarItem: React.FC<NavbarItemProps> = (props) => {
     regPath = imgURL.replace(/(un)?selected/g, "unselected")
   }
   const handleClick = () => {
-    Nav(navURL)
+    Redirect(navURL)
   }
   return <>
     <View className='navbar-item' onClick={handleClick}>

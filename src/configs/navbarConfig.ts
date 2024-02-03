@@ -5,7 +5,7 @@ export const defaultStuNavbarProps: NavbarItemProps[] = [{
   navURL:'/pages/student/application/application',
   imgURL: 'review-selected',
 }, {
-  navURL:'',
+  navURL:'/pages/student/personalInfo/personalInfo',
   imgURL: 'mine-unselected',
 }]
 export const defaultTeaNavbarProps: NavbarItemProps[] = [{
