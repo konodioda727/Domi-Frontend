@@ -18,6 +18,7 @@ export const teaLoginConfig: LoginPageProps = {
     onLogin: (paramSet, clear) => {
       console.log('login', paramSet)
       clear && clear()
+      ToReview()
     }
   },
   topBarProps: {
@@ -58,4 +59,8 @@ export const stuLoginConfig: LoginPageProps = {
 
 const ToApplication = () => {
   Redirect('/pages/student/application/application')
+}
+const ToReview = () => {
+  Redirect('/pages/teacher/review/review')
+
 }

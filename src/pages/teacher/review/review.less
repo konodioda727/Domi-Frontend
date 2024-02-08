@@ -1,0 +1,23 @@
+@import "../../../styles/variables";
+
+.review-content {
+  .center-abs;
+  top: 54%;
+  height: 60vh;
+  padding: 2vh;
+  flex-direction: column;
+  .reviewed {
+    display: flex;
+    justify-content: center;
+    font-size: @font-big;
+    color: @green;
+    .reviewed-text {
+      margin: 0 4vh;
+    }
+  }
+  .reviewed-items {
+    position: relative;
+    height: 40vh;
+    overflow-y: auto;
+  }
+}

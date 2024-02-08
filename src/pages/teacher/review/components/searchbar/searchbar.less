@@ -1,0 +1,74 @@
+@import "../../../../../styles/variables";
+
+@searchbar-suffix-icon-size: 6vw;
+@searchbar-prefix-icon-size: 4vw;
+
+.review-searchbar {
+  position: relative;
+  display: flex;
+  width: 90vw;
+  height: 6vh;
+  align-items: center;
+  border-radius: 3vw;
+  background-color: #fff;
+  margin: 14vh auto 4vh auto;
+  .review-searchbar-prefix {
+    flex: 3;
+    position: relative;
+    .flex-center;
+    .review-choose-list {
+      position: absolute;
+      width: 20vw;
+      top: 110%;
+      max-height: 10vh;
+      overflow-y: auto;
+      border-radius: 3vw;
+      background-color: #fff;
+      box-sizing: border-box;
+      z-index: 4;
+      box-shadow: @box-shadow;
+      .review-choose-list-item {
+        width: 100%;
+        height: 6vh;
+        box-sizing: border-box;
+        border-bottom: 1px solid @gray;
+        .flex-center;
+      }
+    }
+    .review-search-wrap {
+      display: flex;
+      align-items: center;
+      .review-prefix-text {
+        color: @green;
+        font-size: @font-medium;
+      }
+      .review-prefix-icon {
+        margin-left: 2vw;
+        width: @searchbar-prefix-icon-size;
+        height: @searchbar-prefix-icon-size;
+      }
+    }
+  }
+  .review-searchbar-input {
+    flex: 8;
+    outline: none;
+    border: 0;
+  }
+  .review-searchbar-suffix {
+    flex: 1;
+    margin-right: 4vw;
+    .flex-center;
+    .review-searchbar-suffix-icon {
+      width: @searchbar-suffix-icon-size;
+      height: @searchbar-suffix-icon-size;
+    }
+  }
+}
+
+.review-hover {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: 3;
+  background-color: transparent;
+}
