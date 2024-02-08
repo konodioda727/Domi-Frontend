@@ -15,11 +15,11 @@ export const imgMap: {[key in applicationTaskState]: string} = {
 }
 export const applicationNavConfigs: applicationType = {
   // 提交页面路径
-  submitPath: '',
+  submitPath: '/pages/student/application/details/approvalForm/approvalForm',
   // 修改页面路径
-  editPath: '',
+  editPath: '/pages/student/application/details/approvalForm/approvalForm',
   // 辅导员审核页面路径
-  counselorPath: '',
+  counselorPath: '/pages/student/application/details/counsellorForm/counsellorForm',
   // 学工部页面路径
-  studentAffairPath: ''
+  studentAffairPath: '/pages/student/application/details/departmentForm/departmentForm'
 }

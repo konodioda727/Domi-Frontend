@@ -16,7 +16,7 @@ export default defineAppConfig({
     'pages/student/personalInfo/personalInfo',
 
     'pages/sharing/adviceFeedback/adviceFeedback',
-    'pages/sharing/changingSteps/changinSteps',
+    'pages/sharing/changingSteps/changingSteps',
     'pages/student/application/details/approvalForm/approvalForm',
     'pages/student/application/details/counsellorForm/counsellorForm',
     'pages/student/application/details/departmentForm/departmentForm',
