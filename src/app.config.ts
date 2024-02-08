@@ -22,6 +22,7 @@ export default defineAppConfig({
     'pages/student/application/details/departmentForm/departmentForm',
     'pages/teacher/checking/checking'
 
+    'pages/student/personalInfo/personalInfo'
   ],
 
   window: {

@@ -62,4 +62,5 @@ const ToApplication = () => {
 }
 const ToReview = () => {
   Redirect('/pages/teacher/review/review')
+
 }
