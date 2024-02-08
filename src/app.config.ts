@@ -4,7 +4,7 @@ export default defineAppConfig({
   navigationBarTextStyle: 'black',
   navigationStyle: "custom",
   pages: [
-   'pages/index/index',
+    'pages/index/index',
 
     'pages/teacher/login/login',
     'pages/teacher/review/review',
