@@ -7,6 +7,8 @@ export default defineAppConfig({
     'pages/index/index',
 
     'pages/teacher/login/login',
+    'pages/teacher/review/review',
+    'pages/teacher/personalInfo/personalInfo',
 
     'pages/student/prelogin/prelogin',
     'pages/student/login/login',

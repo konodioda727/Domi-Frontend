@@ -9,9 +9,9 @@ export const defaultStuNavbarProps: NavbarItemProps[] = [{
   imgURL: 'mine-unselected',
 }]
 export const defaultTeaNavbarProps: NavbarItemProps[] = [{
-  navURL:'',
+  navURL:'/pages/teacher/review/review',
   imgURL: 'review-selected',
 }, {
-  navURL:'',
+  navURL:'/pages/teacher/personalInfo/personalInfo',
   imgURL: 'mine-unselected',
 }]

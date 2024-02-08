@@ -1,0 +1,52 @@
+@import "../../../../../styles/variables";
+
+.review-item {
+  height: 20vh;
+  border-radius: 3vw;
+  border: 2px solid @black;
+  position: relative;
+  margin-top: 3vh;
+  .review-item-header, .review-item-footer {
+    height: 5vh;
+    position: relative;
+    width: 100%;
+    display: flex;
+    color: @green;
+  }
+  .review-item-footer {
+    .flex-center;
+    font-size: @font-medium;
+    flex-direction: row-reverse;
+    justify-content: right;
+    .review-item-grade {
+      margin-right: 4vh;
+    }
+  }
+ .review-item-header {
+   justify-content: space-between;
+   align-items: center;
+   font-size: @font-medium;
+   .review-item-name {
+      margin-left: 4vh;
+   }
+   .review-item-time {
+     margin-right: 4vh;
+   }
+ }
+  .review-item-body {
+    height: 10vh;
+    background-color: @deep-green;
+    width: 100%;
+    .review-item-arrow {
+      width: 16vw;
+      height: 4vh;
+    }
+    .flex-center;
+    .review-item-info {
+      margin: 0 3vh 0 3vh;
+      color: white;
+      font-size: @font-medium;
+      text-align: center;
+    }
+  }
+}

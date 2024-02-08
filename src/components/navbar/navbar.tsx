@@ -7,8 +7,10 @@ import Taro from "@tarojs/taro";
 import './navbar.less'
 
 
-const Navbar: React.FC<NavBarProps> = (props) => {
-  const {items} = props;
+const Navbar: React.FC<NavBarProps> = () => {
+  const router = Taro.getCurrentInstance().router || Taro.useRouter();
+  const path = router.path;
+  const items = path.includes('teacher')? defaultTeaNavbarProps: defaultStuNavbarProps
   return (
     <View className='navbar'>
       {items && items.map((item) => {
@@ -23,6 +25,7 @@ export default Navbar
 Navbar.defaultProps = (() => {
   const router = Taro.getCurrentInstance().router || Taro.useRouter();
   const path = router.path;
+  console.log(path.includes('teacher'))
   return {
     items: path.includes('teacher')? defaultTeaNavbarProps: defaultStuNavbarProps
   };
