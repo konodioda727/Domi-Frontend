@@ -3,6 +3,7 @@ import Taro from "@tarojs/taro";
 
 export const stuPersonalInfoTag:switchCarType[] = ['introduction', 'download', 'feedback', 'exit']
 export const teaPersonalInfoTag:switchCarType[] = ['introduction', 'download', 'feedback', 'exit']
+
 export const personalInfoConfig: {[key in switchCarType]: PersonaltabProps} = {
   introduction: {
     icon: 'https://s2.loli.net/2024/02/03/q1hkVgLceaNs4mu.png',
