@@ -68,7 +68,33 @@
 
 > 其中，`onRegister` 和 `onLogin` 接受 两个参数， 一个为`paramSet`, 即各个输入框内容集合，以`loginConfigType`中的`title`为属性名， 另一个为`clear`，是回调函数，负责清除输入框内容
 
+6. PersonalInfo
+
+   教师学生通用的个人信息页组件，接受参数如下：
+   
+   ```
+   export interface PersonalInfoProps {
+      type: 'teacher' | 'student',
+      data: {
+        name: string,
+        ID: string,
+        campus: string,
+        grade: string
+      }
+    }
+   ```
+
+   > 其中，`type`决定采用哪个`config`渲染选项条，`config`在`personalInfo`中，如下：
+   
+   ```
+      export const stuPersonalInfoTag:switchCarType[] = ['introduction', 'download', 'feedback', 'exit']
+      export const teaPersonalInfoTag:switchCarType[] = ['introduction', 'download', 'feedback', 'exit']
+   ```
+
 # 更新日志
+
+### 2月12日
+- 帮ns写了`signature`组件和`signature`页面，生气😡
 
 ### 2月8日
 - 前几天没管，今天赎罪
