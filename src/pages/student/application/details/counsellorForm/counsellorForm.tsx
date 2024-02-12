@@ -1,8 +1,9 @@
 import React, { useState ,useEffect} from "react";
-import ContentFiled from "@/components/contentField/contentFiled";
 import PageWrap from "@/components/pageWrap/pageWrap";
 import {Text,RadioGroup,View,Input, Textarea, Label, Radio} from "@tarojs/components";
 import './index.less'
+
+import ContentFiled from "@/components/contentField/contentFiled";
 
 const DepartmentForm: React.FC=()=>{
     useEffect(()=>{

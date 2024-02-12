@@ -9,6 +9,7 @@
         "enhance": false,
         "compileHotReLoad": false,
         "postcss": false,
+        "painting": true,
         "minified": false,
         "babelSetting": {
             "ignore": [],
