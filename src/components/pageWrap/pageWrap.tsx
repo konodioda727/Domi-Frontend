@@ -1,8 +1,8 @@
-import Navbar from "@/components/navbar/navbar";
-import TopBar from "@/components/pageWrap/components/topBar/topBar";
-import {PageWrapProps} from "@/components/pageWrap/types/pageWrap";
-import {View} from "@tarojs/components";
 import React from "react";
+import Navbar from "@/components/pageWrap/components/navbar/navbar";
+import {PageWrapProps} from "@/components/pageWrap/types/pageWrap";
+import TopBar from "@/components/pageWrap/components/topBar/topBar";
+import {View} from "@tarojs/components";
 import './pageWrap.less'
 
 const PageWrap:React.FC<PageWrapProps> = (props)=> {

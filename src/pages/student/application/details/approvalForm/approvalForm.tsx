@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import PageWrap from "@/components/pageWrap/pageWrap";
 import Button from "@/components/button/button";
-import academys from "./formInfo";
+import PageWrap from "@/components/pageWrap/pageWrap";
+import React, { useState } from "react";
 import {Text,ScrollView,View,Input,Picker, Textarea} from "@tarojs/components";
+import academys from "./formInfo";
 import './index.less'
 
 
@@ -20,11 +20,11 @@ const ApprovalForm: React.FC=()=>{
               <View className='approvalForm-item'>
                 <Text className='approvalForm-item-tag'>姓 名</Text>
                 <Input className='approvalForm-item-Input' value={stuName} onInput={(e)=>setStuNmae(e.detail.value)}></Input>
-              </View> 
+              </View>
               <View className='approvalForm-item'>
                 <Text className='approvalForm-item-tag'>学 号</Text>
                 <Input className='approvalForm-item-Input' value={stuNumber} onInput={(e)=>setStuNumber(e.detail.value)}></Input>
-              </View> 
+              </View>
               <View className='approvalForm-item'>
                 <Text className='approvalForm-item-tag'>学 院</Text>
                 <Picker mode='selector' range={academys} onChange={(e)=>setSelectedAcademy(academys[e.detail.value])}>
@@ -32,11 +32,11 @@ const ApprovalForm: React.FC=()=>{
                     {selectedAcademy}
                   </View>
                 </Picker>
-              </View> 
+              </View>
               <View className='approvalForm-item'>
                 <Text className='approvalForm-item-tag smaller-tag'>联系方式</Text>
                 <Input className='approvalForm-item-Input' value={connection} onInput={(e)=>setConnection(e.detail.value)}></Input>
-              </View> 
+              </View>
               <View className='approvalForm-item'>
                 <Text className='approvalForm-item-tag'>辅导员</Text>
                 <Input className='approvalForm-item-Input' value={instructor} onInput={(e)=>setInstructor(e.detail.value)}></Input>
@@ -56,7 +56,7 @@ const ApprovalForm: React.FC=()=>{
               <View className='approvalForm-item'>
                 <Input className='approvalForm-item-Input smaller-input'></Input>
                 <Input className='approvalForm-item-Input smaller-input'></Input>
-              </View> 
+              </View>
               <View className='approvalForm-item'>
                 <Text className='approvalForm-item-tag bigger-tag'>现床位号</Text>
                 <Text className='approvalForm-item-tag bigger-tag'>拟调床位号</Text>
@@ -64,10 +64,10 @@ const ApprovalForm: React.FC=()=>{
               <View className='approvalForm-item'>
                 <Input className='approvalForm-item-Input smaller-input'></Input>
                 <Input className='approvalForm-item-Input smaller-input'></Input>
-              </View>  
-              <View className='form-textarea-intro'>个人申请</View>  
-              <View className='form-textarea-intro'>（请阐明调寝原因）</View>  
-              <Textarea id='changingReason' maxlength={500}></Textarea>   
+              </View>
+              <View className='form-textarea-intro'>个人申请</View>
+              <View className='form-textarea-intro'>（请阐明调寝原因）</View>
+              <Textarea id='changingReason' maxlength={500}></Textarea>
               <View className='approvalForm-item'>
                 <Text className='approvalForm-item-tag bigger-tag'>申请人签字</Text>
                 <Input className='approvalForm-item-Input smaller-input'></Input>
@@ -81,7 +81,7 @@ const ApprovalForm: React.FC=()=>{
                     <View  className='date-detail'>{submitDate.slice(8,10)}</View >日
                   </View>
                 </Picker>
-              </View>       
+              </View>
             </View>
           </ScrollView>
           <View className='formButtonbox'>
