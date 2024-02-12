@@ -1,4 +1,4 @@
-import Navbar from "@/components/navbar/navbar";
+import Navbar from "@/components/pageWrap/components/navbar/navbar";
 import TopBar from "@/components/pageWrap/components/topBar/topBar";
 import {PageWrapProps} from "@/components/pageWrap/types/pageWrap";
 import {View} from "@tarojs/components";

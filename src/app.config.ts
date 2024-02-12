@@ -20,7 +20,8 @@ export default defineAppConfig({
     // 'pages/student/application/details/approvalForm/approvalForm',
     // 'pages/student/application/details/counsellorForm/counsellorForm',
     // 'pages/student/application/details/departmentForm/departmentForm',
-    'pages/teacher/checking/checking'
+    'pages/teacher/checking/checking',
+    'pages/sharing/signPage/signPage'
   ],
   window: {
     backgroundTextStyle: 'light',

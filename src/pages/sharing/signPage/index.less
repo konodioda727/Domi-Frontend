@@ -1,0 +1,24 @@
+.signPagecontainer {
+    position: relative;
+  padding-left: 20vw;
+    .signPagebtns {
+      position: absolute;
+      top: 25vh;
+      left: 5vw;
+      width: 50vh;
+      transform-origin: 0 0;
+      // 注意这里，手动把按钮组横了过来
+      transform: rotateZ(90deg) translateY(-100%);
+      display: flex;
+      justify-content:space-around;
+
+  
+      .signPagebtn {
+        background: #fff;
+        color: #005767;
+        border: #005767 1px solid;
+        width: 13vh;
+        height: 13vw;
+      }
+    }
+  }
