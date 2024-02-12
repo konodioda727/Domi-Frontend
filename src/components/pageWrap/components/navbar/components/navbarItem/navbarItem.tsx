@@ -1,9 +1,9 @@
 import React from "react";
 import {Image, View} from "@tarojs/components";
 import {Redirect} from "@/utils/nav";
-import {NavbarItemProps} from "@/components/navbar/types/navbarItem";
 import Taro from "@tarojs/taro";
-import './navbarItem.less'
+import {NavbarItemProps} from "../../types/navbarItem";
+import './navbarItem.less';
 
 
 const NavbarItem: React.FC<NavbarItemProps> = (props) => {
