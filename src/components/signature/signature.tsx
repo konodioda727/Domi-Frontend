@@ -57,7 +57,7 @@ const getCanvasSize = async (canvasId: string): Promise<{ height: number, width:
 }
 
 /**
- * 签名绘图 canvas 组件
+ * 签名绘图9 canvas 组件
  * 
  * @see https://juejin.cn/post/6978721559397531678
  */
@@ -72,7 +72,6 @@ export const CanvasSign: FC<CanvasSignProps> = forwardRef((props, ref) => {
     context.setStrokeStyle("#000000")
     context.setLineCap('round')
     context.setLineJoin('round')
-
   })
 
   function canvasStart (e: any) {
@@ -83,7 +82,6 @@ export const CanvasSign: FC<CanvasSignProps> = forwardRef((props, ref) => {
 
   function canvasMove  (e: any)  {
     e.preventDefault();
-
     let x = e.touches[0].x
     let y = e.touches[0].y
    context.moveTo(lineInfo.startX, lineInfo.startY)

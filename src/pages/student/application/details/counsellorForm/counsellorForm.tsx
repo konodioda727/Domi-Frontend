@@ -15,13 +15,13 @@ const DepartmentForm: React.FC=()=>{
   const [handleDate,sethandleDate]=useState('')
     return(
         <PageWrap  topBarProps={{pos:'leftWithButton', children:'培养单位意见'}}>
-            <ContentFiled className='DepartmentForm-wrap'>
-                <View className='DepartmentForm-item'>
-                    <Text className='DepartmentForm-item-tag'>辅导员</Text>
+            <ContentFiled className='CounsellorForm-wrap'>
+                <View className='CounsellorForm-item'>
+                    <Text className='CounsellorForm-item-tag'>辅导员</Text>
                     <Input disabled className='DepartmentForm-item-Input' value={instructor}></Input>
                 </View>
-                <View className='DepartmentForm-item'>
-                    <Text className='DepartmentForm-item-tag'>是否同意调宿</Text>
+                <View className='CounsellorForm-item'>
+                    <Text className='CounsellorForm-item-tag'>是否同意调宿</Text>
                    <RadioGroup>
                         <Label className='checking-reslut-label'>
                            <Radio disabled value='yes' checked={result}></Radio><Text>是</Text>
@@ -32,17 +32,17 @@ const DepartmentForm: React.FC=()=>{
                    </RadioGroup>
                 </View>
                 <Textarea value={counsellorAdvice} maxlength={500} disabled className='DepartmentForm-item' id='counsellorAdvice'></Textarea >
-                <View className='DepartmentForm-item'>
-                    <Text className='DepartmentForm-item-tag'>辅导员签字</Text>
-                    <Input className='DepartmentForm-item-Input sigh-input'></Input>
+                <View className='CounsellorForm-item'>
+                    <Text className='CounsellorForm-item-tag'>辅导员签字</Text>
+                    <Input className='CounsellorForm-item-Input sigh-input'></Input>
                 </View>
-                <View className='DepartmentForm-item'>
-                    <Text className='DepartmentForm-item-tag'>时 间</Text>
-                    <Input disabled className='DepartmentForm-item-Input ' value={handleDate}></Input>
+                <View className='CounsellorForm-item'>
+                    <Text className='CounsellorForm-item-tag'>时 间</Text>
+                    <Input disabled className='CounsellorForm-item-Input ' value={handleDate}></Input>
                 </View>
-                <View className='DepartmentForm-item'>
-                    <Text className='DepartmentForm-item-tag'>电子盖章</Text>
-                    <View className='DepartmentForm-stamp'></View>
+                <View className='CounsellorForm-item'>
+                    <Text className='CounsellorForm-item-tag'>电子盖章</Text>
+                    <View className='CounsellorForm-stamp'></View>
                 </View>
             </ContentFiled>
         </PageWrap>

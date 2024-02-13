@@ -56,12 +56,7 @@ return(
             </View>
             <View className='TeacherChecking-item'>
                 <Text className='TeacherChecking-item-tag'>负责人签字</Text>
-                <View className='TeacherChecking-item-Input sigh-input'>
-                {ownerSignUrl
-                    ? <Image className='sigh-input' src={ownerSignUrl} onClick={() => jumpToSign()} />
-                    : <View className='sigh-input' onClick={() => jumpToSign()}>点击签名</View>
-                }
-                </View>
+
             </View>
             <View className='TeacherChecking-item'>
                 <View className='TeacherChecking-stamp'></View>

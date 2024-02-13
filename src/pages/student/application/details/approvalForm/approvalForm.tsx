@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import PageWrap from "@/components/pageWrap/pageWrap";
 import Button from "@/components/button/button";
 import academys from "./formInfo";
-import {Text,ScrollView,View,Input,Picker, Textarea} from "@tarojs/components";
+import {Text,ScrollView,View,Input,Picker, Textarea ,Image} from "@tarojs/components";
 import './index.less'
-
+import Taro from "@tarojs/taro";
 
 const ApprovalForm: React.FC=()=>{
   const [stuName,setStuNmae]=useState('')
@@ -13,6 +13,20 @@ const ApprovalForm: React.FC=()=>{
   const [connection,setConnection]=useState('')
   const [instructor,setInstructor]=useState('')
   const [submitDate,setSubmitDate]=useState('')
+      // 签名图片的 临时路径
+      const [ownerSignUrl, setOwnerSignUrl] = useState('');
+    
+      // 拉起签名页
+      const jumpToSign = () => {
+        const eventKey = `${new Date().getTime()}`
+    
+        Taro.eventCenter.once(eventKey, data => {
+          setOwnerSignUrl(data.url)
+          
+        })
+    
+        Taro.navigateTo({ url: `/pages/sharing/signPage/signPage?type=${eventKey}` });
+      }
     return(
         <PageWrap  topBarProps={{pos:'leftWithButton', children:'CCNU 换宿审批'}}>
           <ScrollView scrollY className='approvalForm-wrap'>
@@ -70,7 +84,12 @@ const ApprovalForm: React.FC=()=>{
               <Textarea id='changingReason' maxlength={500}></Textarea>   
               <View className='approvalForm-item'>
                 <Text className='approvalForm-item-tag bigger-tag'>申请人签字</Text>
-                <Input className='approvalForm-item-Input smaller-input'></Input>
+                <View className='approvalForm-item-Input smaller-input'>
+                  {ownerSignUrl
+                      ? <Image className='smaller-input' src={ownerSignUrl} onClick={() => jumpToSign()} />
+                      : <View  className='smaller-input' onClick={() => jumpToSign()}>点击签名</View>
+                  }
+                </View>
               </View>
               <View className='approvalForm-item'>
                 <Text className='approvalForm-item-tag'>时间</Text>
