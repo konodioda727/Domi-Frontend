@@ -2,8 +2,8 @@ import ContentFiled from "@/components/contentField/contentFiled";
 import {IdentityMap} from "@/pages/index/indexProps";
 import {indexConfig} from "@/configs/indexConfig";
 import {View, Image} from "@tarojs/components";
-import React from "react";
 import {Nav} from "@/utils/nav";
+import React from "react";
 import PageWrap from "../../components/pageWrap/pageWrap";
 import './index.less'
 
