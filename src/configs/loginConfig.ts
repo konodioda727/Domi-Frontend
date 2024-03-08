@@ -58,9 +58,9 @@ export const stuLoginConfig: LoginPageProps = {
 }
 
 const ToApplication = () => {
-  Redirect('/pages/student/application/application')
+  Redirect('/pages/student/detailedInfo')
 }
 const ToReview = () => {
-  Redirect('/pages/teacher/review/review')
-
+  const identification = 'Counselor'
+  Redirect(`/pages/teacher/detailedInfo/${identification}/${identification}`)
 }
