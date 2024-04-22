@@ -1,11 +1,11 @@
-import PageWrap from "@/components/pageWrap/pageWrap";
 import DetailedInfo from "@/components/detailedInfo/detailedInfo";
+import PageWrap from "@/components/pageWrap/pageWrap";
 import React from "react";
 import {counselorConfig} from "@/configs/detailedInfoConfig";
 
 
 const PreLog: React.FC = () => {
-  const handleSubmit = (inputSet) => {
+  const handleSubmit = (inputSet: Object) => {
     console.log(inputSet)
   }
   return (

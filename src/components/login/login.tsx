@@ -27,8 +27,8 @@ const Login: React.FC<LoginProps> = (props) => {
     <>
       <ContentFiled className='login-wrap'>
         {logoConfigs && <Logo {...logoConfigs}></Logo>}
-        {loginConfigs.map((item) => {
-          return <Input value={paramSet[item.title]} placeholder={item.displayText} onInput={(e)=>handleInput(e,item.title)} password={item.type.includes('password')} type={item.type || 'text'}></Input>
+        {loginConfigs.map((item, key) => {
+          return <Input key={key} value={paramSet[item.title]} placeholder={item.displayText} onInput={(e)=>handleInput(e,item.title)} password={item.type.includes('password')} type={item.type || 'text'}></Input>
         })}
         <View className='login-buttons'>
           <Button className={`${onRegister?'login-multi-button':'login-single-button'}`} onClick={handleLogin}>登  录</Button>

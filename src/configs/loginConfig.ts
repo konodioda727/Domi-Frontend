@@ -1,11 +1,14 @@
 import {LoginPageProps} from "@/pages/types/loginProps";
 import {Redirect} from "@/utils/nav";
+import {fetchLogin} from "@/services/fetch";
+import {loginType} from "@/services/fetchTypes";
+import Taro from "@tarojs/taro";
 
 export const teaLoginConfig: LoginPageProps = {
   loginProps: {
     loginConfigs: [{
       type: 'text',
-      title: 'num',
+      title: 'name',
       displayText: '工号'
     }, {
       type: 'safe-password',
@@ -15,10 +18,19 @@ export const teaLoginConfig: LoginPageProps = {
     logoConfigs: {
       size:'medium'
     },
-    onLogin: (paramSet, clear) => {
-      console.log('login', paramSet)
+    onLogin: (paramSet: loginType, clear: () => any) => {
+      fetchLogin(paramSet).then((data) => {
+        console.log(data)
+        data && Taro.setStorageSync('token', data.data.token)
+        data && ToReview()
+      }).then(() => {
+        clear && clear()
+      })
+    },
+    onRegister: (paramSet, clear) => {
+      console.log('register', paramSet)
       clear && clear()
-      ToReview()
+      ToApplication()
     }
   },
   topBarProps: {
@@ -30,20 +42,23 @@ export const stuLoginConfig: LoginPageProps = {
   loginProps: {
     loginConfigs: [{
       type: 'text',
-      title: 'account',
+      title: 'name',
       displayText: '账号'
     }, {
       type: 'safe-password',
-      title: 'pass',
+      title: 'passwd',
       displayText: '密码'
     }],
     logoConfigs: {
       size:'medium'
     },
-    onLogin: (paramSet, clear) => {
-      console.log('login', paramSet)
-      clear && clear()
-      ToApplication()
+    onLogin: (paramSet: loginType, clear: () => any) => {
+      fetchLogin(paramSet).then((data) => {
+        data && ToApplication()
+        data && Taro.setStorageSync('token', data.data.token)
+      }).then(() => {
+        clear && clear()
+      })
     },
     onRegister: (paramSet, clear) => {
       console.log('register', paramSet)
@@ -58,9 +73,9 @@ export const stuLoginConfig: LoginPageProps = {
 }
 
 const ToApplication = () => {
-  Redirect('/pages/student/detailedInfo')
+  Redirect('/pages/student/detailedInfo/detailedInfo')
 }
 const ToReview = () => {
   const identification = 'Counselor'
-  Redirect(`/pages/teacher/detailedInfo/${identification}/${identification}`)
+  Redirect(`/pages/teacher/detailedInfo${identification}/detailedInfo${identification}`)
 }

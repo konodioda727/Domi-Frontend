@@ -7,10 +7,10 @@ export const studentConfig: DetailedInfoProps = {
     tag: 'name',
     placeHolder: '姓名'
   }, {
-    tag: 'campus',
+    tag: 'college',
     placeHolder: '学院'
   },{
-    tag: 'stuID',
+    tag: 'student_id',
     placeHolder: '学号'
   }]
 }
@@ -18,7 +18,7 @@ export const supervisorConfig: DetailedInfoProps = {
   text: "",
   navURL: "/pages/teacher/review/review",
   inputs: [{
-    tag: 'workerID',
+    tag: 'teacher_id',
     placeHolder: '工号'
   }, {
     tag: "name",
@@ -32,10 +32,10 @@ export const counselorConfig: DetailedInfoProps = {
     tag: "name",
     placeHolder: "姓名"
   }, {
-    tag: "campus",
+    tag: "college",
     placeHolder: "学院"
   },{
-    tag: 'workerID',
+    tag: 'teacher_id',
     placeHolder: '工号'
   },]
 }

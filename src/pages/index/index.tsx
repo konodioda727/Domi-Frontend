@@ -1,14 +1,22 @@
 import ContentFiled from "@/components/contentField/contentFiled";
 import {IdentityMap} from "@/pages/index/indexProps";
-import {indexConfig} from "@/configs/indexConfig";
+import {ifLoginNavPath, indexConfig} from "@/configs/indexConfig";
 import {View, Image} from "@tarojs/components";
-import {Nav} from "@/utils/nav";
-import React from "react";
+import Taro from "@tarojs/taro";
+import {fetchGetMyInfo} from "@/services/fetch";
+import {Nav, Redirect} from "@/utils/nav";
+import React, { useEffect } from "react";
 import PageWrap from "../../components/pageWrap/pageWrap";
 import './index.less'
 
-
 export default function Index() {
+  useEffect(() => {
+    if(Taro.getStorageSync('token')) {
+      fetchGetMyInfo().then(res => {
+        res && Redirect(ifLoginNavPath['student'])
+      })
+    }
+  }, [])
   return (
 
     <PageWrap topBarProps={{pos:'center',children: 'CCNU换宿申请', }}>

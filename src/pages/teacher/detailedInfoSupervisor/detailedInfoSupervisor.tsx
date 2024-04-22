@@ -1,5 +1,5 @@
-import PageWrap from "@/components/pageWrap/pageWrap";
 import DetailedInfo from "@/components/detailedInfo/detailedInfo";
+import PageWrap from "@/components/pageWrap/pageWrap";
 import React from "react";
 import {supervisorConfig} from "@/configs/detailedInfoConfig";
 

@@ -4,6 +4,18 @@ export interface DetailedInfoProps {
   onSubmit?: (...args: any) => any,
   inputs: {
     placeHolder: string,
-    tag: string
+    tag: keyof DetailedInfoType
   }[]
+}
+
+export interface DetailedInfoType {
+  college?: string;
+  contact?: string;
+  context?: string;
+  from_dorm?: string;
+  student_id?: string;
+  teacher_id?: string;
+  to_bed?: string;
+  to_dorm?: string;
+  [property: string]: any;
 }
