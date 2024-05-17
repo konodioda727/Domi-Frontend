@@ -8,6 +8,7 @@ import {
   registerType, uploadFormType,
 } from "@/services/fetchTypes";
 import {DetailedInfoType} from "@/pages/types/detailedInfo";
+import {Nav} from "@/utils/nav";
 
 const baseUrl = "http://betterdorm.japaneast.cloudapp.azure.com:8080/api/v1"
 export const fetch = <ResponseT>(props: FetchRequestBaseType): Promise<FetchResponseBaseType<ResponseT> | "">  => {
@@ -16,6 +17,10 @@ export const fetch = <ResponseT>(props: FetchRequestBaseType): Promise<FetchResp
   return Taro.request({...props})
     .then((res) => {
       const data: FetchResponseBaseType<ResponseT> = res.data;
+      if(res.statusCode === 403) {
+        Nav('/pages/index/index')
+        Taro.clearStorageSync()
+      }
       return judgeStatus<ResponseT>(data)?data:""
     })
     .catch((err) => {

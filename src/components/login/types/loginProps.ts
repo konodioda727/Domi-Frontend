@@ -11,7 +11,8 @@ export interface LoginProps {
 export type LoginConfigType = {
   type: keyof InputProps.Type,
   title: string,
-  displayText: string
+  displayText: string,
+  desc?: string
 }
 
 export interface LogoProps extends Omit<ImageProps, 'src'>{

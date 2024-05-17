@@ -14,7 +14,7 @@ const Login: React.FC<LoginProps> = (props) => {
   const [paramSet, setParamSet] = useState({});
   const errorSet = useMemo(() => {
     return formatTest
-      ? formatTest.filter((item) => paramSet[item.name] && !item.format.test(paramSet[item.name]))
+      ? formatTest.filter((item) => !paramSet[item.name] || !item.format.test(paramSet[item.name]))
       : []
   }, [formatTest, paramSet]);
   const handleInput = (e: BaseEventOrig<InputProps.inputEventDetail>, itemTitle: string) => {
@@ -25,14 +25,21 @@ const Login: React.FC<LoginProps> = (props) => {
   }
   const handleLogin = () => {
     console.log(errorSet)
-   if(!errorSet.length) onLogin && onLogin(paramSet, clear)
-   else Taro.showToast({
-     title: '输入格式错误',
-     icon: 'error'
-   })
+     if(!errorSet.length) onLogin && onLogin(paramSet, clear)
+     else Taro.showToast({
+       title: '输入格式错误',
+       icon: 'error'
+     })
   }
   const handleRegister = () => {
-    onRegister && onRegister(paramSet, clear)
+    if(!errorSet.length) {
+      onRegister && onRegister(paramSet, clear)
+      handleLogin()
+    }
+    else Taro.showToast({
+      title: '输入格式错误',
+      icon: 'error'
+    })
   }
   return (
     <>
@@ -52,7 +59,7 @@ const Login: React.FC<LoginProps> = (props) => {
                 type={item.type || 'text'}
               >
               </Input>
-              {isError && <View className='error-info'>{item.displayText}格式错误</View>}
+              {isError && <View className='error-info'>{ item.desc || item.displayText + '格式错误'}</View>}
             </>
           )
         })}
