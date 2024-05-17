@@ -16,14 +16,15 @@ export interface FetchRequestBaseType {
 
 export type loginType = {
   name: string,
-  passwd: string
+  passwd: string,
+  ccnuid?: string
 }
 export type loginResponseType = {
   token: string
 }
 
 export type registerType = {
-  ccnuid: string,
+  ccnuid?: string,
   name: string,
   passwd: string
 }

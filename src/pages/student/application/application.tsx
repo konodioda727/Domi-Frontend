@@ -26,7 +26,7 @@ const Application: React.FC = () => {
   return (
     <>
       <PageWrap className='application-wrap' hasNavbar topBarProps={{pos:'center', children:'CCNU换宿申请'}}>
-        <Image className='progress-bar' src='https://i2.100024.xyz/2024/02/01/12wc896.webp'></Image>
+        <Image className='progress-bar' fadeIn src='https://s2.loli.net/2024/05/17/pM3L8sOhlnjCbgv.png'></Image>
         <View className='task-wrap'>
           <TaskELem>
             <View className='task-desc'>提交申请表</View>
@@ -66,7 +66,7 @@ export const TaskELem: React.FC<TaskElemProps> = (props) => {
     <>
       <ContentFiled className='application-task-elem'>
         {children}
-        {state && <Image src={imgMap[state]} className='task-elem-state' />}
+        {state && <Image src={imgMap[state]} fadeIn className='task-elem-state' />}
         <View className='progress-stop-point' style={{backgroundColor: state && colorMap[state]}}></View>
       </ContentFiled>
     </>

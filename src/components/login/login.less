@@ -2,6 +2,15 @@
 
 .login-wrap {
   .center-abs;
+  .error-info {
+    color:darkred;
+    font-size: 0.8rem;
+    margin-top: -1rem;
+    &::before {
+      content: '*';
+      color: darkred;
+    }
+  }
   .login-buttons {
     display: flex;
     justify-content: space-around;

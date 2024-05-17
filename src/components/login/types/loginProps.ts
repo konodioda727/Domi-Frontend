@@ -4,7 +4,8 @@ export interface LoginProps {
   loginConfigs: LoginConfigType[],
   logoConfigs: LogoProps,
   onRegister?: (...args: any[]) => void,
-  onLogin: (...args: any[]) => void
+  onLogin: (...args: any[]) => void,
+  formatTest?: {name: string, format: RegExp}[]
 }
 
 export type LoginConfigType = {

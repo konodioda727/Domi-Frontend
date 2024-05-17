@@ -1,6 +1,6 @@
 import {LoginPageProps} from "@/pages/types/loginProps";
 import {Redirect} from "@/utils/nav";
-import {fetchLogin} from "@/services/fetch";
+import {fetchLogin, fetchRegister} from "@/services/fetch";
 import {loginType} from "@/services/fetchTypes";
 import Taro from "@tarojs/taro";
 
@@ -8,8 +8,12 @@ export const teaLoginConfig: LoginPageProps = {
   loginProps: {
     loginConfigs: [{
       type: 'text',
-      title: 'name',
+      title: 'ccnuid',
       displayText: '工号'
+    }, {
+      type: 'text',
+      title: 'name',
+      displayText: '姓名'
     }, {
       type: 'safe-password',
       title: 'pass',
@@ -18,8 +22,9 @@ export const teaLoginConfig: LoginPageProps = {
     logoConfigs: {
       size:'medium'
     },
+    formatTest: [{name: 'ccnuid', format:/^[0-9]{4}([6|9])[0-9]{5}$/}],
     onLogin: (paramSet: loginType, clear: () => any) => {
-      fetchLogin(paramSet).then((data) => {
+     fetchLogin(paramSet).then((data) => {
         console.log(data)
         data && Taro.setStorageSync('token', data.data.token)
         data && ToReview()
@@ -28,9 +33,13 @@ export const teaLoginConfig: LoginPageProps = {
       })
     },
     onRegister: (paramSet, clear) => {
-      console.log('register', paramSet)
-      clear && clear()
-      ToApplication()
+      fetchRegister(paramSet).then(() => {
+        Taro.showToast({
+          title: '注册成功,登陆试试吧',
+          icon: 'error'
+        })
+        clear && clear()
+      })
     }
   },
   topBarProps: {
@@ -52,18 +61,23 @@ export const stuLoginConfig: LoginPageProps = {
     logoConfigs: {
       size:'medium'
     },
+    formatTest: [{name: 'ccnuid', format:/^[0-9]{4}([0-2])[0-9]{5}$/}],
     onLogin: (paramSet: loginType, clear: () => any) => {
-      fetchLogin(paramSet).then((data) => {
-        data && ToApplication()
-        data && Taro.setStorageSync('token', data.data.token)
-      }).then(() => {
-        clear && clear()
-      })
+     fetchLogin(paramSet).then((data) => {
+       data && ToApplication()
+       data && Taro.setStorageSync('token', data.data.token)
+     }).then(() => {
+       clear && clear()
+     })
     },
     onRegister: (paramSet, clear) => {
-      console.log('register', paramSet)
-      clear && clear()
-      ToApplication()
+      fetchRegister(paramSet).then(() => {
+        Taro.showToast({
+          title: '注册成功,登陆试试吧',
+          icon: 'error'
+        })
+        clear && clear()
+      })
     }
   },
   topBarProps: {

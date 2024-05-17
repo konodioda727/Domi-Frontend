@@ -14,6 +14,8 @@ export default function Index() {
     if(Taro.getStorageSync('token')) {
       fetchGetMyInfo().then(res => {
         res && Redirect(ifLoginNavPath['student'])
+      }).catch(err => {
+        console.log(err)
       })
     }
   }, [])

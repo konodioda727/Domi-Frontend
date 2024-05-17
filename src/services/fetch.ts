@@ -7,6 +7,7 @@ import {
   loginType, PersonalInfoResponseType, registerResponseType,
   registerType, uploadFormType,
 } from "@/services/fetchTypes";
+import {DetailedInfoType} from "@/pages/types/detailedInfo";
 
 const baseUrl = "http://betterdorm.japaneast.cloudapp.azure.com:8080/api/v1"
 export const fetch = <ResponseT>(props: FetchRequestBaseType): Promise<FetchResponseBaseType<ResponseT> | "">  => {
@@ -27,16 +28,16 @@ const judgeStatus = <T>(resp: FetchResponseBaseType<T>) => {
   console.log(resp.code)
   switch (resp.code) {
     case 400:
-      toastText = "出错了"
+      toastText = "大概是输错了哦"
       break;
     case 401:
-      toastText = "请先登录"
+      toastText = "先登录吧"
       break;
     case 403:
       toastText = "无权访问"
       break;
     case 404:
-      toastText = "路径错误"
+      toastText = "查无此页"
       break;
     case 500:
       toastText = "服务器错误"
@@ -74,4 +75,10 @@ export const fetchGetMyApplicationForm = () => fetch<BaseResponseType>({
 export const fetchGetMyInfo = () => fetch<PersonalInfoResponseType>({
   url: '/users',
   method: 'GET'
+})
+
+export const fetchChangeInfo = (prop: DetailedInfoType) => fetch<PersonalInfoResponseType>({
+  url: '/users',
+  method: 'POST',
+  data: prop
 })
