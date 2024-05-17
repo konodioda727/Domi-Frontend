@@ -1,4 +1,5 @@
 import {DetailedInfoProps} from "@/pages/types/detailedInfo";
+import {fetchChangeInfo} from "@/services/fetch";
 
 export const studentConfig: DetailedInfoProps = {
   text: '同学你好：\n本页信息仅用作对应学院辅导员，\n请放心填写',
@@ -13,7 +14,8 @@ export const studentConfig: DetailedInfoProps = {
   },{
     tag: 'ccnuid',
     placeHolder: '学号'
-  }]
+  }],
+  onSubmit: (inputSet: {[key: string]: string}) => handleSubmit(inputSet)
 }
 export const supervisorConfig: DetailedInfoProps = {
   text: "",
@@ -25,7 +27,8 @@ export const supervisorConfig: DetailedInfoProps = {
   }, {
     tag: "name",
     placeHolder: "姓名"
-  }]
+  }],
+  onSubmit: (inputSet: {[key: string]: string}) => handleSubmit(inputSet)
 }
 export const counselorConfig: DetailedInfoProps = {
   text: "",
@@ -40,5 +43,13 @@ export const counselorConfig: DetailedInfoProps = {
   },{
     tag: 'ccnuid',
     placeHolder: '工号'
-  },]
+  },],
+  onSubmit: (inputSet: {[key: string]: string}) => handleSubmit(inputSet)
+}
+
+const handleSubmit = (inpuSet: {[key: string]: string}) => {
+  console.log(inpuSet, 'awefawef')
+  fetchChangeInfo(inpuSet).then(res => {
+    console.log(res && res.data)
+  })
 }

@@ -1,6 +1,6 @@
 import ContentFiled from "@/components/contentField/contentFiled";
 import {IdentityMap} from "@/pages/index/indexProps";
-import {ifLoginNavPath, indexConfig} from "@/configs/indexConfig";
+import {ifInfoEditNavPath, ifLoginNavPath, indexConfig} from "@/configs/indexConfig";
 import {View, Image} from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import {fetchGetMyInfo} from "@/services/fetch";
@@ -13,7 +13,10 @@ export default function Index() {
   useEffect(() => {
     if(Taro.getStorageSync('token')) {
       fetchGetMyInfo().then(res => {
-        res && Redirect(ifLoginNavPath['student'])
+        const role = res ?  res.data.role < 1 ? 'student' : 'teacher' : 'student'
+        res && res.code < 300 && res.data.ccnuid
+          ? Redirect(ifLoginNavPath[role])
+          : Redirect(ifInfoEditNavPath[role])
       }).catch(err => {
         console.log(err)
       })

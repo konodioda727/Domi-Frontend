@@ -30,7 +30,6 @@ const DetailedInfo: React.FC<DetailedInfoProps> = (props) => {
     }
   }
   const handleInput = (e: any, tag: keyof DetailedInfoType) => {
-    console.log(e.detail.value)
     setInputSet({...inputSet, [`${tag}`]: e.detail.value})
   }
 
@@ -44,7 +43,6 @@ const DetailedInfo: React.FC<DetailedInfoProps> = (props) => {
 
           {inputs.map((item, index) => {
             const isError = errorSet.find((errItem) => errItem.name === item.tag)
-
               return (
                 <>
                   <Input

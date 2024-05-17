@@ -17,3 +17,7 @@ export const ifLoginNavPath: {[key: string]: string} = {
   'teacher': '/pages/teacher/review/review',
   'student': '/pages/student/application/application'
 }
+export const ifInfoEditNavPath: {[key: string]: string} = {
+  'teacher': '/pages/teacher/detailedInfo/detailedInfo',
+  'student': '/pages/student/detailedInfo/detailedInfo'
+}
