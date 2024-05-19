@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import PageWrap from "@/components/pageWrap/pageWrap";
 import Button from "@/components/button/button";
 import academys from "./formInfo";
 import {Text,ScrollView,View,Input,Picker, Textarea ,Image} from "@tarojs/components";
@@ -7,11 +5,6 @@ import './index.less'
 import Taro from "@tarojs/taro";
 
 const ApprovalForm: React.FC=()=>{
-  const [stuName,setStuNmae]=useState('')
-  const [stuNumber,setStuNumber]=useState('')
-  const [selectedAcademy,setSelectedAcademy]=useState('')
-  const [connection,setConnection]=useState('')
-  const [instructor,setInstructor]=useState('')
   const [submitDate,setSubmitDate]=useState('')
       // 签名图片的 临时路径
       const [ownerSignUrl, setOwnerSignUrl] = useState('');
@@ -33,27 +26,27 @@ const ApprovalForm: React.FC=()=>{
             <View className='approvalForm-wrap-content'>
               <View className='approvalForm-item'>
                 <Text className='approvalForm-item-tag'>姓 名</Text>
-                <Input className='approvalForm-item-Input' value={stuName} onInput={(e)=>setStuNmae(e.detail.value)}></Input>
-              </View> 
+                <Input className='approvalForm-item-Input' value={applicationInfo.name} onInput={(e) => handleInput(e, 'name')}></Input>
+              </View>
               <View className='approvalForm-item'>
                 <Text className='approvalForm-item-tag'>学 号</Text>
-                <Input className='approvalForm-item-Input' value={stuNumber} onInput={(e)=>setStuNumber(e.detail.value)}></Input>
-              </View> 
+                <Input className='approvalForm-item-Input' value={applicationInfo.student_id} onInput={(e)=>handleInput(e, 'student_id')}></Input>
+              </View>
               <View className='approvalForm-item'>
                 <Text className='approvalForm-item-tag'>学 院</Text>
-                <Picker mode='selector' range={academys} onChange={(e)=>setSelectedAcademy(academys[e.detail.value])}>
+                <Picker mode='selector' range={academys} onChange={(e)=>setApplicationInfo({...applicationInfo, 'college': academys[e.detail.value]})}>
                   <View className='approvalForm-item-Input'>
-                    {selectedAcademy}
+                    {applicationInfo.college}
                   </View>
                 </Picker>
-              </View> 
+              </View>
               <View className='approvalForm-item'>
                 <Text className='approvalForm-item-tag smaller-tag'>联系方式</Text>
-                <Input className='approvalForm-item-Input' value={connection} onInput={(e)=>setConnection(e.detail.value)}></Input>
-              </View> 
+                <Input className='approvalForm-item-Input' value={applicationInfo.contact} onInput={(e)=>handleInput(e, 'contact')}></Input>
+              </View>
               <View className='approvalForm-item'>
                 <Text className='approvalForm-item-tag'>辅导员</Text>
-                <Input className='approvalForm-item-Input' value={instructor} onInput={(e)=>setInstructor(e.detail.value)}></Input>
+                <Input className='approvalForm-item-Input' value={applicationInfo.teacher_id} onInput={(e)=>handleInput(e, 'teacher_id')}></Input>
               </View>
               <View className='approvalForm-item'>
                 <Text className='approvalForm-item-tag bigger-tag'>现楼栋号</Text>
@@ -70,7 +63,7 @@ const ApprovalForm: React.FC=()=>{
               <View className='approvalForm-item'>
                 <Input className='approvalForm-item-Input smaller-input'></Input>
                 <Input className='approvalForm-item-Input smaller-input'></Input>
-              </View> 
+              </View>
               <View className='approvalForm-item'>
                 <Text className='approvalForm-item-tag bigger-tag'>现床位号</Text>
                 <Text className='approvalForm-item-tag bigger-tag'>拟调床位号</Text>
@@ -78,10 +71,10 @@ const ApprovalForm: React.FC=()=>{
               <View className='approvalForm-item'>
                 <Input className='approvalForm-item-Input smaller-input'></Input>
                 <Input className='approvalForm-item-Input smaller-input'></Input>
-              </View>  
-              <View className='form-textarea-intro'>个人申请</View>  
-              <View className='form-textarea-intro'>（请阐明调寝原因）</View>  
-              <Textarea id='changingReason' maxlength={500}></Textarea>   
+              </View>
+              <View className='form-textarea-intro'>个人申请</View>
+              <View className='form-textarea-intro'>（请阐明调寝原因）</View>
+              <Textarea id='changingReason' maxlength={500}></Textarea>
               <View className='approvalForm-item'>
                 <Text className='approvalForm-item-tag bigger-tag'>申请人签字</Text>
                 <View className='approvalForm-item-Input smaller-input'>
@@ -93,19 +86,19 @@ const ApprovalForm: React.FC=()=>{
               </View>
               <View className='approvalForm-item'>
                 <Text className='approvalForm-item-tag'>时间</Text>
-                <Picker  mode='date' value={submitDate} onChange={(e)=>setSubmitDate(e.detail.value)}>
+                <Picker mode='date' value={submitDate} onChange={(e)=>setSubmitDate(e.detail.value)}>
                   <View className='date-picker'>
-                    <View  className='date-detail bigger-tag'>{submitDate.slice(0,4)}</View >年
-                    <View  className='date-detail'>{submitDate.slice(5,7)}</View >月
-                    <View  className='date-detail'>{submitDate.slice(8,10)}</View >日
+                    <View className='date-detail bigger-tag'>{submitDate.slice(0,4)}</View >年
+                    <View className='date-detail'>{submitDate.slice(5,7)}</View >月
+                    <View className='date-detail'>{submitDate.slice(8,10)}</View >日
                   </View>
                 </Picker>
-              </View>       
+              </View>
             </View>
           </ScrollView>
           <View className='formButtonbox'>
-            <Button className='form-checking-button'>保存草稿</Button>
-            <Button className='form-checking-button'>提交申请</Button>
+            <Button onClick={handleSaveLocal} className='form-checking-button'>保存草稿</Button>
+            <Button className='form-checking-button' onClick={handleSubmit}>提交申请</Button>
           </View>
         </PageWrap>
     )

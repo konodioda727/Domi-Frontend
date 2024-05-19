@@ -1,3 +1,5 @@
+import {PersonalInfoResponseType} from "@/services/fetchTypes";
+
 export interface PersonaltabProps {
   icon: string,
   navURl?: string,
@@ -7,11 +9,6 @@ export interface PersonaltabProps {
 
 export interface PersonalInfoProps {
   type: 'teacher' | 'student',
-  data: {
-    name: string,
-    ID: string,
-    campus: string,
-    grade: string
-  }
+  data?: PersonalInfoResponseType
 }
 export type switchCarType = 'introduction' | 'feedback' | 'download' | 'exit';

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import PageWrap from "@/components/pageWrap/pageWrap";
 import Button from "@/components/button/button";
 import ContentFiled from "@/components/contentField/contentFiled";
+import PageWrap from "@/components/pageWrap/pageWrap";
+import React, { useState } from "react";
 import {Textarea} from "@tarojs/components";
 import './index.less'
 
@@ -9,7 +9,7 @@ import './index.less'
 const AdviceFeedback: React.FC=()=>{
     const [adviceValue,setAdviceValue]=useState('')
     const sendadvice=()=>{
-        console.log(adviceValue);      
+        console.log(adviceValue);
     }
     return(
         <PageWrap  topBarProps={{pos:'leftWithButton', children:'意见反馈'}}>

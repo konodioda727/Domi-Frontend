@@ -1,13 +1,23 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import PersonalInfo from "@/components/personalInfo/personalInfo";
 import PageWrap from "@/components/pageWrap/pageWrap";
+import {fetchGetMyInfo} from "@/services/fetch";
+import {PersonalInfoResponseType} from "@/services/fetchTypes";
 import './personalInfo.less'
 
 const PersonalInfoPage: React.FC = () => {
+  const [personalInfo, setPersonalInfo] = useState<PersonalInfoResponseType>()
+  useEffect(() => {
+    fetchGetMyInfo().then((res) => {
+      if(res) {
+        setPersonalInfo(res.data)
+      }
+    })
+  }, []);
   return (
     <>
       <PageWrap topBarProps={{pos: 'center'}} hasNavbar>
-        <PersonalInfo type='student' data={{name: '123', ID:'123', campus:'123', grade:'123'}}></PersonalInfo>
+        <PersonalInfo type='student' data={personalInfo}></PersonalInfo>
       </PageWrap>
     </>
   )

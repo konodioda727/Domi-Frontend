@@ -21,7 +21,7 @@ const NavbarItem: React.FC<NavbarItemProps> = (props) => {
   }
   return <>
     <View className='navbar-item' onClick={handleClick}>
-      {/* <Image className='navbar-item-img' src={require(`../../../../assets/images/${regPath}.svg`)}></Image> */}
+      <Image className='navbar-item-img' src={require(`../../../../../../assets/images/${regPath}.svg`)}></Image>
       {text && <View className='navbar-item-text'>{text}</View>}
     </View>
   </>
