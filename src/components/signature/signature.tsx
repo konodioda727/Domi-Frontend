@@ -1,7 +1,7 @@
 import { Canvas, View } from "@tarojs/components"
 import Taro, { CanvasContext, useReady } from "@tarojs/taro";
-import { FC, forwardRef, Ref, useImperativeHandle, useState } from "react";
-import './signature.less'
+import { FC, forwardRef, Ref, useImperativeHandle, useRef, useState } from "react";
+import "./index.less";
 
 /**
  * 签名组件 ref context
@@ -12,8 +12,8 @@ export interface CanvasSignContext {
 }
 
 /**
- * CanvasSign.props 参数类型
- */
+* CanvasSign.props 参数类型
+*/
 export interface CanvasSignProps {
   ref?: Ref<CanvasSignContext>
 }
@@ -21,13 +21,13 @@ export interface CanvasSignProps {
 /**
  * canvas 导入图片结果
  */
-export interface ToDataURLResult {
+ export interface ToDataURLResult {
   tempFilePath: string
   errMsg: string
 }
 
 /**
- * 将 canvas 内容转换成 base64 字符串
+ * 将 canvas 内容转换成 图片临时路径
  */
 const toDataURL = async (canvasId: string, canvas?: CanvasContext): Promise<ToDataURLResult> => {
   if (!canvas) return { errMsg: 'canvas is null', tempFilePath: '' }
@@ -57,11 +57,12 @@ const getCanvasSize = async (canvasId: string): Promise<{ height: number, width:
 }
 
 /**
- * 签名绘图 canvas 组件
- *
+ * 签名绘图9 canvas 组件
+ * 
  * @see https://juejin.cn/post/6978721559397531678
  */
-const CanvasSign: FC<CanvasSignProps> = forwardRef((__, ref) => {
+export const CanvasSign: FC<CanvasSignProps> = forwardRef((props, ref) => {
+  // 绘图画布引用
   const [context,_]=useState<Taro.CanvasContext>(Taro.createCanvasContext('myCanvas'))
   // 绘制轨迹信息
   const [lineInfo,setLineInfo]=useState({startX: 0, startY: 0 })
@@ -75,15 +76,12 @@ const CanvasSign: FC<CanvasSignProps> = forwardRef((__, ref) => {
 
   function canvasStart (e: any) {
     e.preventDefault();
-    console.log(e.touches)
     setLineInfo({startX: e.touches[0].x, startY:e.touches[0].y })
     context.beginPath()
-    console.log('X'+ lineInfo.startX)
   }
 
   function canvasMove  (e: any)  {
     e.preventDefault();
-
     let x = e.touches[0].x
     let y = e.touches[0].y
    context.moveTo(lineInfo.startX, lineInfo.startY)
@@ -99,7 +97,6 @@ const CanvasSign: FC<CanvasSignProps> = forwardRef((__, ref) => {
   }
 
   const saveAsImage = async () => {
-    console.log(context)
     const { tempFilePath } = await toDataURL('myCanvas', context)
     const { width, height } = await getCanvasSize('saveCanvas')
 
@@ -108,7 +105,6 @@ const CanvasSign: FC<CanvasSignProps> = forwardRef((__, ref) => {
     saveCanvas.translate(0, height)
     saveCanvas.rotate(-90 * Math.PI / 180)
     saveCanvas.drawImage(tempFilePath, 0, 0, height, width)
-    await toDataURL('saveCanvas', saveCanvas)
 
     return await toDataURL('saveCanvas', saveCanvas)
   }
@@ -116,10 +112,10 @@ const CanvasSign: FC<CanvasSignProps> = forwardRef((__, ref) => {
   useImperativeHandle(ref, () => ({ clear, saveAsImage }))
 
   return (
-    <View className='canvas-container'>
+    <View className='signCanvascontainer'>
       {/* 这个 canvas 用来签名 */}
       <Canvas
-        className='canvas-sign'
+        className='signCanvas'
         canvasId='myCanvas'
         id='myCanvas'
         disableScroll
@@ -129,12 +125,13 @@ const CanvasSign: FC<CanvasSignProps> = forwardRef((__, ref) => {
 
       {/* 这个 canvas 用于把签名内容旋转九十度 */}
       <Canvas
-        className='canvas-rotate'
+        className='saveCanvas'
         canvasId='saveCanvas'
         id='saveCanvas'
       ></Canvas>
     </View>
   )
 })
+
 
 export default CanvasSign

@@ -1,44 +1,26 @@
 import Button from "@/components/button/button";
-import PageWrap from "@/components/pageWrap/pageWrap";
-import React, {useEffect, useState} from "react";
-import {Text,ScrollView,View,Input,Picker, Textarea} from "@tarojs/components";
-import {DetailedInfoType} from "@/pages/types/detailedInfo";
-import Taro from "@tarojs/taro";
-import {fetchGetMyApplicationForm} from "@/services/fetch";
 import academys from "./formInfo";
+import {Text,ScrollView,View,Input,Picker, Textarea ,Image} from "@tarojs/components";
 import './index.less'
+import Taro from "@tarojs/taro";
 
 const ApprovalForm: React.FC=()=>{
   const [submitDate,setSubmitDate]=useState('')
-  const [applicationInfo, setApplicationInfo] = useState<DetailedInfoType & {name?: string}>({
-    contact: '',
-    context: '',
-    student_id: '',
-    name: '',
-    college: '',
-    teacher_id: '',
-  })
-  const handleSaveLocal = () => {
-    Taro.setStorageSync('form', applicationInfo)
-    Taro.showToast({
-      title: '缓存成功',
-      icon: 'success',
-      duration: 2000
-    })
-    return Taro.getStorageSync('form')
-  }
-  const handleSubmit = () => {
-    console.log(handleSaveLocal())
-  }
-  const handleInput = (e, tag: keyof DetailedInfoType | 'name') => {
-    setApplicationInfo({...applicationInfo, [tag]: e.detail.value})
-  }
-  useEffect(() => {
-    fetchGetMyApplicationForm().then((res) => {
-      res && setApplicationInfo(applicationInfo)
-    })
-  }, []);
-  return(
+      // 签名图片的 临时路径
+      const [ownerSignUrl, setOwnerSignUrl] = useState('');
+    
+      // 拉起签名页
+      const jumpToSign = () => {
+        const eventKey = `${new Date().getTime()}`
+    
+        Taro.eventCenter.once(eventKey, data => {
+          setOwnerSignUrl(data.url)
+          
+        })
+    
+        Taro.navigateTo({ url: `/pages/sharing/signPage/signPage?type=${eventKey}` });
+      }
+    return(
         <PageWrap  topBarProps={{pos:'leftWithButton', children:'CCNU 换宿审批'}}>
           <ScrollView scrollY className='approvalForm-wrap'>
             <View className='approvalForm-wrap-content'>
@@ -95,7 +77,12 @@ const ApprovalForm: React.FC=()=>{
               <Textarea id='changingReason' maxlength={500}></Textarea>
               <View className='approvalForm-item'>
                 <Text className='approvalForm-item-tag bigger-tag'>申请人签字</Text>
-                <Input className='approvalForm-item-Input smaller-input'></Input>
+                <View className='approvalForm-item-Input smaller-input'>
+                  {ownerSignUrl
+                      ? <Image className='smaller-input' src={ownerSignUrl} onClick={() => jumpToSign()} />
+                      : <View  className='smaller-input' onClick={() => jumpToSign()}>点击签名</View>
+                  }
+                </View>
               </View>
               <View className='approvalForm-item'>
                 <Text className='approvalForm-item-tag'>时间</Text>
