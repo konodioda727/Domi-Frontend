@@ -10,7 +10,6 @@ export const personalInfoConfig: {[key in switchCarType]: PersonaltabProps} = {
     text: '换宿流程说明',
     navURl: '/pages/sharing/changingSteps/changingSteps',
     onClick: () => {
-      console.log('111')
     }
   },
   feedback: {

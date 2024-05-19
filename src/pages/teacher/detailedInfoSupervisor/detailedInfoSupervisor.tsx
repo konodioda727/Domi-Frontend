@@ -5,13 +5,10 @@ import {supervisorConfig} from "@/configs/detailedInfoConfig";
 
 
 const PreLog: React.FC = () => {
-  const handleSubmit = (inputSet) => {
-    console.log(inputSet)
-  }
   return (
     <>
       <PageWrap topBarProps={{pos:'centerWithButton', children:'CCNU换宿申请'}}>
-        <DetailedInfo {...supervisorConfig} onSubmit={handleSubmit}></DetailedInfo>
+        <DetailedInfo {...supervisorConfig}></DetailedInfo>
       </PageWrap>
     </>
   )

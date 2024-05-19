@@ -52,10 +52,8 @@ export const counselorConfig: DetailedInfoProps = {
 
 export const handleSubmit = (inputSet: {[key: string]: string}, navUrl: string) => {
   fetchChangeInfo(inputSet).then(res => {
-    res && console.log(res.data)
     if(res && res.code < 300) {
       fetchRefreshToken().then((resp)=>{
-        console.log(resp)
         resp && Taro.showToast({
           title: '信息修改成功',
           icon: 'success'

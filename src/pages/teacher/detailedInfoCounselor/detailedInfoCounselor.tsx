@@ -5,13 +5,10 @@ import {counselorConfig} from "@/configs/detailedInfoConfig";
 
 
 const PreLog: React.FC = () => {
-  const handleSubmit = (inputSet: Object) => {
-    console.log(inputSet)
-  }
   return (
     <>
       <PageWrap topBarProps={{pos:'centerWithButton', children:'CCNU换宿申请'}}>
-        <DetailedInfo {...counselorConfig} onSubmit={handleSubmit}></DetailedInfo>
+        <DetailedInfo {...counselorConfig}></DetailedInfo>
       </PageWrap>
     </>
   )
