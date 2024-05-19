@@ -8,7 +8,7 @@ export const personalInfoConfig: {[key in switchCarType]: PersonaltabProps} = {
   introduction: {
     icon: 'https://s2.loli.net/2024/02/03/q1hkVgLceaNs4mu.png',
     text: '换宿流程说明',
-    navURl: '',
+    navURl: '/pages/sharing/changingSteps/changingSteps',
     onClick: () => {
       console.log('111')
     }
@@ -16,7 +16,7 @@ export const personalInfoConfig: {[key in switchCarType]: PersonaltabProps} = {
   feedback: {
     icon: 'https://s2.loli.net/2024/02/03/Sargwk2iJqDROIf.png',
     text: '意见反馈',
-    navURl: ''
+    navURl: '/pages/sharing/adviceFeedback/adviceFeedback'
   },
   download: {
     icon: 'https://s2.loli.net/2024/02/03/1wimo7Pl9HMNnjS.png',
