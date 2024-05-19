@@ -1,6 +1,5 @@
 export interface DetailedInfoProps {
   text: string,
-  navURL: string,
   onSubmit?: (...args: any) => any,
   formatTest?: {name: string, format: RegExp}[]
   inputs: {

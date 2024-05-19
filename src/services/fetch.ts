@@ -87,3 +87,8 @@ export const fetchChangeInfo = (prop: DetailedInfoType) => fetch<PersonalInfoRes
   method: 'POST',
   data: prop
 })
+
+export const fetchRefreshToken = () => fetch<any>({
+  url: '/internal/token/refresh',
+  method: 'GET'
+})

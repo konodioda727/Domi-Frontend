@@ -2,8 +2,10 @@ import {LoginPageProps} from "@/pages/types/loginProps";
 import {Redirect} from "@/utils/nav";
 import {fetchLogin, fetchRegister} from "@/services/fetch";
 import {FetchResponseBaseType, loginResponseType, loginType, registerResponseType} from "@/services/fetchTypes";
+import {IDRegex} from "@/utils/regexps";
 import Taro from "@tarojs/taro";
 
+const {teacher} = IDRegex
 export const teaLoginConfig: LoginPageProps = {
   loginProps: {
     loginConfigs: [{
@@ -26,7 +28,7 @@ export const teaLoginConfig: LoginPageProps = {
       size:'medium'
     },
     formatTest: [
-      {name: 'ccnuid', format:/^[0-9]{4}([6|9])[0-9]{5}$/},
+      {name: 'ccnuid', format:teacher},
       {name: 'passwd', format: /^\S+/},
       {name: 'name', format: /^\S+/}
     ],
@@ -89,12 +91,11 @@ export const stuLoginConfig: LoginPageProps = {
 
 const loginSuccessProcess = (data: FetchResponseBaseType<loginResponseType>, navigate?: () => void) => {
   if(data && data.code < 300) {
-    data && navigate && navigate()
     data && Taro.setStorageSync('token', data.data.token)
     Taro.showToast({
       title: '登陆成功!',
       icon: 'success'
-    })
+    }).then(() => data && navigate && navigate())
   }
 }
 

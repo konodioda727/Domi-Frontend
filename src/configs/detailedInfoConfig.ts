@@ -1,55 +1,74 @@
 import {DetailedInfoProps} from "@/pages/types/detailedInfo";
-import {fetchChangeInfo} from "@/services/fetch";
+import {fetchChangeInfo, fetchRefreshToken} from "@/services/fetch";
+import {IDRegex} from "@/utils/regexps";
+import Taro from "@tarojs/taro";
+import {Nav} from "@/utils/nav";
 
+const {student, teacher} = IDRegex
+const teacherNavUrl = "/pages/teacher/review/review"
+const stuNavUrl = '/pages/student/application/application'
 export const studentConfig: DetailedInfoProps = {
   text: '同学你好：\n本页信息仅用作对应学院辅导员，\n请放心填写',
-  navURL: '/pages/student/application/application',
-  formatTest: [{name: 'ccnuid', format: /^[0-9]{4}([0-2])[0-9]{5}$/}],
+  formatTest: [{name: 'ccnuid', format: student}],
   inputs: [{
-    tag: 'name',
+    tag: 'uid',
     placeHolder: '姓名'
   }, {
-    tag: 'college',
+    tag: 'school',
     placeHolder: '学院'
   },{
     tag: 'ccnuid',
     placeHolder: '学号'
   }],
-  onSubmit: (inputSet: {[key: string]: string}) => handleSubmit(inputSet)
+  onSubmit: (inputSet: {[key: string]: string}) => handleSubmit(inputSet, stuNavUrl)
 }
 export const supervisorConfig: DetailedInfoProps = {
   text: "",
-  navURL: "/pages/teacher/review/review",
-  formatTest: [{name: 'ccnuid', format: /^[0-9]{4}([6|9])[0-9]{5}$/}],
+  formatTest: [{name: 'ccnuid', format: teacher}],
   inputs: [{
     tag: 'ccnuid',
     placeHolder: '工号'
   }, {
-    tag: "name",
+    tag: "uid",
     placeHolder: "姓名"
   }],
-  onSubmit: (inputSet: {[key: string]: string}) => handleSubmit(inputSet)
+  onSubmit: (inputSet: {[key: string]: string}) => handleSubmit(inputSet, teacherNavUrl)
 }
 export const counselorConfig: DetailedInfoProps = {
   text: "",
-  navURL: "/pages/teacher/review/review",
-  formatTest: [{name: 'ccnuid', format: /^[0-9]{4}([6|9])[0-9]{5}$/}],
+  formatTest: [{name: 'ccnuid', format: teacher}],
   inputs: [{
-    tag: "name",
+    tag: "uid",
     placeHolder: "姓名"
   }, {
-    tag: "college",
+    tag: "school",
     placeHolder: "学院"
   },{
     tag: 'ccnuid',
     placeHolder: '工号'
   },],
-  onSubmit: (inputSet: {[key: string]: string}) => handleSubmit(inputSet)
+  onSubmit: (inputSet: {[key: string]: string}) => handleSubmit(inputSet, teacherNavUrl)
 }
 
-const handleSubmit = (inpuSet: {[key: string]: string}) => {
-  console.log(inpuSet, 'awefawef')
-  fetchChangeInfo(inpuSet).then(res => {
-    console.log(res && res.data)
+export const handleSubmit = (inputSet: {[key: string]: string}, navUrl: string) => {
+  fetchChangeInfo(inputSet).then(res => {
+    res && console.log(res.data)
+    if(res && res.code < 300) {
+      fetchRefreshToken().then((resp)=>{
+        console.log(resp)
+        resp && Taro.showToast({
+          title: '信息修改成功',
+          icon: 'success'
+        }).then(() => {
+          Taro.setStorageSync('token', resp.data.token)
+          Nav(navUrl)
+        })
+      })
+
+    } else {
+      Taro.showToast({
+        title: '网络错误'
+      })
+    }
   })
 }
