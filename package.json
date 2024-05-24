@@ -41,6 +41,7 @@
   "dependencies": {
     "@babel/runtime": "^7.21.5",
     "@tarojs/components": "3.6.23",
+    "@tarojs/components-rn": "^3.6.30",
     "@tarojs/helper": "3.6.23",
     "@tarojs/plugin-framework-react": "3.6.23",
     "@tarojs/plugin-platform-alipay": "3.6.23",
@@ -52,14 +53,21 @@
     "@tarojs/plugin-platform-tt": "3.6.23",
     "@tarojs/plugin-platform-weapp": "3.6.23",
     "@tarojs/react": "3.6.23",
+    "@tarojs/rn-runner": "^3.6.30",
+    "@tarojs/rn-supporter": "^3.6.30",
     "@tarojs/runtime": "3.6.23",
+    "@tarojs/runtime-rn": "^3.6.30",
     "@tarojs/shared": "3.6.23",
     "@tarojs/taro": "3.6.23",
+    "@tarojs/taro-rn": "^3.6.30",
+    "eslint-plugin-simple-import-sort": "^12.1.0",
+    "expo": "~47.0.3",
     "md5js": "^1.0.7",
     "pnpm": "^8.15.1",
     "qiniup": "^0.2.1",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-native": "^0.70.5"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",

@@ -6,3 +6,4 @@ export const Nav = (navPath: string) => {
 export const Redirect = (redirectPath: string) => {
   Taro.redirectTo({url:redirectPath});
 }
+export const Back = () => Taro.navigateBack()

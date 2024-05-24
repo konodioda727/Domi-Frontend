@@ -72,9 +72,9 @@ export const fetchUploadForm = (prop: uploadFormType) => fetch<BaseResponseType>
   data: prop
 })
 
-export const fetchGetMyApplicationForm = () => fetch<BaseResponseType>({
+export const fetchGetMyApplicationForm = () => fetch<uploadFormType>({
   url:'/forms/my',
-  method: 'POST',
+  method: 'GET',
 })
 
 export const fetchGetMyInfo = () => fetch<PersonalInfoResponseType>({

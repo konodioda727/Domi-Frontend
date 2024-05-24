@@ -14,9 +14,13 @@ export default function Index() {
     if(Taro.getStorageSync('token')) {
       fetchGetMyInfo().then(res => {
         const role = res ?  res.data.role < 1 ? 'student' : 'teacher' : 'student'
-        res && res.code < 300 && res.data.ccnuid
-          ? Redirect(ifLoginNavPath[role])
-          : Redirect(ifInfoEditNavPath[role])
+        if(res) {
+          Taro.setStorageSync('info', res.data)
+          Taro.setStorageSync('form_info', {...res.data, ...Taro.getStorageSync('form_info')})
+          res.code < 300 && res.data.ccnuid
+            ? Redirect(ifLoginNavPath[role])
+            : Redirect(ifInfoEditNavPath[role])
+        }
       }).catch(err => {
         console.log(err)
       })

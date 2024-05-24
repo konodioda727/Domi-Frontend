@@ -1,8 +1,8 @@
 import {DetailedInfoProps} from "@/pages/types/detailedInfo";
 import {fetchChangeInfo, fetchRefreshToken} from "@/services/fetch";
 import {IDRegex} from "@/utils/regexps";
-import Taro from "@tarojs/taro";
 import {Nav} from "@/utils/nav";
+import Taro from "@tarojs/taro";
 
 const {student, teacher} = IDRegex
 const teacherNavUrl = "/pages/teacher/review/review"

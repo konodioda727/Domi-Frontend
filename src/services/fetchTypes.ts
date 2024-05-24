@@ -34,13 +34,22 @@ export type registerResponseType = {
 }
 export type uploadFormType = {
   college?: string;
+  community_advice?: string;
   contact?: string;
   context?: string;
+  create_at?: string;
+  from_bed?: string;
   from_dorm?: string;
+  hqzb_advice?: string;
+  id?: string;
+  status?: number;
   student_id?: string;
+  teacher_advice?: string;
   teacher_id?: string;
   to_bed?: string;
   to_dorm?: string;
+  xgb_advice?: string;
+  [property: string]: any;
 }
 export interface PersonalInfoResponseType {
   ccnuid: string;
