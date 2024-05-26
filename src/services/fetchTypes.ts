@@ -75,8 +75,17 @@ export interface LocationType {
 export interface formStatusType  {
   form_submit_status: string | number,
   form_id: number,
-  reports: null
+  reports: null | any[]
 }
+export interface reviewType {
+  detail?: string;
+  form_id?: number;
+  pass?: boolean;
+  signature?: string;
+  stamp?: string;
+  [property: string]: any;
+}
+
 export interface applicationType {
   dst_location?: LocationType;
   name?: string;
@@ -88,6 +97,20 @@ export interface applicationType {
   student_id?: string;
   tutor?: string;
   [property: string]: any;
+}
+
+export interface applicationListType {
+  cur_form_id?: number;
+  limit?: number;
+  pending?: string;
+  [property: string]: any;
+}
+
+export interface applicationResponseType extends applicationType {
+  pdf: string,
+  Finished: boolean,
+  ctime: number,
+  id: number
 }
 export interface reportType {
   ctime?: number;

@@ -1,11 +1,13 @@
 import Taro from '@tarojs/taro'
 import {
+  applicationListType,
+  applicationResponseType,
   applicationType,
   codeType,
   FetchRequestBaseType, formStatusType,
   loginResponseType,
   loginType, PersonalInfoResponseType, registerResponseType,
-  registerType, reportType, SuccessResultType, teacherLoginType,
+  registerType, reportType, reviewType, SuccessResultType, teacherLoginType,
 } from "@/services/fetchTypes";
 import {DetailedInfoType} from "@/pages/types/detailedInfo";
 import {Nav} from "@/utils/nav";
@@ -104,6 +106,16 @@ export const fetchReport = (formId: number, reporter_role: 'RoleTutor' | 'RoleSt
   method: 'GET'
 })
 
+export const fetchReview = (prop: reviewType) => fetch<any>({
+  url: '/reports/review',
+  method: 'POST',
+  data: prop
+})
+
+export const fetchApproveList = ({cur_form_id, pending, limit}: applicationListType) => fetch<applicationResponseType[]>({
+  url: `/forms/list/approval?cur_form_id=${cur_form_id}&pending=${pending}&limit=${limit}`,
+  method: 'GET'
+})
 export const fetchChangeInfo = (prop: DetailedInfoType) => fetch<PersonalInfoResponseType>({
   url: '/users/edit',
   method: 'POST',
