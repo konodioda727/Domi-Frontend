@@ -1,10 +1,12 @@
-import React, {useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {BaseEventOrig, InputProps, View} from "@tarojs/components";
 import Button from "@/components/button/button";
 import ContentFiled from "@/components/contentField/contentFiled";
 import Input from "@/components/input/input";
 import Logo from "@/components/login/components/logo/logo";
+import {useDebounce} from "@/hooks/useDebounce";
 import {LoginProps} from "@/components/login/types/loginProps";
+import {fetchCode} from "@/services/fetch";
 import Taro from "@tarojs/taro";
 import './login.less'
 
@@ -12,16 +14,27 @@ import './login.less'
 const Login: React.FC<LoginProps> = (props) => {
   const {loginConfigs, logoConfigs, formatTest, onLogin, onRegister} = props;
   const [paramSet, setParamSet] = useState({});
+  const [isLogin, setIsLogin] = useState<boolean>(true)
+  const [shouldFetchCode, setShouldFetchCode] = useState<number>(0)
+  useEffect(() => {
+    if(shouldFetchCode) {
+      let counter = setTimeout(() => {
+        setShouldFetchCode(shouldFetchCode - 1)
+        clearTimeout(counter)
+      }, 1000)
+    }
+  }, [shouldFetchCode]);
   const errorSet = useMemo(() => {
     return formatTest
-      ? formatTest.filter((item) => !paramSet[item.name] || !item.format.test(paramSet[item.name]))
+      ? formatTest.filter((item) => !paramSet[item.name] || !item.format.every((rule) => rule.test(paramSet[item.name])))
       : []
   }, [formatTest, paramSet]);
   const handleInput = (e: BaseEventOrig<InputProps.inputEventDetail>, itemTitle: string) => {
     setParamSet({...paramSet, [itemTitle]: e.detail.value})
   }
   const clear = () => {
-    setParamSet({})
+    setParamSet({...paramSet, code: '', password: ''})
+    setShouldFetchCode(0)
   }
   const handleLogin = () => {
     console.log(errorSet)
@@ -34,13 +47,26 @@ const Login: React.FC<LoginProps> = (props) => {
   const handleRegister = () => {
     if(!errorSet.length) {
       onRegister && onRegister(paramSet, clear)
-      handleLogin()
     }
     else Taro.showToast({
       title: '输入格式错误',
       icon: 'error'
     })
   }
+  const handleChange = () => {
+    setIsLogin(!isLogin)
+  }
+  const handleCode = useDebounce(() => {
+    fetchCode({email: paramSet['email']}).then((res) => {
+      console.log(res)
+      if(res && res.statusCode < 300) {
+        setShouldFetchCode(60)
+        Taro.showToast({
+          title: '验证码已发送'
+        })
+      }
+    })
+  }, 60)
   return (
     <>
       <ContentFiled className='login-wrap'>
@@ -63,10 +89,16 @@ const Login: React.FC<LoginProps> = (props) => {
             </>
           )
         })}
+        {!isLogin &&
+          <View className='code-wrap'>
+            <Input value={paramSet['code']} onInput={(e)=>handleInput(e,'code')} className={`code-input ${!paramSet['code'] && 'error-input'}`} type='text'></Input>
+            <Button className='code-button' disabled={shouldFetchCode > 0} onClick={handleCode}>{!shouldFetchCode ? '验证码' : `${shouldFetchCode}s`}</Button>
+            {!paramSet['code'] && <View className='error-info'>验证码格式错误</View>}
+          </View>}
         <View className='login-buttons'>
-          <Button className={`${onRegister?'login-multi-button':'login-single-button'}`} onClick={handleLogin}>登  录</Button>
-          {onRegister && <Button className='login-multi-button' onClick={handleRegister}>注  册</Button> }
+          <Button className='login-single-button' onClick={!isLogin ? handleRegister : handleLogin}>{!isLogin ? '注  册' : '登  录'}</Button>
         </View>
+        {onRegister && <View className='login-nav-link' onClick={handleChange}>{isLogin ? '注  册' : '登  录'}</View>}
       </ContentFiled>
     </>
   )

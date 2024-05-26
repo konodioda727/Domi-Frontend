@@ -5,7 +5,8 @@ export interface FetchResponseBaseType<T> {
   data: T,
   msg: string
 }
-export type BaseResponseType = FetchResponseBaseType<any>
+
+export type SuccessResultType<T> =  Taro.request.SuccessCallbackResult<FetchResponseBaseType<T>>
 
 export interface FetchRequestBaseType {
   method: keyof Taro.request.Method,
@@ -15,18 +16,24 @@ export interface FetchRequestBaseType {
 }
 
 export type loginType = {
-  name: string,
-  passwd: string,
-  ccnuid?: string
+  email: string,
+  password: string,
+}
+export type teacherLoginType = {
+  pre_set_account: string,
+  password: string,
+}
+export type codeType = {
+  email: string
 }
 export type loginResponseType = {
   token: string
 }
 
 export type registerType = {
-  ccnuid?: string,
-  name: string,
-  passwd: string
+  email: string,
+  password: string,
+  code: string
 }
 
 export type registerResponseType = {
@@ -52,14 +59,45 @@ export type uploadFormType = {
   [property: string]: any;
 }
 export interface PersonalInfoResponseType {
-  ccnuid: string;
-  id: string;
-  name: string;
-  passwd: string;
-  role: number;
-  school: string;
-  stage: string;
-  uid: string;
-  valid: number;
+  id: number,
+  name: string,
+  school: string,
+  student_id: string,
+  role: string,
+  [property: string]: any;
+}
+export interface LocationType {
+  bed?: string;
+  building?: string;
+  room?: string;
+  [property: string]: any;
+}
+export interface formStatusType  {
+  form_submit_status: string | number,
+  form_id: number,
+  reports: null
+}
+export interface applicationType {
+  dst_location?: LocationType;
+  name?: string;
+  phone?: string;
+  reason?: string;
+  school?: string;
+  signature?: string;
+  src_location?: LocationType;
+  student_id?: string;
+  tutor?: string;
+  [property: string]: any;
+}
+export interface reportType {
+  ctime?: number;
+  detail?: string;
+  form_id?: number;
+  id?: number;
+  pass?: boolean;
+  reporter?: number;
+  reporter_role?: string;
+  signature?: string;
+  stamp?: string;
   [property: string]: any;
 }

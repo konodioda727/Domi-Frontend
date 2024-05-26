@@ -14,10 +14,12 @@ export const indexConfig: IdentityMap[] = [{
   navURL: 'teacher/login/login'
 }]
 export const ifLoginNavPath: {[key: string]: string} = {
-  'teacher': '/pages/teacher/review/review',
-  'student': '/pages/student/application/application'
+  'RoleTutor': '/pages/teacher/review/review',
+  'RoleStudent': '/pages/student/application/application',
+  'RoleStudentAffairsOffice': '/pages/teacher/review/review',
 }
 export const ifInfoEditNavPath: {[key: string]: string} = {
-  'teacher': '/pages/teacher/detailedInfo/detailedInfo',
-  'student': '/pages/student/detailedInfo/detailedInfo'
+  'RoleTutor': '/pages/teacher/detailedInfo/detailedInfo',
+  'RoleStudent': '/pages/student/detailedInfo/detailedInfo',
+  'RoleStudentAffairsOffice': '/pages/teacher/detailedInfo/detailedInfo',
 }

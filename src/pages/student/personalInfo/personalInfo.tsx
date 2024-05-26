@@ -10,7 +10,7 @@ const PersonalInfoPage: React.FC = () => {
   useEffect(() => {
     fetchGetMyInfo().then((res) => {
       if(res) {
-        setPersonalInfo(res.data)
+        setPersonalInfo(res.data.data)
       }
     })
   }, []);

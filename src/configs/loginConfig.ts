@@ -1,49 +1,48 @@
 import {LoginPageProps} from "@/pages/types/loginProps";
 import {Redirect} from "@/utils/nav";
-import {fetchLogin, fetchRegister} from "@/services/fetch";
-import {FetchResponseBaseType, loginResponseType, loginType, registerResponseType} from "@/services/fetchTypes";
-import {IDRegex} from "@/utils/regexps";
+import {fetchGetMyInfo, fetchLogin, fetchRegister, fetchTeacherLogin} from "@/services/fetch";
+import {
+  FetchResponseBaseType,
+  loginResponseType, loginType,
+  registerResponseType,
+  SuccessResultType, teacherLoginType
+} from "@/services/fetchTypes";
+import {emailRegex} from "@/utils/regexps";
 import Taro from "@tarojs/taro";
 
-const {teacher} = IDRegex
 export const teaLoginConfig: LoginPageProps = {
   loginProps: {
     loginConfigs: [{
       type: 'text',
-      title: 'ccnuid',
-      displayText: '工号',
-      desc: '学工号格式错误，请输入正确学工号'
-    }, {
-      type: 'text',
-      title: 'name',
-      displayText: '姓名',
-      desc: '姓名不为空'
-    }, {
+      title: 'pre_set_account',
+      displayText: '预制账号',
+      desc: '请输入预制账号'
+    },{
       type: 'safe-password',
-      title: 'passwd',
+      title: 'password',
       displayText: '密码',
-      desc: '密码不为空'
+      desc: '密码必须包含字母、数字、#'
     }],
     logoConfigs: {
       size:'medium'
     },
     formatTest: [
-      {name: 'ccnuid', format:teacher},
-      {name: 'passwd', format: /^\S+/},
-      {name: 'name', format: /^\S+/}
+      {name: 'pre_set_account', format: [/^\S+/]},
+      {name: 'password', format: [/^\S+/]},
     ],
-    onLogin: (paramSet: loginType, clear: () => any) => {
-     fetchLogin(paramSet).then((data) => {
-        data && loginSuccessProcess(data, ToReview)
-      }).then(() => {
-        clear && clear()
+    onLogin: (paramSet: teacherLoginType, clear: () => any) => {
+     fetchTeacherLogin(paramSet).then((res) => {
+        if(res && res.data.code === 0 ) loginSuccessProcess(res, ToReview)
+       else {
+         Taro.showToast({
+           title: res && res.data.msg,
+           icon: 'error'
+         }).then(() => {
+           clear && clear()
+         })
+        }
       })
     },
-    onRegister: (paramSet, clear) => {
-      fetchRegister(paramSet).then((data) => {
-        data && registerSuccessProcess(data)
-      }).then(() => clear && clear())
-    }
   },
   topBarProps: {
     pos: 'leftWithButton',
@@ -54,33 +53,43 @@ export const stuLoginConfig: LoginPageProps = {
   loginProps: {
     loginConfigs: [{
       type: 'text',
-      title: 'name',
-      displayText: '账号',
-      desc: '账号不为空'
+      title: 'email',
+      displayText: '邮箱',
+      desc: '邮箱格式错误，请输入正确邮箱'
     }, {
       type: 'safe-password',
-      title: 'passwd',
+      title: 'password',
       displayText: '密码',
-      desc: '密码不为空'
+      desc: '密码必须包含字母、数字、#'
     }],
     logoConfigs: {
       size:'medium'
     },
     formatTest: [
-      {name: 'passwd', format: /^\S+/},
-      {name: 'name', format: /^\S+/}
+      {name: 'password', format: [/^\S+/, /[a-zA-Z]/, /#/, /[0-9]/]},
+      {name: 'email', format: [emailRegex]}
     ],
     onLogin: (paramSet: loginType, clear: () => any) => {
-     fetchLogin(paramSet).then((data) => {
-       data && loginSuccessProcess(data, ToApplication)
-     }).then(() => {
-       clear && clear()
+     fetchLogin(paramSet).then((res) => {
+       if(res && res.data.code === 0) loginSuccessProcess(res, ToApplication)
+       else {
+         Taro.showToast({
+           title: res && res.data.msg,
+           icon: 'none'
+         }).then(() => clear && clear())
+       }
      })
     },
     onRegister: (paramSet, clear) => {
-      fetchRegister(paramSet).then((data) => {
-       data && registerSuccessProcess(data)
-      }).then(() => clear && clear())
+      fetchRegister(paramSet).then((res) => {
+        if(res && res.data.code === 0) registerSuccessProcess(res.data)
+        else {
+          Taro.showToast({
+            title: res && res.data.msg,
+            icon: 'none'
+          }).then(() => clear && clear())
+        }
+      })
     }
   },
   topBarProps: {
@@ -89,29 +98,35 @@ export const stuLoginConfig: LoginPageProps = {
   }
 }
 
-const loginSuccessProcess = (data: FetchResponseBaseType<loginResponseType>, navigate?: () => void) => {
-  if(data && data.code < 300) {
-    data && Taro.setStorageSync('token', data.data.token)
+const loginSuccessProcess = (res: SuccessResultType<loginResponseType>, navigate?: () => void) => {
+  if(res && res.data.code === 0) {
+    console.log(res.header['X-Jwt-Token'])
+    res && Taro.setStorageSync('token', 'Bearer ' + res.header['X-Jwt-Token'])
     Taro.showToast({
       title: '登陆成功!',
       icon: 'success'
-    }).then(() => data && navigate && navigate())
+    }).then(() => res && navigate && navigate())
   }
 }
 
 const registerSuccessProcess = (data: FetchResponseBaseType<registerResponseType>) => {
   if(data && data.code < 300) {
     Taro.showToast({
-      title: '注册成功,正在登录',
+      title: '注册成功,去登陆试试吧',
       icon: 'none'
     })
   }
 }
 
 const ToApplication = () => {
-  Redirect('/pages/student/detailedInfo/detailedInfo')
+  fetchGetMyInfo().then(res => {
+    res && res.data.data.student_id
+      ? Redirect('/pages/student/application/application')
+      : Redirect('/pages/student/detailedInfo/detailedInfo')
+  })
 }
 const ToReview = () => {
-  const identification = 'Counselor'
-  Redirect(`/pages/teacher/detailedInfo${identification}/detailedInfo${identification}`)
+  // const identification = 'Counselor'
+  Redirect(`/pages/teacher/review/review`)
+  // Redirect(`/pages/teacher/detailedInfo${identification}/detailedInfo${identification}`)
 }

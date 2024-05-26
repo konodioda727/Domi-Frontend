@@ -1,5 +1,22 @@
 @import "../../styles/variables";
 
+.code-wrap {
+  height: 7vh;
+  position: relative;
+  .code-button {
+    width: 40%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .code-input {
+    width: 60%;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
 .login-wrap {
   .center-abs;
   .error-info {
@@ -14,10 +31,16 @@
   .login-buttons {
     display: flex;
     justify-content: space-around;
+    margin-top: 6vh;
     .login-multi-button {
       width: 34vw;
       margin: 4vw;
     }
+  }
+  .login-nav-link {
+    text-align: center;
+    text-decoration: underline;
+    margin-top: 2vh;
   }
   .login-button {
     width: 100%;

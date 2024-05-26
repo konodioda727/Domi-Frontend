@@ -13,11 +13,11 @@ export default function Index() {
   useEffect(() => {
     if(Taro.getStorageSync('token')) {
       fetchGetMyInfo().then(res => {
-        const role = res ?  res.data.role < 1 ? 'student' : 'teacher' : 'student'
+        const role =  res && res.data.data.role
         if(res) {
           Taro.setStorageSync('info', res.data)
-          Taro.setStorageSync('form_info', {...res.data, ...Taro.getStorageSync('form_info')})
-          res.code < 300 && res.data.ccnuid
+          Taro.setStorageSync('form_info', {...Taro.getStorageSync('form_info'), ...res.data.data})
+          res.data.code === 0
             ? Redirect(ifLoginNavPath[role])
             : Redirect(ifInfoEditNavPath[role])
         }

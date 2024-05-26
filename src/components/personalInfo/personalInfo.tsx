@@ -18,8 +18,8 @@ const PersonalInfo: React.FC<PersonalInfoProps> = (props) => {
   return (
     <ContentFiled className='personal-info-wrap'>
       <View className='personal-info-welcome'>{`你好， ${info?.name}${type === 'student' ? '同学' : '老师'}`}</View>
-      <View className='personal-stu-num'>{`${info?.ccnuid}`}</View>
-      <View className='personal-grade'>{`${info?.school}学院`}</View>
+      {info?.student_id && <View className='personal-stu-num'>{`${info?.student_id}`}</View>}
+      <View className='personal-grade'>{`${info?.school}`}</View>
       <View className='personal-switch-card'>
         {infoTagMap[type].map((tag) => <PersonSwitchCard type={tag} />)}
       </View>

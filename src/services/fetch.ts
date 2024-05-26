@@ -1,37 +1,36 @@
 import Taro from '@tarojs/taro'
 import {
-  BaseResponseType,
-  FetchRequestBaseType,
-  FetchResponseBaseType,
+  applicationType,
+  codeType,
+  FetchRequestBaseType, formStatusType,
   loginResponseType,
   loginType, PersonalInfoResponseType, registerResponseType,
-  registerType, uploadFormType,
+  registerType, reportType, SuccessResultType, teacherLoginType,
 } from "@/services/fetchTypes";
 import {DetailedInfoType} from "@/pages/types/detailedInfo";
 import {Nav} from "@/utils/nav";
 
-const baseUrl = "http://betterdorm.japaneast.cloudapp.azure.com:8080/api/v1"
-export const fetch = <ResponseT>(props: FetchRequestBaseType): Promise<FetchResponseBaseType<ResponseT> | "">  => {
+const baseUrl = "https://domi.bigdust.space"
+export const fetch = <ResponseT>(props: FetchRequestBaseType): Promise<SuccessResultType<ResponseT> | "">  => {
   props.url = baseUrl + props.url;
-  props.header = {...props.header,  token: Taro.getStorageSync('token')}
+  props.header = {...props.header,  Authorization: Taro.getStorageSync('token')}
   return Taro.request({...props})
     .then((res) => {
-      const data: FetchResponseBaseType<ResponseT> = res.data;
       if(res.statusCode === 403) {
         Nav('/pages/index/index')
         Taro.clearStorageSync()
       }
-      return judgeStatus<ResponseT>(data)?data:""
+      return judgeStatus<ResponseT>(res)?res:""
     })
     .catch((err) => {
       throw(err)
     })
 }
 
-const judgeStatus = <T>(resp: FetchResponseBaseType<T>) => {
+const judgeStatus = <T>(resp: SuccessResultType<T>) => {
   let toastText = ""
-  console.log(resp.code)
-  switch (resp.code) {
+  console.log(resp.statusCode)
+  switch (resp.statusCode) {
     case 400:
       toastText = "大概是输错了哦"
       break;
@@ -55,40 +54,58 @@ const judgeStatus = <T>(resp: FetchResponseBaseType<T>) => {
   return toastText.length == 0
 }
 export const fetchLogin = (prop: loginType) => fetch<loginResponseType>({
-  url: '/login',
+  url: '/users/login',
   method: 'POST',
   data: prop
 })
 
+export const fetchTeacherLogin = (prop: teacherLoginType) => fetch<loginResponseType>({
+  url: '/users/login_teacher',
+  method: 'POST',
+  data: prop
+})
+export const fetchCode = (prop: codeType) => fetch<any>({
+  url: '/users/signup/code/send',
+  method: 'POST',
+  data: prop
+})
 export const fetchRegister = (prop: registerType) => fetch<registerResponseType>({
-  url: '/register',
+  url: '/users/signup',
   method: 'POST',
   data: prop
 })
 
-export const fetchUploadForm = (prop: uploadFormType) => fetch<BaseResponseType>({
-  url: '/forms/create',
+export const fetchUploadForm = (prop: applicationType) => fetch<any>({
+  url: '/forms/submit',
   method: 'POST',
   data: prop
 })
 
-export const fetchGetMyApplicationForm = () => fetch<uploadFormType>({
-  url:'/forms/my',
-  method: 'GET',
+export const fetchLogout = () => fetch<any>({
+  url: '/users/logout',
+  method: 'POST'
+})
+
+export const fetchProgress = () => fetch<formStatusType>({
+  url: '/forms/progress',
+  method: 'GET'
 })
 
 export const fetchGetMyInfo = () => fetch<PersonalInfoResponseType>({
-  url: '/users',
+  url: '/users/profile',
+  method: 'GET'
+})
+export const fetchWithdrawForm = (formId: number) => fetch<any>({
+  url: `/forms/${formId}/withdraw`,
+  method: 'POST'
+})
+export const fetchReport = (formId: number, reporter_role: 'RoleTutor' | 'RoleStudentAffairsOffice') => fetch<reportType>({
+  url: `/reports/form/${formId}/detail?reporter_role=${reporter_role}`,
   method: 'GET'
 })
 
 export const fetchChangeInfo = (prop: DetailedInfoType) => fetch<PersonalInfoResponseType>({
-  url: '/users',
+  url: '/users/edit',
   method: 'POST',
   data: prop
-})
-
-export const fetchRefreshToken = () => fetch<any>({
-  url: '/internal/token/refresh',
-  method: 'GET'
 })

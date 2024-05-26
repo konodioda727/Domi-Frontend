@@ -2,33 +2,38 @@ import React, {useState} from "react";
 import PageWrap from "@/components/pageWrap/pageWrap";
 import Button from "@/components/button/button";
 import Taro from "@tarojs/taro";
-import {Text,ScrollView,View,Input,Picker, Textarea ,Image} from "@tarojs/components";
-import {PersonalInfoResponseType, uploadFormType} from "@/services/fetchTypes";
+import {Text,ScrollView,View,Input, Textarea ,Image} from "@tarojs/components";
+import {applicationType} from "@/services/fetchTypes";
+import {PickerItem} from "@/components/input/input";
 import {fetchUploadForm} from "@/services/fetch";
 import {Back} from "@/utils/nav";
 import academys from "./formInfo";
 import './index.less'
 
-type formtype = uploadFormType & {name: string} & PersonalInfoResponseType
 
-const handleInput = (tag: keyof formtype , e: any, formInfo = Taro.getStorageSync('form_info') || {}) => {
-  formInfo[tag] = typeof e === 'string' ? e : e.target.value as string;
+const handleInput = (tag: keyof applicationType | string[] , e: any, formInfo = Taro.getStorageSync('form_info') || {}) => {
+ const content = typeof e === 'string' ? e : e.target.value as string;
+  if( tag instanceof Array ) {
+    console.log(tag)
+   formInfo[tag[0]] === undefined ? formInfo[tag[0]] = {[tag[1]]: content} : formInfo[tag[0]][tag[1]] = content
+ } else {
+   formInfo[tag] = content
+ }
   Taro.setStorageSync('form_info', formInfo)
 }
-const ApproveInput: React.FC<{name: keyof uploadFormType}> = ({name}) => {
+const ApproveInput: React.FC<{name: keyof applicationType, subName?: string}> = ({name, subName}) => {
   const formInfo = Taro.getStorageSync('form_info')
+  const curInfo = formInfo[name] || ''
   return (
     <>
-      <Input className='approvalForm-item-Input' defaultValue={formInfo[name]} onInput={(e)=>handleInput(name, e)}></Input>
+      <Input className='approvalForm-item-Input' defaultValue={subName && curInfo ? curInfo[subName] : curInfo} onInput={(e)=>handleInput(subName ? [name as string, subName] :name, e)}></Input>
     </>
   )
 
 }
 const ApprovalForm: React.FC=()=>{
-  const {college, context, create_at} = Taro.getStorageSync('form_info') as formtype
+  const {college, context} = Taro.getStorageSync('form_info') as applicationType
  const [selectedAcademy,setSelectedAcademy]=useState(college || ' 计算机学院')
-  const [submitDate,setSubmitDate]=useState(create_at || '')
-  // 签名图片的 临时路径
   const [ownerSignUrl, setOwnerSignUrl] = useState('');
 
   const handleSelect = (e: any) => {
@@ -38,10 +43,10 @@ const ApprovalForm: React.FC=()=>{
     setSelectedAcademy(tmp_college)
   }
  const handleSubmit = () => {
-    const param = Taro.getStorageSync('form_info') as formtype
+    const param = Taro.getStorageSync('form_info') as applicationType
     param.student_id = param.ccnuid
     fetchUploadForm(param).then((res) => {
-      res && res.code < 300
+      res && res.data.code === 0
         ? Back().then(() => {
           Taro.showToast({
             icon: 'success',
@@ -53,11 +58,6 @@ const ApprovalForm: React.FC=()=>{
             icon: 'error'
         })
     })
- }
- const handleDate = (e: any) => {
-    const tmp_create_at = e.detail.value as string
-   handleInput('create_at', e)
-   setSubmitDate(tmp_create_at)
  }
  const handleSave = () => {
    Taro.showToast({
@@ -84,51 +84,47 @@ const ApprovalForm: React.FC=()=>{
            </View>
           <View className='approvalForm-item'>
             <Text className='approvalForm-item-tag'>学 号</Text>
-            <ApproveInput name='ccnuid'></ApproveInput>
+            <ApproveInput name='student_id'></ApproveInput>
            </View>
           <View className='approvalForm-item'>
             <Text className='approvalForm-item-tag'>学 院</Text>
-            <Picker mode='selector' defaultValue={academys.indexOf(selectedAcademy || " 计算机学院" )} range={academys} onChange={handleSelect}>
-              <View className='approvalForm-item-Input'>
-                {selectedAcademy}
-              </View>
-            </Picker>
+            <PickerItem classNames='approvalForm-item-Input' selected={selectedAcademy} defaultValue={academys.indexOf(selectedAcademy || " 计算机学院" )} range={academys} handleSelect={handleSelect}></PickerItem>
           </View>
           <View className='approvalForm-item'>
             <Text className='approvalForm-item-tag smaller-tag'>联系方式</Text>
-            <ApproveInput name='contact'></ApproveInput>
+            <ApproveInput name='phone'></ApproveInput>
            </View>
           <View className='approvalForm-item'>
             <Text className='approvalForm-item-tag'>辅导员</Text>
-            <ApproveInput name='teacher_id'></ApproveInput>
+            <ApproveInput name='tutor'></ApproveInput>
           </View>
           <View className='approvalForm-item'>
             <Text className='approvalForm-item-tag bigger-tag'>现楼栋号</Text>
             <Text className='approvalForm-item-tag bigger-tag'>拟调楼栋号</Text>
           </View>
           <View className='approvalForm-item'>
-            <ApproveInput name='from_dorm'></ApproveInput>
-            <ApproveInput name='to_dorm'></ApproveInput>
+            <ApproveInput name='src_location' subName='building'></ApproveInput>
+            <ApproveInput name='dst_location' subName='building'></ApproveInput>
           </View>
           <View className='approvalForm-item'>
             <Text className='approvalForm-item-tag bigger-tag'>现寝室号</Text>
             <Text className='approvalForm-item-tag bigger-tag'>拟调寝室号</Text>
           </View>
           <View className='approvalForm-item'>
-            <ApproveInput name='from_bed'></ApproveInput>
-            <ApproveInput name='to_bed'></ApproveInput>
+            <ApproveInput name='src_location' subName='room'></ApproveInput>
+            <ApproveInput name='dst_location' subName='room'></ApproveInput>
           </View>
           <View className='approvalForm-item'>
             <Text className='approvalForm-item-tag bigger-tag'>现床位号</Text>
             <Text className='approvalForm-item-tag bigger-tag'>拟调床位号</Text>
           </View>
           <View className='approvalForm-item'>
-            <ApproveInput name='from_bed'></ApproveInput>
-            <ApproveInput name='to_bed'></ApproveInput>
+            <ApproveInput name='src_location' subName='bed'></ApproveInput>
+            <ApproveInput name='dst_location' subName='bed'></ApproveInput>
            </View>
           <View className='form-textarea-intro'>个人申请</View>
           <View className='form-textarea-intro'>（请阐明调寝原因）</View>
-          <Textarea id='changingReason' defaultValue={context} onInput={(e) => handleInput('context', e)} maxlength={500}></Textarea>
+          <Textarea id='changingReason' defaultValue={context} onInput={(e) => handleInput('reason', e)} maxlength={500}></Textarea>
           <View className='approvalForm-item'>
             <Text className='approvalForm-item-tag bigger-tag'>申请人签字</Text>
             <View className='approvalForm-item-Input smaller-input'>
@@ -137,16 +133,6 @@ const ApprovalForm: React.FC=()=>{
                 : <View  className='smaller-input' onClick={() => jumpToSign()}>点击签名</View>
               }
             </View>
-          </View>
-          <View className='approvalForm-item'>
-            <Text className='approvalForm-item-tag'>时间</Text>
-            <Picker  mode='date' value={submitDate} onChange={(e)=>handleDate(e)}>
-              <View className='date-picker'>
-                <View  className='date-detail bigger-tag'>{submitDate.slice(0,4)}</View >年
-                <View  className='date-detail'>{submitDate.slice(5,7)}</View >月
-                <View  className='date-detail'>{submitDate.slice(8,10)}</View >日
-              </View>
-            </Picker>
           </View>
         </View>
       </ScrollView>

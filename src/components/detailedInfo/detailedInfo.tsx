@@ -1,11 +1,12 @@
 import Button from "@/components/button/button";
 import ContentFiled from "@/components/contentField/contentFiled";
 import {DetailedInfoProps, DetailedInfoType} from "@/pages/types/detailedInfo";
-import Input from "@/components/input/input";
+import Input, {PickerItem} from "@/components/input/input";
 import Taro from "@tarojs/taro";
-import React, {useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {View} from "@tarojs/components";
 import './detailedInfo.less'
+import {fetchGetMyInfo} from "@/services/fetch";
 
 const DetailedInfo: React.FC<DetailedInfoProps> = (props) => {
   const [inputSet, setInputSet] = useState<{[key: string]: string}>({});
@@ -13,11 +14,17 @@ const DetailedInfo: React.FC<DetailedInfoProps> = (props) => {
   const texts = text.split('\n')
   const errorSet = useMemo(() => {
     return formatTest
-      ? formatTest.filter((item) => inputSet[item.name] && !item.format.test(inputSet[item.name]))
+      ? formatTest.filter((item) => inputSet[item.name] && !item.format.every((rule) => rule.test(inputSet[item.name])))
       : []
   }, [formatTest, inputSet]);
+  useEffect(() => {
+    fetchGetMyInfo().then(res => {
+      res && Taro.setStorageSync('form_info', {...res.data.data, ...Taro.getStorageSync('form_info')})
+      res && setInputSet(res.data.data)
+    })
+  }, []);
   const handleApply = () => {
-    if(Object.keys(inputSet).length === inputs.length) {
+    if(Object.keys(inputSet).length >= inputs.length) {
       onSubmit && onSubmit(inputSet)
     } else {
       Taro.showToast({
@@ -29,6 +36,9 @@ const DetailedInfo: React.FC<DetailedInfoProps> = (props) => {
   }
   const handleInput = (e: any, tag: keyof DetailedInfoType) => {
     setInputSet({...inputSet, [`${tag}`]: e.detail.value})
+  }
+  const handleSelect = (e: any, item) => {
+    setInputSet({...inputSet, [item.tag]: item.range![e.target.value]})
   }
 
   return (
@@ -43,12 +53,9 @@ const DetailedInfo: React.FC<DetailedInfoProps> = (props) => {
             const isError = errorSet.find((errItem) => errItem.name === item.tag)
               return (
                 <>
-                  <Input
-                    key={index}
-                    className={`prelogin-input ${isError ? 'error-input' : ''}`}
-                    placeholder={item.placeHolder}
-                    onInput={(e) =>handleInput(e, item.tag)}
-                  ></Input>
+                  {item.type === 'picker'
+                    ? <PickerItem defaultValue={item.range!.indexOf(item.placeHolder) || 0} selected={inputSet[item.tag] || item.placeHolder} handleSelect={(e) => handleSelect(e, item)} range={item.range!} classNames='prelogin-picker'></PickerItem>
+                    : <Input key={index} className={`prelogin-input ${isError ? 'error-input' : ''}`} placeholder={item.placeHolder} onInput={(e) =>handleInput(e, item.tag)}></Input>}
                   {isError && <View className='error-info'>{item.placeHolder}格式错误</View>}
                 </>
               )

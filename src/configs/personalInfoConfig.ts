@@ -1,5 +1,7 @@
 import {PersonaltabProps, switchCarType} from "@/components/personalInfo/types/personalInfo";
 import Taro from "@tarojs/taro";
+import {fetchLogout} from "@/services/fetch";
+import {Nav} from "@/utils/nav";
 
 export const stuPersonalInfoTag:switchCarType[] = ['introduction', 'download', 'feedback', 'exit']
 export const teaPersonalInfoTag:switchCarType[] = ['introduction', 'download', 'feedback', 'exit']
@@ -26,7 +28,16 @@ export const personalInfoConfig: {[key in switchCarType]: PersonaltabProps} = {
     icon: 'https://s2.loli.net/2024/02/03/pCOVJsznTFoUX95.png',
     text: '退出登录',
     onClick: () => {
-      Taro.clearStorage();
+      fetchLogout().then((res) => {
+        if(res && res.data.code === 0) {
+          Taro.showToast({
+            title: '登出成功',
+          }).then(() => {
+            Taro.clearStorage();
+            Nav('/pages/index/index')
+          })
+        }
+      })
     }
   }
 }

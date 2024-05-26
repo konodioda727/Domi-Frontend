@@ -23,3 +23,5 @@ export const applicationNavConfigs: applicationType = {
   // 学工部页面路径
   studentAffairPath: '/pages/student/application/details/departmentForm/departmentForm'
 }
+
+export const statusArr = ['未提交', '已提交']
