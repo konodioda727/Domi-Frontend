@@ -3,7 +3,7 @@ import { PickerItem } from '@/components/input/input';
 import PageWrap from '@/components/pageWrap/pageWrap';
 import { fetchUploadForm } from '@/services/fetch';
 import { applicationType } from '@/services/fetchTypes';
-import { Back } from '@/utils/nav';
+import {Back, Nav} from '@/utils/nav';
 import {
   Image,
   Input,
@@ -95,10 +95,7 @@ const ApprovalForm: React.FC = () => {
     Taro.eventCenter.once(eventKey, data => {
       setOwnerSignUrl(data.url);
     });
-
-    Taro.navigateTo({
-      url: `/pages/sharing/signPage/signPage?type=${eventKey}`,
-    });
+  Nav(`/pages/sharing/signPage/signPage?type=${eventKey}`)
   };
   return (
     <PageWrap

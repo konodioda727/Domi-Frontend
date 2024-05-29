@@ -48,9 +48,17 @@ const Application: React.FC = () => {
         if (resp) {
           fetchReport(resp.form_id, 'RoleTutor')
             .then(resp2 => {
-              return {
+              console.log({
                 ...resp,
                 teaApproved: resp2
+                  ? resp2.data.data.pass
+                    ? 'success'
+                    : 'fail'
+                  : 'pending',
+              })
+              return {
+                ...resp,
+                teaApproved: resp2 && resp2.data.code === 0
                   ? resp2.data.data.pass
                     ? 'success'
                     : 'fail'
@@ -62,8 +70,8 @@ const Application: React.FC = () => {
                 fetchReport(resp3.form_id, 'RoleStudentAffairsOffice').then(
                   resp4 => {
                     setCurrentStatus({
-                      ...resp4,
-                      officeApproved: resp4
+                      ...resp3,
+                      officeApproved: resp4 && resp4.data.code === 0
                         ? resp4.data.data.pass
                           ? 'success'
                           : 'fail'
@@ -96,10 +104,10 @@ const Application: React.FC = () => {
     });
   };
   const handleCounselor = () => {
-    Nav(counselorPath);
+    Nav(`${counselorPath}?formID=${currentStatus?.form_id}`);
   };
   const handleStudentAffair = () => {
-    Nav(studentAffairPath);
+    Nav(`${studentAffairPath}?formID=${currentStatus?.form_id}`);
   };
 
   return (

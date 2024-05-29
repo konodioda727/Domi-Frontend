@@ -7,22 +7,33 @@ import {
   RadioGroup,
   Text,
   Textarea,
+  Image,
   View,
 } from '@tarojs/components';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './index.less';
+import {fetchReport} from "@/services/fetch";
+import Taro, {useDidShow} from "@tarojs/taro";
 
 const DepartmentForm: React.FC = () => {
-  useEffect(() => {
-    setResult(true);
-    setCounsellorAdvice('');
-    setInstructor('');
-    sethandleDate('');
-  }, []);
   const [result, setResult] = useState<boolean>();
   const [counsellorAdvice, setCounsellorAdvice] = useState('');
   const [instructor, setInstructor] = useState('');
   const [handleDate, sethandleDate] = useState('');
+  const [signature, setSignature] = useState<string>('')
+  useDidShow(() => {
+    const instance = Taro.getCurrentInstance();
+    const formID = Number(instance.router!.params.formID as string)
+    fetchReport(formID, 'RoleTutor').then((res) => {
+       if(res) {
+         setResult(res.data.data.pass)
+         setCounsellorAdvice(res.data.data.detail || '辅导员未提供相关信息')
+         setInstructor(res.data.data.reporter || '')
+         setSignature(res.data.data.signature || '')
+         sethandleDate(new Date(res.data.data.ctime || '').toLocaleDateString())
+       }
+    })
+  })
   return (
     <PageWrap topBarProps={{ pos: 'leftWithButton', children: '培养单位意见' }}>
       <ContentFiled className="CounsellorForm-wrap">
@@ -42,7 +53,7 @@ const DepartmentForm: React.FC = () => {
               <Text>是</Text>
             </Label>
             <Label className="checking-reslut-label">
-              <Radio disabled value="no" checked={result == false}></Radio>
+              <Radio disabled value="no" checked={!result}></Radio>
               <Text>否</Text>
             </Label>
           </RadioGroup>
@@ -56,7 +67,7 @@ const DepartmentForm: React.FC = () => {
         ></Textarea>
         <View className="CounsellorForm-item">
           <Text className="CounsellorForm-item-tag">辅导员签字</Text>
-          <Input className="CounsellorForm-item-Input sigh-input"></Input>
+          <Image src={signature} className="CounsellorForm-item-Input sigh-input" />
         </View>
         <View className="CounsellorForm-item">
           <Text className="CounsellorForm-item-tag">时 间</Text>

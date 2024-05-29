@@ -1,6 +1,7 @@
 import ContentFiled from '@/components/contentField/contentFiled';
 import PageWrap from '@/components/pageWrap/pageWrap';
 import {
+  Image,
   Input,
   Label,
   Radio,
@@ -9,20 +10,30 @@ import {
   Textarea,
   View,
 } from '@tarojs/components';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './index.less';
+import Taro, {useDidShow} from "@tarojs/taro";
+import {fetchReport} from "@/services/fetch";
 
 const DepartmentForm: React.FC = () => {
-  useEffect(() => {
-    setResult(true);
-    setCounsellorAdvice('');
-    setCharger('');
-    sethandleDate('');
-  }, []);
   const [result, setResult] = useState<boolean>();
   const [counsellorAdvice, setCounsellorAdvice] = useState('');
   const [charger, setCharger] = useState('');
+  const [signature, setSignature] = useState<string>('')
   const [handleDate, sethandleDate] = useState('');
+  useDidShow(() => {
+    const instance = Taro.getCurrentInstance();
+    const formID = Number(instance.router!.params.formID as string)
+    fetchReport(formID, 'RoleStudentAffairsOffice').then((res) => {
+      if(res) {
+        setResult(res.data.data.pass)
+        setCounsellorAdvice(res.data.data.detail || '负责人未提供相关信息')
+        setSignature(res.data.data.signature || '')
+        setCharger('')
+        sethandleDate(new Date(res.data.data.ctime || '').toLocaleDateString())
+      }
+    })
+  })
   return (
     <PageWrap topBarProps={{ pos: 'leftWithButton', children: '学工部审核' }}>
       <ContentFiled className="DepartmentForm-wrap">
@@ -56,7 +67,7 @@ const DepartmentForm: React.FC = () => {
         ></Textarea>
         <View className="DepartmentForm-item">
           <Text className="DepartmentForm-item-tag">负责人签字</Text>
-          <Input className="DepartmentForm-item-Input sigh-input"></Input>
+          <Image src={signature} className='DepartmentForm-item-Input sigh-input'></Image>
         </View>
         <View className="DepartmentForm-item">
           <Text className="DepartmentForm-item-tag">时 间</Text>
