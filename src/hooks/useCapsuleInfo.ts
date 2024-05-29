@@ -1,4 +1,4 @@
-import Taro from "@tarojs/taro";
+import Taro from '@tarojs/taro';
 
 interface CapsuleInfoType {
   capsulePos: Taro.getMenuButtonBoundingClientRect.Rect;
@@ -8,5 +8,5 @@ interface CapsuleInfoType {
 export const useCapsuleInfo = (): CapsuleInfoType => {
   const capPos = Taro.getMenuButtonBoundingClientRect();
   const barPos = Taro.getSystemInfoSync();
-  return {capsulePos: capPos, barPos: barPos};
+  return { capsulePos: capPos, barPos: barPos };
 };

@@ -1,10 +1,20 @@
-import {useCallback, useEffect, useRef} from "react";
+import { useCallback, useEffect, useRef } from 'react';
 
-export function useDebounce(fn: (...args: any[]) => any, delay: number, dep = []) {
-  const { current } = useRef<{ fn: () => any; timer: NodeJS.Timeout | null }>({ fn, timer: null});
-  useEffect(function () {
-    current.fn = fn;
-  }, [fn]);
+export function useDebounce(
+  fn: (...args: any[]) => any,
+  delay: number,
+  dep = []
+) {
+  const { current } = useRef<{ fn: () => any; timer: NodeJS.Timeout | null }>({
+    fn,
+    timer: null,
+  });
+  useEffect(
+    function () {
+      current.fn = fn;
+    },
+    [fn]
+  );
 
   return useCallback(function f(...args) {
     if (current.timer) {
@@ -13,5 +23,5 @@ export function useDebounce(fn: (...args: any[]) => any, delay: number, dep = []
     current.timer = setTimeout(() => {
       current.fn.call(this, ...args);
     }, delay);
-  }, dep)
+  }, dep);
 }

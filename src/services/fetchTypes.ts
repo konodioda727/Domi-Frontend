@@ -1,44 +1,44 @@
-import Taro from "@tarojs/taro";
+import Taro from '@tarojs/taro';
 
 export interface FetchResponseBaseType<T> {
-  code: number,
-  data: T,
-  msg: string
+  code: number;
+  data: T;
+  msg: string;
 }
 
-export type SuccessResultType<T> =  Taro.request.SuccessCallbackResult<FetchResponseBaseType<T>>
+export type SuccessResultType<T> = Taro.request.SuccessCallbackResult<
+  FetchResponseBaseType<T>
+>;
 
 export interface FetchRequestBaseType {
-  method: keyof Taro.request.Method,
-  url: string,
-  header?: {},
+  method: keyof Taro.request.Method;
+  url: string;
+  header?: {};
   data?: {};
 }
 
 export type loginType = {
-  email: string,
-  password: string,
-}
+  email: string;
+  password: string;
+};
 export type teacherLoginType = {
-  pre_set_account: string,
-  password: string,
-}
+  pre_set_account: string;
+  password: string;
+};
 export type codeType = {
-  email: string
-}
+  email: string;
+};
 export type loginResponseType = {
-  token: string
-}
+  token: string;
+};
 
 export type registerType = {
-  email: string,
-  password: string,
-  code: string
-}
+  email: string;
+  password: string;
+  code: string;
+};
 
-export type registerResponseType = {
-
-}
+export type registerResponseType = {};
 export type uploadFormType = {
   college?: string;
   community_advice?: string;
@@ -57,13 +57,13 @@ export type uploadFormType = {
   to_dorm?: string;
   xgb_advice?: string;
   [property: string]: any;
-}
+};
 export interface PersonalInfoResponseType {
-  id: number,
-  name: string,
-  school: string,
-  student_id: string,
-  role: string,
+  id: number;
+  name: string;
+  school: string;
+  student_id: string;
+  role: string;
   [property: string]: any;
 }
 export interface LocationType {
@@ -72,10 +72,10 @@ export interface LocationType {
   room?: string;
   [property: string]: any;
 }
-export interface formStatusType  {
-  form_submit_status: string | number,
-  form_id: number,
-  reports: null | any[]
+export interface formStatusType {
+  form_submit_status: string | number;
+  form_id: number;
+  reports: null | any[];
 }
 export interface reviewType {
   detail?: string;
@@ -107,10 +107,17 @@ export interface applicationListType {
 }
 
 export interface applicationResponseType extends applicationType {
-  pdf: string,
-  Finished: boolean,
-  ctime: number,
-  id: number
+  pdf: string;
+  Finished: boolean;
+  ctime: number;
+  id: number;
+}
+export interface searchItemType {
+  cur_form_id?: number;
+  keyword?: string;
+  limit?: number;
+  pending?: string;
+  [property: string]: any;
 }
 export interface reportType {
   ctime?: number;

@@ -1,4 +1,4 @@
-@import "../../../styles/variables";
+@import '../../../styles/variables';
 
 .review-content {
   .center-abs;
@@ -13,6 +13,14 @@
     color: @green;
     .reviewed-text {
       margin: 0 4vh;
+      padding: 1.4vw 1vw;
+      border-radius: 20px;
+      font-size: @font-common;
+    }
+    .reviewed-text-selected {
+      .reviewed-text;
+      color: #fff;
+      background-color: @green;
     }
   }
   .reviewed-items {

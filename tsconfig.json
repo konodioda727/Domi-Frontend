@@ -17,14 +17,11 @@
     "jsx": "react-jsx",
     "allowJs": true,
     "resolveJsonModule": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "baseUrl": ".",      // 设置基准 URL 为当前目录
+    "typeRoots": ["node_modules/@types"],
+    "baseUrl": ".", // 设置基准 URL 为当前目录
     "paths": {
       "@/*": ["src/*"]
     }
-
   },
   "include": ["./src", "./types", "./config"],
   "compileOnSave": false

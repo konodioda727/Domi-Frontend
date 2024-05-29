@@ -1,8 +1,8 @@
-import {CSSProperties} from "react";
+import { CSSProperties } from 'react';
 
 export type IdentityMap = {
-  text: string,
-  imgURL: string,
-  textStyle?: CSSProperties,
-  navURL?: string,
-}
+  text: string;
+  imgURL: string;
+  textStyle?: CSSProperties;
+  navURL?: string;
+};

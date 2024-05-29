@@ -5,6 +5,6 @@
   "setting": {
     "es6": false,
     "minified": false,
-    "painting":true
+    "painting": true
   }
 }

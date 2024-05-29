@@ -1,75 +1,97 @@
-.TeacherChecking-wrap{
-    position: absolute;
-    top: 16%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90vw;
-    height: 80vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+@import '../../../styles/variables';
+
+.TeacherChecking-wrap {
+  position: absolute;
+  top: 16%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90vw;
+  height: 80vh;
+  display: flex;
+  color: @green;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.teacher-common {
+  display: flex;
+  margin-right: 0;
+  width: 30vw;
 }
 .teacher-confirm {
+  .teacher-common;
+}
+.teacher-sign {
+  .teacher-common;
+  background-color: #fff;
+  border: 1px solid @green;
+  color: @green;
+}
+.TeacherChecking-item {
+  width: 70vw;
   display: flex;
-  margin-left: auto;
-  margin-top: 4vh;
+  justify-content: space-between;
+  align-items: center;
+  color: @green;
 }
-.TeacherChecking-item{
-    width: 70vw;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.TeacherChecking-item-tag {
+  color: #023a50;
+  font-size: 5vw;
+  flex-shrink: 0;
+  word-break: break-word;
+  word-wrap: break-word;
+  white-space: pre-line;
 }
-.TeacherChecking-item-tag{
-    color: #023A50;
-    font-size: 5vw;
+.TeacherChecking-item-Input {
+  border: 1px solid black;
+  border-radius: 2vw;
+  width: 45vw;
+  padding-left: 5vw;
+  height: 3vh;
 }
-.TeacherChecking-item-Input{
-    border: 1px solid black;
-    border-radius: 2vw;
-    width: 45vw;
-    padding-left: 5vw;
-    height: 3vh;
-}
-.checking-reslut-label{
-    Text{
-        color: #023A50;
-        font-size: 4vw;
-        padding-left: 1vw;
-    }
-    margin-left: 4vw;
-}
-#applicationInfo{
-    padding: 2vw;
-    height: 17vh;
-    border: #023A50 1px solid;
-    border-radius: 3vw;
-}
-.sigh-input{
-    width: 30vw;height: 5vh;
-    text-align: center;
-    font-size: 5vw;
-    font-weight: 100;
-}
-.TeacherChecking-stamp{
-    width: 20vw;
-    height: 20vw;
-    border-radius: 10vw;
-    border: 1px solid black;
-}
-.smaller_tag{
+.checking-reslut-label {
+  Text {
+    color: @deep-green;
     font-size: 4vw;
+    padding-left: 1vw;
+  }
+  margin-left: 4vw;
+  color: @deep-green;
 }
-.reason_detail{
-    width: 34vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+#applicationInfo {
+  padding: 2vw;
+  height: 17vh;
+  border: #023a50 1px solid;
+  border-radius: 3vw;
+  color: @deep-green;
 }
-#checkingReason{
-    width: 35vw;
-    height: 10vh;
-    border: #023A50 1px solid;
-    padding: 1vw;
-    border-radius: 2vw;
+.sigh-input {
+  width: 30vw;
+  height: 5vh;
+  text-align: center;
+  font-size: 5vw;
+  font-weight: 100;
+}
+.TeacherChecking-stamp {
+  width: 20vw;
+  height: 20vw;
+  border-radius: 10vw;
+  border: 1px solid black;
+  flex-shrink: 0;
+}
+.smaller_tag {
+  font-size: 4vw;
+}
+.reason_detail {
+  width: 34vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#checkingReason {
+  width: 35vw;
+  height: 10vh;
+  border: #023a50 1px solid;
+  padding: 1vw;
+  border-radius: 2vw;
+  color: @deep-green;
 }

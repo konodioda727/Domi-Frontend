@@ -1,47 +1,47 @@
-import {CSSProperties} from "react";
-import {TopBarProps} from "@/components/pageWrap/types/pageWrap";
-import {useCapsuleInfo} from "@/hooks/useCapsuleInfo";
+import { TopBarProps } from '@/components/pageWrap/types/pageWrap';
+import { useCapsuleInfo } from '@/hooks/useCapsuleInfo';
+import { CSSProperties } from 'react';
 
 export function useGenerateTextCSS(props: TopBarProps): CSSProperties {
-  const {capsulePos} = useCapsuleInfo()
-  const {pos} = props;
+  const { capsulePos } = useCapsuleInfo();
+  const { pos } = props;
   const text_unchangeable: CSSProperties = {
     position: 'absolute',
     top: `${capsulePos.top}px`,
     lineHeight: `${capsulePos.height}px`,
     color: '#fff',
-  }
+  };
   const centerStyle: CSSProperties = {
-    left: "50%",
-    transform: "translateX(-50%)"
-  }
-  const ret:Record<TopBarProps['pos'], CSSProperties> = {
-    "left": {
+    left: '50%',
+    transform: 'translateX(-50%)',
+  };
+  const ret: Record<TopBarProps['pos'], CSSProperties> = {
+    left: {
       ...text_unchangeable,
-      left: '5vw'
+      left: '5vw',
     },
-    "leftWithButton": {
+    leftWithButton: {
       ...text_unchangeable,
-      left: '10vw'
+      left: '10vw',
     },
-    "center": {
+    center: {
       ...text_unchangeable,
-      ...centerStyle
+      ...centerStyle,
     },
-    "centerWithButton": {
+    centerWithButton: {
       ...text_unchangeable,
-      ...centerStyle
-    }
-  }
-  return ret[pos]
+      ...centerStyle,
+    },
+  };
+  return ret[pos];
 }
 export function useGenerateBarCSS(): CSSProperties {
-  const { capsulePos} = useCapsuleInfo()
-  return  {
+  const { capsulePos } = useCapsuleInfo();
+  return {
     position: 'absolute',
     top: 0,
     // @ts-ignore
     height: `${10 + capsulePos.bottom}px`,
     zIndex: '2',
-  }
+  };
 }

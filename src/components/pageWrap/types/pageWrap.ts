@@ -1,16 +1,16 @@
-import React from "react";
-import {ViewProps} from "@tarojs/components";
+import { ViewProps } from '@tarojs/components';
+import React from 'react';
 
 export interface TopBarProps {
-  children?: React.ReactElement | string,
-  pos: 'left' | 'center' | 'leftWithButton' | 'centerWithButton',
-  navURL?: string
+  children?: React.ReactElement | string;
+  pos: 'left' | 'center' | 'leftWithButton' | 'centerWithButton';
+  navURL?: string;
 }
 export interface PageWrapProps extends ViewProps {
-  topBarProps: TopBarProps,
-  hasNavbar?: boolean,
+  topBarProps: TopBarProps;
+  hasNavbar?: boolean;
 }
 
 export interface BackButtonProps {
-  naviBackURL?: string,
+  naviBackURL?: string;
 }

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, DependencyList } from "react";
+import { DependencyList, useCallback, useEffect, useRef } from 'react';
 
 type ThrottleFunction = (...args: any[]) => any | undefined;
 
