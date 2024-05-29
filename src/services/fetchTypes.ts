@@ -127,6 +127,7 @@ export interface reportType {
   id?: number;
   pass?: boolean;
   reporter?: string;
+  reporter_name?: string;
   reporter_role?: string;
   signature?: string;
   stamp?: string;

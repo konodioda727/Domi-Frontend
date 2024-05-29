@@ -29,7 +29,7 @@ const DepartmentForm: React.FC = () => {
         setResult(res.data.data.pass)
         setCounsellorAdvice(res.data.data.detail || '负责人未提供相关信息')
         setSignature(res.data.data.signature || '')
-        setCharger('')
+        setCharger(res.data.data.reporter_name || '')
         sethandleDate(new Date(res.data.data.ctime || '').toLocaleDateString())
       }
     })

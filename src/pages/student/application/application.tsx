@@ -109,6 +109,12 @@ const Application: React.FC = () => {
   const handleStudentAffair = () => {
     Nav(`${studentAffairPath}?formID=${currentStatus?.form_id}`);
   };
+  const handleArchive = () => {
+    Taro.showToast({
+      title: '归档成功，快去个人主页下载吧！',
+      icon: 'none'
+    }).then(() => Nav('/pages/student/personalInfo/personalInfo'))
+  }
 
   return (
     <>
@@ -167,10 +173,22 @@ const Application: React.FC = () => {
             </View>
           </TaskELem>
           <TaskELem state={currentStatus?.officeApproved}>
-            <View className="task-desc">请前往</View>
-            <View className="task-desc">“用户-换宿流程说明”</View>
-            <View className="task-desc">中查看</View>
+            <View className="task-desc">流程完毕</View>
+            <View className="task-button-wrap">
+              <Button
+                className="task-long-button"
+                disabled={currentStatus?.officeApproved !== 'success'}
+                onClick={handleArchive}
+              >
+                归档
+              </Button>
+            </View>
           </TaskELem>
+          {/*<TaskELem state={currentStatus?.officeApproved}>*/}
+          {/*  <View className="task-desc">请前往</View>*/}
+          {/*  <View className="task-desc">“用户-换宿流程说明”</View>*/}
+          {/*  <View className="task-desc">中查看</View>*/}
+          {/*</TaskELem>*/}
         </View>
       </PageWrap>
     </>

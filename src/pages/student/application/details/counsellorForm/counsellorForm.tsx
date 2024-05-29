@@ -28,7 +28,7 @@ const DepartmentForm: React.FC = () => {
        if(res) {
          setResult(res.data.data.pass)
          setCounsellorAdvice(res.data.data.detail || '辅导员未提供相关信息')
-         setInstructor(res.data.data.reporter || '')
+         setInstructor(res.data.data.reporter_name || '')
          setSignature(res.data.data.signature || '')
          sethandleDate(new Date(res.data.data.ctime || '').toLocaleDateString())
        }
