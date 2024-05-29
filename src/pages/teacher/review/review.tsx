@@ -32,7 +32,7 @@ const Review: React.FC = () => {
   return (
     <>
       <PageWrap topBarProps={{ pos: 'center' }} hasNavbar>
-        <Searchbar pending={`${!isReviewed}`} onSubmit={handleSubmit}></Searchbar>
+        <Searchbar pending={!isReviewed} onSubmit={handleSubmit}></Searchbar>
         <ContentFiled className="review-content">
           <View className="reviewed">
             <View
@@ -57,6 +57,7 @@ const Review: React.FC = () => {
             {reviewItems.map(item => (
               <ReviewItem {...item}></ReviewItem>
             ))}
+            {!reviewItems.length && <View className='empty-sign'>空空如也～</View>}
           </View>
         </ContentFiled>
       </PageWrap>

@@ -5,9 +5,9 @@ import React from 'react';
 import './reviewItem.less';
 
 const ReviewItem: React.FC<applicationResponseType> = props => {
-  const { id, name, ctime, school, dst_location, src_location } = props;
+  const { id, name, ctime, Status, school, dst_location, src_location } = props;
   const handleClick = () => {
-    Nav(`/pages/teacher/checking/checking?formID=${id}`);
+    Nav(`/pages/teacher/checking/checking?formID=${id}&status=${Status}`);
   };
   const date = new Date(ctime).toLocaleDateString()
   return (

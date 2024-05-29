@@ -30,7 +30,7 @@ export const fetch = <ResponseT>(
   };
   return Taro.request({ ...props })
     .then(res => {
-      if (res.statusCode === 403) {
+      if (res.statusCode === 401 || res.statusCode === 403) {
         Nav('/pages/index/index');
         Taro.clearStorageSync();
       }
@@ -124,7 +124,7 @@ export const fetchGetMyInfo = () =>
 
 export const fetchSearchItems = (prop: searchItemType) => fetch<applicationResponseType[]>({
   url: '/forms/list/search',
-  method: 'GET',
+  method: 'POST',
   data: prop
 })
 export const fetchWithdrawForm = (formId: number) =>
@@ -134,7 +134,7 @@ export const fetchWithdrawForm = (formId: number) =>
   });
 export const fetchReport = (
   formId: number,
-  reporter_role: 'RoleTutor' | 'RoleStudentAffairsOffice'
+  reporter_role: 'RoleTutor' | 'RoleStudentAffairsOffice' | string
 ) =>
   fetch<reportType>({
     url: `/reports/form/${formId}/detail?reporter_role=${reporter_role}`,

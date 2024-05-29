@@ -2,5 +2,5 @@ import {applicationResponseType} from "@/services/fetchTypes";
 
 export interface SearchbarProps {
   onSubmit?: (datas: applicationResponseType[]) => void;
-  pending: 'true' | 'false'
+  pending: boolean
 }

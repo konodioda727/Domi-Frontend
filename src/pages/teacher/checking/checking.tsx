@@ -1,10 +1,11 @@
 import Button from '@/components/button/button';
 import ContentFiled from '@/components/contentField/contentFiled';
 import PageWrap from '@/components/pageWrap/pageWrap';
-import {fetchFormDetail, fetchReview} from '@/services/fetch';
-import { reviewType } from '@/services/fetchTypes';
+import {fetchFormDetail, fetchGetMyInfo, fetchReport, fetchReview} from '@/services/fetch';
+import { reportType, reviewType} from '@/services/fetchTypes';
 import {Back, Nav} from '@/utils/nav';
 import {
+  Image,
   Label,
   Radio,
   RadioGroup,
@@ -20,6 +21,7 @@ const TeacherChecking: React.FC = () => {
   const [formID, setFormID] = useState<number>(0);
   // 签名图片的 临时路径
   const [ownerSignUrl, setOwnerSignUrl] = useState('');
+  const [judged, setJudged] = useState<null | reportType>(null)
 
   // 拉起签名页
   const jumpToSign = () => {
@@ -36,6 +38,14 @@ const TeacherChecking: React.FC = () => {
     fetchFormDetail(formID).then((res) => {
       res && setApplicationInfo(res.data.data.reason || '未提供相应信息')
       setFormID(formID);
+    }).then(() => {
+      fetchGetMyInfo().then((res) => {
+        if(res && res.data.code === 0) {
+          fetchReport(formID, res.data.data.role).then((resp) => {
+            if(resp && resp.data.code === 0) setJudged(resp.data.data)
+          })
+        }
+      } )
     })
   });
   const [result, setResult] = useState<boolean>(true);
@@ -77,11 +87,11 @@ const TeacherChecking: React.FC = () => {
             </Text>
             <RadioGroup>
               <Label className="checking-reslut-label">
-                <Radio value="yes" checked={result} onClick={() => setResult(true)}></Radio>
+                <Radio value="yes" disabled={ judged !== null } checked={result} onClick={() => setResult(true)}></Radio>
                 <Text>是</Text>
               </Label>
               <Label className="checking-reslut-label">
-                <Radio value="no" checked={!result} onClick={() => setResult(false)}></Radio>
+                <Radio value="no" disabled={judged !== null} checked={!result} onClick={() => setResult(false)}></Radio>
                 <Text>否</Text>
               </Label>
             </RadioGroup>
@@ -93,20 +103,24 @@ const TeacherChecking: React.FC = () => {
               </Text>
             </View>
             <Textarea
-              value={checkingReason}
+              value={judged?.detail || checkingReason}
               onInput={e => setCheckingReason(e.detail.value)}
               className="TeacherChecking-item-Input"
+              disabled={judged !== null}
               id="checkingReason"
             ></Textarea>
           </View>
           <View className="TeacherChecking-item">
             <Text className="TeacherChecking-item-tag">负责人签字</Text>
-            <Button className='teacher-sign' onClick={jumpToSign}>点击签字</Button>
+            {!judged
+              ? <Button className='teacher-sign' onClick={jumpToSign}>点击签字</Button>
+              : <Image src={judged.signature || ''} className='teacher-sign'></Image>
+            }
           </View>
           <View className="TeacherChecking-item">
             <View className="TeacherChecking-stamp"></View>
-            <Button onClick={handleClick} className="teacher-confirm">
-              提交审核
+            <Button onClick={handleClick} disabled={judged !== null} className="teacher-confirm">
+              {!judged ? '提交审核' : '已审核'}
             </Button>
           </View>
         </ContentFiled>

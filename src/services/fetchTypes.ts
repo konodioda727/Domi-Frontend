@@ -109,6 +109,7 @@ export interface applicationListType {
 export interface applicationResponseType extends applicationType {
   pdf: string;
   Finished: boolean;
+  Status: 'StatusTutorPass' | string
   ctime: number;
   id: number;
 }
@@ -116,7 +117,7 @@ export interface searchItemType {
   cur_form_id?: number;
   keyword?: string;
   limit?: number;
-  pending?: string;
+  pending?: boolean;
   [property: string]: any;
 }
 export interface reportType {

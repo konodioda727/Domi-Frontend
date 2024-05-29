@@ -11,6 +11,7 @@
   color: @green;
   flex-direction: column;
   justify-content: space-between;
+  overflow-x: hidden;
 }
 .teacher-common {
   display: flex;
@@ -24,6 +25,7 @@
   .teacher-common;
   background-color: #fff;
   border: 1px solid @green;
+  border-radius: 10px;
   color: @green;
 }
 .TeacherChecking-item {
@@ -31,6 +33,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 3vh;
   color: @green;
 }
 .TeacherChecking-item-tag {
@@ -40,6 +43,7 @@
   word-break: break-word;
   word-wrap: break-word;
   white-space: pre-line;
+  margin-top: 2vh;
 }
 .TeacherChecking-item-Input {
   border: 1px solid black;
@@ -63,6 +67,8 @@
   border: #023a50 1px solid;
   border-radius: 3vw;
   color: @deep-green;
+  display: block;
+  flex-shrink: 0;
 }
 .sigh-input {
   width: 30vw;

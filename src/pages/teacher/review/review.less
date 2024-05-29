@@ -6,6 +6,15 @@
   height: 60vh;
   padding: 2vh;
   flex-direction: column;
+  .empty-sign {
+    margin: 2vh auto;
+    position: relative;
+    text-align: center;
+    top: 50%;
+    color: @green;
+    text-decoration: underline;
+    animation: appear .3s ease-in-out forwards;
+  }
   .reviewed {
     display: flex;
     justify-content: center;
@@ -21,6 +30,7 @@
       .reviewed-text;
       color: #fff;
       background-color: @green;
+      animation: fadeIn .4s ease-in-out forwards;
     }
   }
   .reviewed-items {
@@ -29,3 +39,4 @@
     overflow-y: auto;
   }
 }
+
