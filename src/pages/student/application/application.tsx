@@ -11,6 +11,7 @@ import {
   applicationTaskState,
 } from '@/pages/student/application/applicationProps';
 import {
+  fetchArchive,
   fetchProgress,
   fetchReport,
   fetchWithdrawForm,
@@ -22,7 +23,7 @@ import Taro from '@tarojs/taro';
 import React, { useEffect, useState } from 'react';
 import './application.less';
 
-type curStatusTpye = formStatusType & {
+type curStatusType = formStatusType & {
   submitted: applicationTaskState;
   teaApproved: applicationTaskState;
   officeApproved: applicationTaskState;
@@ -30,11 +31,11 @@ type curStatusTpye = formStatusType & {
 const Application: React.FC = () => {
   const { counselorPath, studentAffairPath, submitPath } =
     applicationNavConfigs;
-  const [currentStatus, setCurrentStatus] = useState<curStatusTpye>();
+  const [currentStatus, setCurrentStatus] = useState<curStatusType>();
   useEffect(() => {
     fetchProgress()
       .then(res => {
-        if (res && res.data.code === 0 && res.data.data.reports?.length) {
+        if (res && res.data.code === 0) {
           return {
             ...res.data.data,
             submitted:
@@ -48,14 +49,6 @@ const Application: React.FC = () => {
         if (resp) {
           fetchReport(resp.form_id, 'RoleTutor')
             .then(resp2 => {
-              console.log({
-                ...resp,
-                teaApproved: resp2
-                  ? resp2.data.data.pass
-                    ? 'success'
-                    : 'fail'
-                  : 'pending',
-              })
               return {
                 ...resp,
                 teaApproved: resp2 && resp2.data.code === 0
@@ -76,7 +69,7 @@ const Application: React.FC = () => {
                           ? 'success'
                           : 'fail'
                         : 'pending',
-                    } as curStatusTpye);
+                    } as curStatusType);
                   }
                 );
               }
@@ -99,7 +92,7 @@ const Application: React.FC = () => {
             submitted: 'pending',
             officeApproved: 'pending',
             teaApproved: 'pending',
-          } as curStatusTpye);
+          } as curStatusType);
         });
     });
   };
@@ -110,10 +103,14 @@ const Application: React.FC = () => {
     Nav(`${studentAffairPath}?formID=${currentStatus?.form_id}`);
   };
   const handleArchive = () => {
-    Taro.showToast({
-      title: '归档成功，快去个人主页下载吧！',
-      icon: 'none'
-    }).then(() => Nav('/pages/student/personalInfo/personalInfo'))
+    fetchArchive(currentStatus?.form_id || 1).then((res) => {
+      if(res && res.data.code === 0) {
+        Taro.showToast({
+          title: '归档成功，快去个人主页下载吧！',
+          icon: 'none'
+        }).then(() => Nav('/pages/student/personalInfo/personalInfo'))
+      }
+    })
   }
 
   return (
@@ -134,14 +131,14 @@ const Application: React.FC = () => {
             <View className="task-button-wrap task-special">
               <Button
                 className="task-short-button"
-                disabled={currentStatus?.submitted !== 'pending'}
+                disabled={currentStatus?.teaApproved !== 'pending'}
                 onClick={handleSubmit}
               >
                 修改
               </Button>
               <Button
                 className="task-short-button"
-                disabled={currentStatus?.teaApproved !== 'pending'}
+                disabled={currentStatus?.teaApproved !== 'pending' || currentStatus?.submitted === 'pending'}
                 onClick={handleReset}
               >
                 撤回
@@ -184,11 +181,6 @@ const Application: React.FC = () => {
               </Button>
             </View>
           </TaskELem>
-          {/*<TaskELem state={currentStatus?.officeApproved}>*/}
-          {/*  <View className="task-desc">请前往</View>*/}
-          {/*  <View className="task-desc">“用户-换宿流程说明”</View>*/}
-          {/*  <View className="task-desc">中查看</View>*/}
-          {/*</TaskELem>*/}
         </View>
       </PageWrap>
     </>
@@ -213,7 +205,4 @@ export const TaskELem: React.FC<TaskElemProps> = props => {
       </ContentFiled>
     </>
   );
-};
-TaskELem.defaultProps = {
-  state: 'pending',
 };

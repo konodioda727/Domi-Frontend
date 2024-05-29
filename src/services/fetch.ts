@@ -132,6 +132,11 @@ export const fetchWithdrawForm = (formId: number) =>
     url: `/forms/${formId}/withdraw`,
     method: 'POST',
   });
+
+export const fetchArchive = (formId: number) => fetch({
+  url: `/forms/${formId}/archive`,
+  method: 'POST'
+})
 export const fetchReport = (
   formId: number,
   reporter_role: 'RoleTutor' | 'RoleStudentAffairsOffice' | string
