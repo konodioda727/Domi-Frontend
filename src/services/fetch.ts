@@ -19,8 +19,8 @@ import {
 import { Nav } from '@/utils/nav';
 import Taro from '@tarojs/taro';
 
-// const baseUrl = 'https://domi.bigdust.space';
-const baseUrl ='http://150.158.108.197:8088'
+const baseUrl = 'https://domi.bigdust.space';
+// const baseUrl ='http://150.158.108.197:8088'
 export const fetch = <ResponseT>(
   props: FetchRequestBaseType
 ): Promise<SuccessResultType<ResponseT> | ''> => {

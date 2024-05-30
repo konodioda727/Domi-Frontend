@@ -20,11 +20,6 @@ export default function Index() {
         .then(res => {
           const role = res && res.data.data.role;
           if (res) {
-            Taro.setStorageSync('info', res.data);
-            Taro.setStorageSync('form_info', {
-              ...Taro.getStorageSync('form_info'),
-              ...res.data.data,
-            });
             res.data.code === 0
               ? Redirect(ifLoginNavPath[role])
               : Redirect(ifInfoEditNavPath[role]);

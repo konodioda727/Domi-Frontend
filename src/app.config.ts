@@ -4,18 +4,18 @@ export default defineAppConfig({
   navigationBarTextStyle: 'black',
   navigationStyle: 'custom',
   pages: [
-    // 'pages/index/index',
-    //
-    // 'pages/teacher/login/login',
-    // 'pages/teacher/review/review',
-    // 'pages/teacher/personalInfo/personalInfo',
-    // 'pages/teacher/detailedInfoCounselor/detailedInfoCounselor',
-    // 'pages/teacher/detailedInfoSupervisor/detailedInfoSupervisor',
-    //
-    // 'pages/student/detailedInfo/detailedInfo',
-    // 'pages/student/login/login',
-    // 'pages/student/application/application',
-    // 'pages/student/personalInfo/personalInfo',
+    'pages/index/index',
+
+    'pages/teacher/login/login',
+    'pages/teacher/review/review',
+    'pages/teacher/personalInfo/personalInfo',
+    'pages/teacher/detailedInfoCounselor/detailedInfoCounselor',
+    'pages/teacher/detailedInfoSupervisor/detailedInfoSupervisor',
+
+    'pages/student/detailedInfo/detailedInfo',
+    'pages/student/login/login',
+    'pages/student/application/application',
+    'pages/student/personalInfo/personalInfo',
     'pages/student/application/details/approvalForm/approvalForm',
     'pages/student/application/details/counsellorForm/counsellorForm',
     'pages/student/application/details/departmentForm/departmentForm',

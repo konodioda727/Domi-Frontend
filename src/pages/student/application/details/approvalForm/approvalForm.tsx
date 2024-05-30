@@ -1,7 +1,7 @@
 import Button from '@/components/button/button';
 import { PickerItem } from '@/components/input/input';
 import PageWrap from '@/components/pageWrap/pageWrap';
-import { fetchUploadForm } from '@/services/fetch';
+import {fetchFormDetail, fetchUploadForm} from '@/services/fetch';
 import useQiniuUpload from "@/utils/useQiniuUpload";
 import { applicationType } from '@/services/fetchTypes';
 import {Back, Nav} from '@/utils/nav';
@@ -13,7 +13,7 @@ import {
   Textarea,
   View,
 } from '@tarojs/components';
-import Taro from '@tarojs/taro';
+import Taro, {useDidShow} from '@tarojs/taro';
 import React, {useEffect, useState} from 'react';
 import academys from './formInfo';
 import './index.less';
@@ -26,7 +26,6 @@ const handleInput = (
 ) => {
   const content = typeof e === 'string' ? e : (e.target.value as string);
   if (tag instanceof Array) {
-    console.log(tag);
     formInfo[tag[0]] === undefined
       ? (formInfo[tag[0]] = { [tag[1]]: content })
       : (formInfo[tag[0]][tag[1]] = content);
@@ -34,34 +33,56 @@ const handleInput = (
     formInfo[tag] = content;
   }
   Taro.setStorageSync('form_info', formInfo);
+  console.log(formInfo)
 };
 const ApproveInput: React.FC<{
   name: keyof applicationType;
   subName?: string;
-}> = ({ name, subName }) => {
+  disable?: boolean;
+  defaultValue?: string ;
+}> = ({ name, subName, disable, defaultValue }) => {
   const formInfo = Taro.getStorageSync('form_info');
   const curInfo = formInfo[name] || '';
+  const [value, setValue] = useState<string>('')
+  useEffect(() => {
+    setValue(defaultValue || (subName && curInfo ? curInfo[subName] : curInfo))
+  }, [defaultValue]);
   return (
     <>
       <Input
-        className="approvalForm-item-Input"
-        defaultValue={subName && curInfo ? curInfo[subName] : curInfo}
-        onInput={e =>
+        className={`approvalForm-item-Input ${disable && 'input-disable'}`}
+        value={value}
+        disabled={disable}
+        onInput={e => {
+          setValue(e.detail.value)
           handleInput(subName ? [name as string, subName] : name, e)
-        }
+        }}
       ></Input>
     </>
   );
 };
 const ApprovalForm: React.FC = () => {
-  const { college, context } = Taro.getStorageSync(
+  const { college } = Taro.getStorageSync(
     'form_info'
   ) as applicationType;
   const [selectedAcademy, setSelectedAcademy] = useState(
     college || ' 计算机学院'
   );
   const [ownerSignUrl, setOwnerSignUrl] = useState('');
-
+  const [fecthedData, setFecthedData] = useState<applicationType>()
+  useDidShow(() => {
+    const instance = Taro.getCurrentInstance();
+    const formId = Number(instance.router!.params.formId as string)
+    const submitted = instance.router!.params.submitted === 'success'
+    if(submitted) {
+      fetchFormDetail(formId).then(res => {
+        if(res && res.data.code === 0) {
+          Taro.setStorageSync('form_info', {...Taro.getStorageSync('form_info'), ...res.data.data})
+          setFecthedData(res.data.data)
+        }
+      })
+    }
+  })
   useEffect(() => {
     console.log(ownerSignUrl)
     if (ownerSignUrl) {
@@ -76,8 +97,7 @@ const ApprovalForm: React.FC = () => {
   };
   const handleSubmit = () => {
     const param = Taro.getStorageSync('form_info') as applicationType;
-    param.student_id = param.ccnuid;
-    fetchUploadForm(param).then(res => {
+    fetchUploadForm({...param, signature: ownerSignUrl}).then(res => {
       res && res.data.code === 0
         ? Back().then(() => {
             Taro.showToast({
@@ -92,6 +112,7 @@ const ApprovalForm: React.FC = () => {
     });
   };
   const handleSave = () => {
+    handleSubmit()
     Taro.showToast({
       title: '保存成功',
       icon: 'success',
@@ -113,17 +134,18 @@ const ApprovalForm: React.FC = () => {
         <View className="approvalForm-wrap-content">
           <View className="approvalForm-item">
             <Text className="approvalForm-item-tag">姓 名</Text>
-            <ApproveInput name="name"></ApproveInput>
+            <ApproveInput name="name" disable></ApproveInput>
           </View>
           <View className="approvalForm-item">
             <Text className="approvalForm-item-tag">学 号</Text>
-            <ApproveInput name="student_id"></ApproveInput>
+            <ApproveInput name="student_id" disable></ApproveInput>
           </View>
           <View className="approvalForm-item">
             <Text className="approvalForm-item-tag">学 院</Text>
             <PickerItem
               classNames="approvalForm-item-Input"
               selected={selectedAcademy}
+              disable
               defaultValue={academys.indexOf(selectedAcademy || ' 计算机学院')}
               range={academys}
               handleSelect={handleSelect}
@@ -131,56 +153,38 @@ const ApprovalForm: React.FC = () => {
           </View>
           <View className="approvalForm-item">
             <Text className="approvalForm-item-tag smaller-tag">联系方式</Text>
-            <ApproveInput name="phone"></ApproveInput>
+            <ApproveInput defaultValue={fecthedData?.phone} name="phone"></ApproveInput>
           </View>
           <View className="approvalForm-item">
             <Text className="approvalForm-item-tag">辅导员</Text>
-            <ApproveInput name="tutor"></ApproveInput>
+            <ApproveInput defaultValue={fecthedData?.tutor} name="tutor"></ApproveInput>
           </View>
           <View className="approvalForm-item">
-            <Text className="approvalForm-item-tag bigger-tag">现楼栋号</Text>
-            <Text className="approvalForm-item-tag bigger-tag">拟调楼栋号</Text>
-          </View>
-          <MultiColumnPicker></MultiColumnPicker>
-          <View className="approvalForm-item">
-            <ApproveInput name="src_location" subName="building"></ApproveInput>
-            <ApproveInput name="dst_location" subName="building"></ApproveInput>
+            <Text className="approvalForm-item-tag bigger-tag">现居寝室号</Text>
+            <MultiColumnPicker loc={{building: '南湖8栋', bed:'1', room: '121', area: '南湖'}}></MultiColumnPicker>
           </View>
           <View className="approvalForm-item">
-            <Text className="approvalForm-item-tag bigger-tag">现寝室号</Text>
             <Text className="approvalForm-item-tag bigger-tag">拟调寝室号</Text>
-          </View>
-          <View className="approvalForm-item">
-            <ApproveInput name="src_location" subName="room"></ApproveInput>
-            <ApproveInput name="dst_location" subName="room"></ApproveInput>
-          </View>
-          <View className="approvalForm-item">
-            <Text className="approvalForm-item-tag bigger-tag">现床位号</Text>
-            <Text className="approvalForm-item-tag bigger-tag">拟调床位号</Text>
-          </View>
-          <View className="approvalForm-item">
-            <ApproveInput name="src_location" subName="bed"></ApproveInput>
-            <ApproveInput name="dst_location" subName="bed"></ApproveInput>
+            <MultiColumnPicker loc={{building: '南湖8栋', bed:'1', room: '121', area: '南湖'}}></MultiColumnPicker>
           </View>
           <View className="form-textarea-intro">个人申请</View>
           <View className="form-textarea-intro">（请阐明调寝原因）</View>
           <Textarea
             id="changingReason"
-            defaultValue={context}
+            defaultValue={fecthedData?.reason}
             onInput={e => handleInput('reason', e)}
             maxlength={500}
           ></Textarea>
           <View className="approvalForm-item">
             <Text className="approvalForm-item-tag bigger-tag">申请人签字</Text>
-            <View className="approvalForm-item-Input smaller-input">
-              {ownerSignUrl ? (
+            <View style={{paddingLeft: 0}} className="approvalForm-item-Input smaller-input">
+              {fecthedData?.signature || ownerSignUrl ? (
                 <Image
                   className="smaller-input"
                   src={ownerSignUrl}
-                  onClick={() => jumpToSign()}
                 />
               ) : (
-                <View className="smaller-input" onClick={() => jumpToSign()}>
+                <View  onClick={() => jumpToSign()}>
                   点击签名
                 </View>
               )}

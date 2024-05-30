@@ -23,9 +23,10 @@ interface PickerItemProps {
   range: string[];
   handleSelect: (...args: any[]) => void;
   selected: string;
+  disable?: boolean;
 }
 export const PickerItem: React.FC<PickerItemProps> = props => {
-  const { defaultValue, classNames, selected, range, handleSelect } = props;
+  const { defaultValue, classNames, disable, selected, range, handleSelect } = props;
   return (
     <>
       <Picker
@@ -33,9 +34,10 @@ export const PickerItem: React.FC<PickerItemProps> = props => {
         style={{ position: 'relative' }}
         defaultValue={defaultValue}
         range={range}
+        disabled={disable}
         onChange={handleSelect}
       >
-        <View className={classNames}>{selected}</View>
+        <View className={classNames + ` approvalForm-item-Input ${disable && 'input-disable'}`}>{selected}</View>
         <Image
           src="https://s2.loli.net/2024/05/26/W1Dysm24pZgbS9O.png"
           className="picker-icon"

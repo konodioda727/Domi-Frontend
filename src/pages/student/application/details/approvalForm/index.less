@@ -1,3 +1,5 @@
+@import '/src/styles/variables';
+
 .approvalForm-wrap {
   position: absolute;
   width: 90vw;
@@ -22,6 +24,7 @@
   width: 70vw;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .approvalForm-item-tag {
   width: 20vw;
@@ -41,10 +44,18 @@
 }
 .smaller-input {
   height: 4vh;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .form-textarea-intro {
   color: #005767;
   font-size: 4vw;
+}
+.input-disable {
+  color: @gray;
+  border: 1px solid @gray;
 }
 #changingReason {
   width: 70vw;

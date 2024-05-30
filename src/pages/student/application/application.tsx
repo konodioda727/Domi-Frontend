@@ -11,7 +11,7 @@ import {
   applicationTaskState,
 } from '@/pages/student/application/applicationProps';
 import {
-  fetchArchive,
+  fetchArchive, fetchGetMyInfo,
   fetchProgress,
   fetchReport,
   fetchWithdrawForm,
@@ -31,11 +31,18 @@ type curStatusType = formStatusType & {
 const Application: React.FC = () => {
   const { counselorPath, studentAffairPath, submitPath } =
     applicationNavConfigs;
+  const [formId, setFormId] = useState<number>(0)
   const [currentStatus, setCurrentStatus] = useState<curStatusType>();
   useEffect(() => {
+    fetchGetMyInfo().then((res) => {
+      if(res && res.data.code === 0) {
+        Taro.setStorageSync('form_info', res.data.data)
+      }
+    })
     fetchProgress()
       .then(res => {
         if (res && res.data.code === 0) {
+          setFormId(res.data.data.form_id)
           return {
             ...res.data.data,
             submitted:
@@ -78,7 +85,7 @@ const Application: React.FC = () => {
       });
   }, []);
   const handleSubmit = () => {
-    Nav(submitPath);
+    Nav(`${submitPath}?formId=${formId}&submitted=${currentStatus?.submitted}`);
   };
   const handleReset = () => {
     fetchWithdrawForm(currentStatus?.form_id || 0).then(res => {
