@@ -1,13 +1,12 @@
 import { applicationResponseType } from '@/services/fetchTypes';
-import { Nav } from '@/utils/nav';
 import { Image, View } from '@tarojs/components';
-import React from 'react';
+import {FC} from 'react';
 import './reviewItem.less';
 
-const ReviewItem: React.FC<applicationResponseType> = props => {
-  const { id, name, ctime, Status, school, dst_location, src_location } = props;
+const ReviewItem: FC<applicationResponseType & {onClick?: (formId: number)=>void}> = props => {
+  const { id, name, onClick, ctime, school, dst_location, src_location } = props;
   const handleClick = () => {
-    Nav(`/pages/teacher/checking/checking?formID=${id}&status=${Status}`);
+    onClick && onClick(id)
   };
   const date = new Date(ctime).toLocaleDateString()
   return (

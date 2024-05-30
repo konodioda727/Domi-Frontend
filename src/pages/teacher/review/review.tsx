@@ -8,12 +8,16 @@ import { View } from '@tarojs/components';
 import { useDidShow } from '@tarojs/taro';
 import React, { useEffect, useState } from 'react';
 import './review.less';
+import {Nav} from "@/utils/nav";
 
 const Review: React.FC = () => {
   const [reviewItems, setReviewItems] = useState<applicationResponseType[]>([]);
   const [isReviewed, setIsReviewed] = useState<boolean>(false);
   const handleSubmit = (data: applicationResponseType[]) => {
     setReviewItems(data)
+  }
+  const handleItemClick = (formId: number) => {
+    Nav(`/pages/teacher/checking/checking?formID=${formId}`);
   }
   const fetchItems = () =>
     fetchApproveList({
@@ -55,7 +59,7 @@ const Review: React.FC = () => {
           </View>
           <View className="reviewed-items">
             {reviewItems.map(item => (
-              <ReviewItem {...item}></ReviewItem>
+              <ReviewItem {...item} onClick={handleItemClick}></ReviewItem>
             ))}
             {!reviewItems.length && <View className='empty-sign'>空空如也～</View>}
           </View>

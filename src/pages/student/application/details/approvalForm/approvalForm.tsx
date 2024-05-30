@@ -17,6 +17,7 @@ import Taro from '@tarojs/taro';
 import React, {useEffect, useState} from 'react';
 import academys from './formInfo';
 import './index.less';
+import MultiColumnPicker from "@/pages/student/application/details/approvalForm/components/picker/multiColumnPicker";
 
 const handleInput = (
   tag: keyof applicationType | string[],
@@ -140,6 +141,7 @@ const ApprovalForm: React.FC = () => {
             <Text className="approvalForm-item-tag bigger-tag">现楼栋号</Text>
             <Text className="approvalForm-item-tag bigger-tag">拟调楼栋号</Text>
           </View>
+          <MultiColumnPicker></MultiColumnPicker>
           <View className="approvalForm-item">
             <ApproveInput name="src_location" subName="building"></ApproveInput>
             <ApproveInput name="dst_location" subName="building"></ApproveInput>

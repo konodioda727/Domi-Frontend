@@ -34,8 +34,8 @@ export const personalInfoConfig: { [key in switchCarType]: PersonaltabProps } =
     },
     download: {
       icon: 'https://s2.loli.net/2024/02/03/1wimo7Pl9HMNnjS.png',
-      text: '换宿申请表下载',
-      navURl: '',
+      text: '换宿申请表查看',
+      navURl: '/pages/sharing/archive/archive',
     },
     exit: {
       icon: 'https://s2.loli.net/2024/02/03/pCOVJsznTFoUX95.png',

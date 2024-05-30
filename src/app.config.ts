@@ -23,6 +23,7 @@ export default defineAppConfig({
     'pages/sharing/adviceFeedback/adviceFeedback',
     'pages/sharing/changingSteps/changingSteps',
     'pages/sharing/signPage/signPage',
+    'pages/sharing/archive/archive',
 
     'pages/teacher/checking/checking',
   ],

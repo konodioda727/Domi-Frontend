@@ -15,6 +15,7 @@ export interface FetchRequestBaseType {
   url: string;
   header?: {};
   data?: {};
+  base?: string;
 }
 
 export type loginType = {
@@ -132,4 +133,19 @@ export interface reportType {
   signature?: string;
   stamp?: string;
   [property: string]: any;
+}
+export interface buildingType {
+  name: string,
+  alias: string
+}
+
+export interface dormType {
+  count: number,
+  list: string[]
+}
+export interface dormProp {
+  building: string
+}
+export interface buildingProp {
+  area: string
 }

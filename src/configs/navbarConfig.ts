@@ -1,4 +1,4 @@
-import { NavbarItemProps } from '@/components/navbar/types/navbarItem';
+import {NavbarItemProps} from "@/components/pageWrap/components/navbar/types/navbarItem";
 
 export const defaultStuNavbarProps: NavbarItemProps[] = [
   {

@@ -2,8 +2,8 @@ import { DetailedInfoType } from '@/pages/types/detailedInfo';
 import {
   applicationListType,
   applicationResponseType,
-  applicationType,
-  codeType,
+  applicationType, buildingProp, buildingType,
+  codeType, dormProp, dormType,
   FetchRequestBaseType,
   formStatusType,
   loginResponseType,
@@ -24,7 +24,7 @@ const baseUrl ='http://150.158.108.197:8088'
 export const fetch = <ResponseT>(
   props: FetchRequestBaseType
 ): Promise<SuccessResultType<ResponseT> | ''> => {
-  props.url = baseUrl + props.url;
+  props.url = props.base || baseUrl + props.url;
   props.header = {
     ...props.header,
     Authorization: Taro.getStorageSync('token'),
@@ -146,7 +146,10 @@ export const fetchReport = (
     url: `/reports/form/${formId}/detail?reporter_role=${reporter_role}`,
     method: 'GET',
   });
-
+export const fetchArchives = () => fetch<applicationResponseType[]>({
+  url: '/forms/list/archive/passed',
+  method: 'GET'
+})
 export const fetchReview = (prop: reviewType) =>
   fetch<any>({
     url: '/reports/review',
@@ -169,3 +172,13 @@ export const fetchChangeInfo = (prop: DetailedInfoType) =>
     method: 'POST',
     data: prop,
   });
+export const fetchBuildings = (prop: buildingProp) => fetch<buildingType[]>({
+  url: '/static/buildings',
+  method: 'POST',
+  data: prop
+})
+export const fetchDorms = (prop: dormProp) => fetch<dormType>({
+  url: '/static/dorms',
+  method: 'POST',
+  data: prop
+})
