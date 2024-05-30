@@ -2,6 +2,7 @@ import Button from '@/components/button/button';
 import { PickerItem } from '@/components/input/input';
 import PageWrap from '@/components/pageWrap/pageWrap';
 import { fetchUploadForm } from '@/services/fetch';
+import useQiniuUpload from "@/utils/useQiniuUpload";
 import { applicationType } from '@/services/fetchTypes';
 import {Back, Nav} from '@/utils/nav';
 import {
@@ -13,7 +14,7 @@ import {
   View,
 } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import academys from './formInfo';
 import './index.less';
 
@@ -60,6 +61,12 @@ const ApprovalForm: React.FC = () => {
   );
   const [ownerSignUrl, setOwnerSignUrl] = useState('');
 
+  useEffect(() => {
+    console.log(ownerSignUrl)
+    if (ownerSignUrl) {
+      useQiniuUpload(ownerSignUrl).then(e=>console.log(e))
+    }
+  }, [ownerSignUrl]);
   const handleSelect = (e: any) => {
     const tmp_college = academys[e.target.value];
     handleInput('college', e);

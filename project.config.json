@@ -1,32 +1,32 @@
 {
-  "miniprogramRoot": "dist/",
-  "projectname": "domi",
-  "description": "desc",
-  "appid": "wx6c336674de33402a",
-  "setting": {
-    "urlCheck": true,
-    "es6": false,
-    "enhance": false,
-    "compileHotReLoad": false,
-    "postcss": false,
-    "painting": true,
-    "minified": false,
-    "babelSetting": {
-      "ignore": [],
-      "disablePlugins": [],
-      "outputPath": ""
+    "miniprogramRoot": "dist/",
+    "projectname": "domi",
+    "description": "desc",
+    "appid": "wx6c336674de33402a",
+    "setting": {
+        "urlCheck": true,
+        "es6": false,
+        "enhance": false,
+        "compileHotReLoad": false,
+        "postcss": false,
+        "painting": true,
+        "minified": false,
+        "babelSetting": {
+            "ignore": [],
+            "disablePlugins": [],
+            "outputPath": ""
+        }
+    },
+    "compileType": "miniprogram",
+    "libVersion": "3.3.4",
+    "srcMiniprogramRoot": "dist/",
+    "packOptions": {
+        "ignore": [],
+        "include": []
+    },
+    "condition": {},
+    "editorSetting": {
+        "tabIndent": "insertSpaces",
+        "tabSize": 4
     }
-  },
-  "compileType": "miniprogram",
-  "libVersion": "3.3.4",
-  "srcMiniprogramRoot": "dist/",
-  "packOptions": {
-    "ignore": [],
-    "include": []
-  },
-  "condition": {},
-  "editorSetting": {
-    "tabIndent": "insertSpaces",
-    "tabSize": 4
-  }
 }
