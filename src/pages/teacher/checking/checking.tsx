@@ -38,7 +38,7 @@ const TeacherChecking: React.FC = () => {
     }
   }, [ownerSignUrl]);
   const jumpToSign = () => {
-    if(judged !== null) {
+    if(judged === null) {
       const eventKey = `${new Date().getTime()}`;
       Taro.eventCenter.once(eventKey, data => {
         setOwnerSignUrl(data.url);
@@ -114,7 +114,7 @@ const TeacherChecking: React.FC = () => {
           <View className="TeacherChecking-item">
             <View className="reason_detail">
               <Text className="TeacherChecking-item-tag smaller_tag">
-                {'辅导员意见 \n(已了解需求同意 或不同意的原因)'}
+                {'您的意见 \n(已了解需求同意 或不同意的原因)'}
               </Text>
             </View>
             <Textarea

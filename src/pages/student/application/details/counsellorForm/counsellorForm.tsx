@@ -44,7 +44,7 @@ const DepartmentForm: React.FC = () => {
           <Text className="CounsellorForm-item-tag">辅导员</Text>
           <Input
             disabled
-            className="DepartmentForm-item-Input"
+            className="CounsellorForm-item-name"
             value={instructor}
           ></Input>
         </View>
