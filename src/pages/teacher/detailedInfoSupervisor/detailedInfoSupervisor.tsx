@@ -3,6 +3,9 @@ import PageWrap from '@/components/pageWrap/pageWrap';
 import { supervisorConfig } from '@/configs/detailedInfoConfig';
 import React from 'react';
 
+definePageConfig({
+  disableScroll: true
+})
 const PreLog: React.FC = () => {
   return (
     <>

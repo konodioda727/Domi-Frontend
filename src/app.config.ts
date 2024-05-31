@@ -33,6 +33,7 @@ export default defineAppConfig({
     navigationBarTitleText: 'WeChat',
     navigationBarTextStyle: 'black',
     navigationStyle: 'custom',
+    backgroundColor: '#023850'
   },
   resizable: true,
 });

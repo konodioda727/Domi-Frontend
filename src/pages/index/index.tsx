@@ -2,7 +2,7 @@ import ContentFiled from '@/components/contentField/contentFiled';
 import {
   ifInfoEditNavPath,
   ifLoginNavPath,
-  indexConfig,
+  indexConfig, logoImg,
 } from '@/configs/indexConfig';
 import { IdentityMap } from '@/pages/index/indexProps';
 import { fetchGetMyInfo } from '@/services/fetch';
@@ -12,9 +12,31 @@ import Taro from '@tarojs/taro';
 import React, { useEffect } from 'react';
 import PageWrap from '../../components/pageWrap/pageWrap';
 import './index.less';
+import {imgMap, progressBarImg} from "@/configs/applicationConfig";
+import {changingImg} from "@/configs/changingStepsConfig";
+import {personalimgList} from "@/configs/personalInfoConfig";
 
+definePageConfig({
+  disableScroll: true
+})
 export default function Index() {
   useEffect(() => {
+    const data = []
+    const pushData = (src: string) => {
+      // @ts-ignore
+      data.push({type: 'image', src: src})
+    }
+    const pushDatas = (srcs: string[]) => srcs.forEach(pushData)
+    pushDatas([progressBarImg, imgMap.fail, imgMap.success, logoImg, changingImg].concat(Object.values(personalimgList)))
+  Taro.preloadAssets({
+      data: data,
+      success(resp) {
+        console.log('preloadAssets success', resp)
+      },
+      fail(err) {
+        console.log('preloadAssets fail', err)
+      },
+    })
     if (Taro.getStorageSync('token')) {
       fetchGetMyInfo()
         .then(res => {

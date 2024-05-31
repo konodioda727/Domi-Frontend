@@ -3,6 +3,9 @@ import PageWrap from '@/components/pageWrap/pageWrap';
 import { studentConfig } from '@/configs/detailedInfoConfig';
 import React from 'react';
 
+definePageConfig({
+  disableScroll: true
+})
 const DetailedInfoPage: React.FC = () => {
   return (
     <>

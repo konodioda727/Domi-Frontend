@@ -5,6 +5,9 @@ import { PersonalInfoResponseType } from '@/services/fetchTypes';
 import React, { useEffect, useState } from 'react';
 import './personalInfo.less';
 
+definePageConfig({
+  disableScroll: true
+})
 const PersonalInfoPage: React.FC = () => {
   const [personalInfo, setPersonalInfo] = useState<PersonalInfoResponseType>();
   useEffect(() => {

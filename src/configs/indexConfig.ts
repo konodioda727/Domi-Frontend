@@ -27,3 +27,5 @@ export const ifInfoEditNavPath: { [key: string]: string } = {
   RoleStudent: '/pages/student/detailedInfo/detailedInfo',
   RoleStudentAffairsOffice: '/pages/teacher/detailedInfo/detailedInfo',
 };
+
+export const logoImg = 'https://s2.loli.net/2024/02/01/fQ63XrkUqLYO2aC.png'

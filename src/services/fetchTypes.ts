@@ -110,7 +110,7 @@ export interface applicationListType {
 export interface applicationResponseType extends applicationType {
   pdf: string;
   Finished: boolean;
-  Status: 'StatusTutorPass' | string
+  status: 'StatusTutorPass' | string
   ctime: number;
   id: number;
 }
@@ -148,4 +148,9 @@ export interface dormProp {
 }
 export interface buildingProp {
   area: string
+}
+export interface QiniuTokenType {
+  access_token?: string;
+  domain_name?: string;
+  [property: string]: any;
 }

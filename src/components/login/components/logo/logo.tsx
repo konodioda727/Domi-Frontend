@@ -2,6 +2,7 @@ import { LogoProps } from '@/components/login/types/loginProps';
 import { Image, View } from '@tarojs/components';
 import React from 'react';
 import './logo.less';
+import {logoImg} from "@/configs/indexConfig";
 
 const Logo: React.FC<LogoProps> = props => {
   const { className, size, ...restProps } = props;
@@ -10,7 +11,7 @@ const Logo: React.FC<LogoProps> = props => {
       <Image
         className={`logo-${size || 'medium'} ${className}`}
         {...restProps}
-        src="https://s2.loli.net/2024/02/01/fQ63XrkUqLYO2aC.png"
+        src={logoImg}
       />
     </View>
   );

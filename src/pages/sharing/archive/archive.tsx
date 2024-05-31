@@ -9,6 +9,10 @@ import ReviewItem from "@/pages/teacher/review/components/reviewItem/reviewItem"
 import Taro from '@tarojs/taro'
 import './index.less'
 
+definePageConfig({
+  disableScroll: true
+})
+
 const Archive: FC = () => {
   const [forms, setForms] = useState<applicationResponseType[]>([])
   const handleItemClick = (formId: number) => {
@@ -30,7 +34,7 @@ const Archive: FC = () => {
   useDidShow(() => {
     fetchArchives().then((res) => {
       if(res && res.data.code === 0) {
-        setForms(res.data.data)
+        setForms(res.data.data.reverse())
       }
     })
   });

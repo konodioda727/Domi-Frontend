@@ -15,7 +15,7 @@ const BackButton: React.FC<BackButtonProps> = props => {
     top: `${top + height / 4}px`,
     width: `${height / 2 - 5}px`,
     height: `${height / 2}px`,
-    left: '2%',
+    left: '6%',
   };
   const handleClick = () => {
     naviBackURL ? Nav(`/pages/${naviBackURL}`) : Taro.navigateBack();

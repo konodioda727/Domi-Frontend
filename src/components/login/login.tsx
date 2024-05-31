@@ -52,7 +52,15 @@ const Login: React.FC<LoginProps> = props => {
       });
   };
   const handleRegister = () => {
+    if(!isLogin && paramSet['password'] !== paramSet['check']) {
+      Taro.showToast({
+        title: '密码不匹配',
+        icon: 'error'
+      })
+      return;
+    }
     if (!errorSet.length) {
+      delete paramSet['check']
       onRegister && onRegister(paramSet, clear);
     } else
       Taro.showToast({
@@ -63,6 +71,9 @@ const Login: React.FC<LoginProps> = props => {
   const handleChange = () => {
     setIsLogin(!isLogin);
   };
+  const handleDiff = (e: any) => {
+    setParamSet({...paramSet, check: e.target.value})
+  }
   const handleCode = useDebounce(() => {
     fetchCode({ email: paramSet['email'] }).then(res => {
       console.log(res);
@@ -79,17 +90,17 @@ const Login: React.FC<LoginProps> = props => {
       <ContentFiled className="login-wrap">
         {logoConfigs && <Logo {...logoConfigs}></Logo>}
         {loginConfigs.map((item, key) => {
-          const isError = errorSet.find(errItem => errItem.name === item.title);
+          const isError = errorSet.find(errItem => errItem.name === item.title) && paramSet[item.title];
           return (
             <>
               <Input
                 className={isError ? 'error-input' : ''}
                 key={key}
-                value={paramSet[item.title]}
+                value={paramSet[item.title] || ''}
                 placeholder={item.displayText}
                 onInput={e => handleInput(e, item.title)}
                 password={item.type.includes('password')}
-                type={item.type || 'text'}
+                type={'text'}
               ></Input>
               {isError && (
                 <View className="error-info">
@@ -100,9 +111,18 @@ const Login: React.FC<LoginProps> = props => {
           );
         })}
         {!isLogin && (
+          <View className='password-check'>
+            <Input placeholderStyle={'text-align:center'} className={`${paramSet['password'] !== paramSet['check'] && 'error-input'}`} placeholder='再次输入密码' value={paramSet['check'] || ''} onInput={handleDiff} type='text' password></Input>
+            {(paramSet['password'] !== paramSet['check']) && (
+              <View className="error-info">密码不匹配</View>
+            )}
+          </View>
+        )}
+        {!isLogin && (
           <View className="code-wrap">
             <Input
               value={paramSet['code']}
+              placeholderStyle={'text-align:center'}
               onInput={e => handleInput(e, 'code')}
               className={`code-input ${!paramSet['code'] && 'error-input'}`}
               type="text"
@@ -110,13 +130,13 @@ const Login: React.FC<LoginProps> = props => {
             <Button
               className="code-button"
               disabled={shouldFetchCode > 0}
-              onClick={handleCode}
+              onTap={handleCode}
             >
               {!shouldFetchCode ? '验证码' : `${shouldFetchCode}s`}
             </Button>
-            {!paramSet['code'] && (
-              <View className="error-info">验证码格式错误</View>
-            )}
+            {/*{!paramSet['code'] && (*/}
+            {/*  <View className="error-info">验证码格式错误</View>*/}
+            {/*)}*/}
           </View>
         )}
         <View className="login-buttons">

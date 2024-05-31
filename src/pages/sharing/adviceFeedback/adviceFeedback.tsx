@@ -5,6 +5,9 @@ import { Textarea } from '@tarojs/components';
 import React, { useState } from 'react';
 import './index.less';
 
+definePageConfig({
+  disableScroll: true
+})
 const AdviceFeedback: React.FC = () => {
   const [adviceValue, setAdviceValue] = useState('');
   const sendadvice = () => {

@@ -1,13 +1,19 @@
 import { Image, Input, InputProps, Picker, View } from '@tarojs/components';
-import React from 'react';
+import React, {useRef} from 'react';
 import './input.less';
 
 const InputElem: React.FC<InputProps> = props => {
   const { className, placeholderClass, onInput, ...restProps } = props;
+  const inputRef = useRef<HTMLInputElement>(null);
+  const handleConfirm = () => {
+    inputRef && inputRef!.current?.blur();
+  }
   return (
     <>
       <Input
+        ref={inputRef}
         onInput={onInput}
+        onConfirm={()=>handleConfirm}
         className={`default-input ${className}`}
         placeholderClass={`${placeholderClass} default-place-holder`}
         {...restProps}

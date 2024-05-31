@@ -25,3 +25,12 @@ const academys = [
   '体育学院',
 ];
 export default academys;
+
+export const building2AreRuleSet = (building: string) => {
+  if(!building) return null
+  if(building.includes('东')) return '东区'
+  if(building.includes('南')) return '南湖'
+  if(building.includes('元')) return '元宝山'
+  if(building.includes('西')) return '西区'
+  if(building.includes('国')) return '国交'
+}

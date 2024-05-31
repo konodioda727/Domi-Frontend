@@ -10,6 +10,9 @@ import React, { useEffect, useState } from 'react';
 import './review.less';
 import {Nav} from "@/utils/nav";
 
+definePageConfig({
+  disableScroll: true
+})
 const Review: React.FC = () => {
   const [reviewItems, setReviewItems] = useState<applicationResponseType[]>([]);
   const [isReviewed, setIsReviewed] = useState<boolean>(false);

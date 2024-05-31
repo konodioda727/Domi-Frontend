@@ -30,3 +30,5 @@ export const applicationNavConfigs: applicationType = {
 };
 
 export const statusArr = ['未提交', '已提交'];
+
+export const progressBarImg = 'https://s2.loli.net/2024/05/17/pM3L8sOhlnjCbgv.png'

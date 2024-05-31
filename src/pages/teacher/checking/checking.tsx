@@ -1,7 +1,7 @@
 import Button from '@/components/button/button';
 import ContentFiled from '@/components/contentField/contentFiled';
 import PageWrap from '@/components/pageWrap/pageWrap';
-import {fetchFormDetail, fetchGetMyInfo, fetchReport, fetchReview} from '@/services/fetch';
+import {fetchFormDetail, fetchGetMyInfo, fetchReport, fetchReview, fetchUploadToQiniu} from '@/services/fetch';
 import { reportType, reviewType} from '@/services/fetchTypes';
 import {Back, Nav} from '@/utils/nav';
 import {
@@ -14,22 +14,37 @@ import {
   View,
 } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './index.less';
 
+definePageConfig({
+  disableScroll: true
+})
 const TeacherChecking: React.FC = () => {
   const [formID, setFormID] = useState<number>(0);
   // 签名图片的 临时路径
   const [ownerSignUrl, setOwnerSignUrl] = useState('');
   const [judged, setJudged] = useState<null | reportType>(null)
-
+  const [signLink, setSignLink] = useState<string>('')
   // 拉起签名页
+  useEffect(() => {
+    if (ownerSignUrl) {
+      fetchUploadToQiniu(ownerSignUrl).then((e: string)=>{
+       setSignLink(e)
+        Taro.showToast({
+          title: '签名上传成功'
+        })
+      })
+    }
+  }, [ownerSignUrl]);
   const jumpToSign = () => {
-    const eventKey = `${new Date().getTime()}`;
-    Taro.eventCenter.once(eventKey, data => {
-      setOwnerSignUrl(data.url);
-    });
-    Nav(`/pages/sharing/signPage/signPage?type=${eventKey}`)
+    if(judged !== null) {
+      const eventKey = `${new Date().getTime()}`;
+      Taro.eventCenter.once(eventKey, data => {
+        setOwnerSignUrl(data.url);
+      });
+      Nav(`/pages/sharing/signPage/signPage?type=${eventKey}`)
+    }
   };
   useDidShow(() => {
     // 这个是可以拿到当前的app实例 page实例 和router
@@ -55,7 +70,7 @@ const TeacherChecking: React.FC = () => {
     const reviewInfo: reviewType = {
       pass: result,
       detail: checkingReason,
-      signature: ownerSignUrl,
+      signature: signLink,
       stamp: '',
       form_id: formID,
     };
@@ -112,9 +127,9 @@ const TeacherChecking: React.FC = () => {
           </View>
           <View className="TeacherChecking-item">
             <Text className="TeacherChecking-item-tag">负责人签字</Text>
-            {!judged
+            {!signLink && !judged?.signature
               ? <Button className='teacher-sign' onClick={jumpToSign}>点击签字</Button>
-              : <Image src={judged.signature || ''} className='teacher-sign'></Image>
+              : <Image src={judged?.signature || signLink || ''} onClick={jumpToSign} className='teacher-sign teacher-img'></Image>
             }
           </View>
           <View className="TeacherChecking-item">

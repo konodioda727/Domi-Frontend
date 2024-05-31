@@ -3,6 +3,9 @@ import PageWrap from '@/components/pageWrap/pageWrap';
 import { teaLoginConfig } from '@/configs/loginConfig';
 import React from 'react';
 
+definePageConfig({
+  disableScroll: true
+})
 const TeaLoginPage: React.FC = () => {
   const { topBarProps, loginProps } = teaLoginConfig;
   return (

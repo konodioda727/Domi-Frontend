@@ -6,11 +6,9 @@ import {
   fetchTeacherLogin,
 } from '@/services/fetch';
 import {
-  FetchResponseBaseType,
   SuccessResultType,
   loginResponseType,
   loginType,
-  registerResponseType,
   teacherLoginType,
 } from '@/services/fetchTypes';
 import { Redirect } from '@/utils/nav';
@@ -23,14 +21,15 @@ export const teaLoginConfig: LoginPageProps = {
       {
         type: 'text',
         title: 'pre_set_account',
-        displayText: '预制账号',
-        desc: '请输入预制账号',
+        displayText: '预置账号',
+        desc: '请输入预置账号',
       },
       {
-        type: 'safe-password',
+        // @ts-ignore
+        type: 'password',
         title: 'password',
         displayText: '密码',
-        desc: '密码必须包含字母、数字、#',
+        desc: '请输入预置账号密码',
       },
     ],
     logoConfigs: {
@@ -69,7 +68,8 @@ export const stuLoginConfig: LoginPageProps = {
         desc: '邮箱格式错误，请输入正确邮箱',
       },
       {
-        type: 'safe-password',
+        // @ts-ignore
+        type: 'password',
         title: 'password',
         displayText: '密码',
         desc: '密码必须包含字母、数字、#',
@@ -95,7 +95,7 @@ export const stuLoginConfig: LoginPageProps = {
     },
     onRegister: (paramSet, clear) => {
       fetchRegister(paramSet).then(res => {
-        if (res && res.data.code === 0) registerSuccessProcess(res.data);
+        if (res && res.data.code === 0) registerSuccessProcess();
         else {
           Taro.showToast({
             title: res && res.data.msg,
@@ -126,14 +126,11 @@ const loginSuccessProcess = (
 };
 
 const registerSuccessProcess = (
-  data: FetchResponseBaseType<registerResponseType>
 ) => {
-  if (data && data.code < 300) {
-    Taro.showToast({
-      title: '注册成功,去登陆试试吧',
-      icon: 'none',
-    });
-  }
+  Taro.showToast({
+    title: '注册成功,去登陆试试吧',
+    icon: 'none',
+  });
 };
 
 const ToApplication = () => {
@@ -144,7 +141,5 @@ const ToApplication = () => {
   });
 };
 const ToReview = () => {
-  // const identification = 'Counselor'
   Redirect(`/pages/teacher/review/review`);
-  // Redirect(`/pages/teacher/detailedInfo${identification}/detailedInfo${identification}`)
 };

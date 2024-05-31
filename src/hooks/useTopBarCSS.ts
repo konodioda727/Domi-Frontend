@@ -18,11 +18,11 @@ export function useGenerateTextCSS(props: TopBarProps): CSSProperties {
   const ret: Record<TopBarProps['pos'], CSSProperties> = {
     left: {
       ...text_unchangeable,
-      left: '5vw',
+      left: '9vw',
     },
     leftWithButton: {
       ...text_unchangeable,
-      left: '10vw',
+      left: '14vw',
     },
     center: {
       ...text_unchangeable,

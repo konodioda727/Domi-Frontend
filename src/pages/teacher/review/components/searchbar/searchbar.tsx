@@ -3,6 +3,7 @@ import { SearchbarPrefixProps, searchType } from '@/pages/types/reviewProps';
 import { autoKey } from '@/utils/keyGenerator';
 import { Image, Input, View, ViewProps } from '@tarojs/components';
 import React, { useState } from 'react';
+import Taro from '@tarojs/taro';
 import './searchbar.less';
 import {fetchSearchItems} from "@/services/fetch";
 import {SearchbarProps} from "@/pages/teacher/review/components/searchbar/types";
@@ -13,6 +14,9 @@ const Searchbar: React.FC<SearchbarProps> = (props) => {
   const handleSearch = () => {
     fetchSearchItems({pending: pending, cur_form_id: 0, keyword: inputValue, limit: 10}).then(res => {
       res && onSubmit && onSubmit(res.data.data)
+    })
+    Taro.showToast({
+      title: '搜索成功'
     })
     setInputValue('');
   };

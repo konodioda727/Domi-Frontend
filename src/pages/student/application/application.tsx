@@ -4,7 +4,7 @@ import PageWrap from '@/components/pageWrap/pageWrap';
 import {
   applicationNavConfigs,
   colorMap,
-  imgMap,
+  imgMap, progressBarImg,
 } from '@/configs/applicationConfig';
 import {
   TaskElemProps,
@@ -19,9 +19,13 @@ import {
 import { formStatusType } from '@/services/fetchTypes';
 import { Nav } from '@/utils/nav';
 import { Image, View } from '@tarojs/components';
-import Taro from '@tarojs/taro';
-import React, { useEffect, useState } from 'react';
+import Taro, {useDidShow} from '@tarojs/taro';
+import React, { useState } from 'react';
 import './application.less';
+
+definePageConfig({
+  disableScroll: true
+})
 
 type curStatusType = formStatusType & {
   submitted: applicationTaskState;
@@ -33,10 +37,10 @@ const Application: React.FC = () => {
     applicationNavConfigs;
   const [formId, setFormId] = useState<number>(0)
   const [currentStatus, setCurrentStatus] = useState<curStatusType>();
-  useEffect(() => {
+  const getInfo = () => {
     fetchGetMyInfo().then((res) => {
       if(res && res.data.code === 0) {
-        Taro.setStorageSync('form_info', res.data.data)
+        Taro.setStorageSync('form_info', {...Taro.getStorageSync('form_info'),...res.data.data})
       }
     })
     fetchProgress()
@@ -83,9 +87,14 @@ const Application: React.FC = () => {
             });
         }
       });
-  }, []);
+  }
+  useDidShow(() => {
+    getInfo()
+  });
   const handleSubmit = () => {
-    Nav(`${submitPath}?formId=${formId}&submitted=${currentStatus?.submitted}`);
+    const editable =
+      currentStatus?.submitted === 'pending'
+    Nav(`${submitPath}?formId=${formId}&editable=${editable}`);
   };
   const handleReset = () => {
     fetchWithdrawForm(currentStatus?.form_id || 0).then(res => {
@@ -94,12 +103,8 @@ const Application: React.FC = () => {
         Taro.showToast({
           title: '撤回成功',
         }).then(() => {
-          setCurrentStatus({
-            ...currentStatus,
-            submitted: 'pending',
-            officeApproved: 'pending',
-            teaApproved: 'pending',
-          } as curStatusType);
+          Taro.setStorageSync('form_info', '')
+          getInfo()
         });
     });
   };
@@ -130,7 +135,7 @@ const Application: React.FC = () => {
         <Image
           className="progress-bar"
           fadeIn
-          src="https://s2.loli.net/2024/05/17/pM3L8sOhlnjCbgv.png"
+          src={progressBarImg}
         ></Image>
         <View className="task-wrap">
           <TaskELem state={currentStatus?.submitted}>
@@ -138,10 +143,9 @@ const Application: React.FC = () => {
             <View className="task-button-wrap task-special">
               <Button
                 className="task-short-button"
-                disabled={currentStatus?.teaApproved !== 'pending'}
                 onClick={handleSubmit}
               >
-                修改
+                {currentStatus?.teaApproved !== 'pending' ? '修改' : '查看'}
               </Button>
               <Button
                 className="task-short-button"
@@ -157,7 +161,7 @@ const Application: React.FC = () => {
             <View className="task-button-wrap">
               <Button
                 className="task-long-button"
-                disabled={currentStatus?.teaApproved !== 'success'}
+                disabled={currentStatus?.teaApproved === 'pending'}
                 onClick={handleCounselor}
               >
                 查看
@@ -169,7 +173,7 @@ const Application: React.FC = () => {
             <View className="task-button-wrap">
               <Button
                 className="task-long-button"
-                disabled={currentStatus?.officeApproved !== 'success'}
+                disabled={currentStatus?.officeApproved === 'pending'}
                 onClick={handleStudentAffair}
               >
                 查看
@@ -181,7 +185,7 @@ const Application: React.FC = () => {
             <View className="task-button-wrap">
               <Button
                 className="task-long-button"
-                disabled={currentStatus?.officeApproved !== 'success'}
+                disabled={currentStatus?.teaApproved !== 'fail' && currentStatus?.officeApproved !== 'success'}
                 onClick={handleArchive}
               >
                 归档

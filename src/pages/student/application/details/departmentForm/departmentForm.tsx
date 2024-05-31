@@ -15,6 +15,9 @@ import './index.less';
 import Taro, {useDidShow} from "@tarojs/taro";
 import {fetchReport} from "@/services/fetch";
 
+definePageConfig({
+  disableScroll: true
+})
 const DepartmentForm: React.FC = () => {
   const [result, setResult] = useState<boolean>();
   const [counsellorAdvice, setCounsellorAdvice] = useState('');

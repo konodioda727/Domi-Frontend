@@ -8,7 +8,7 @@ import {
   formStatusType,
   loginResponseType,
   loginType,
-  PersonalInfoResponseType,
+  PersonalInfoResponseType, QiniuTokenType,
   registerResponseType,
   registerType,
   reportType,
@@ -19,8 +19,8 @@ import {
 import { Nav } from '@/utils/nav';
 import Taro from '@tarojs/taro';
 
-const baseUrl = 'https://domi.bigdust.space';
-// const baseUrl ='http://150.158.108.197:8088'
+export const baseUrl = 'https://domit.muxixyz.com';
+
 export const fetch = <ResponseT>(
   props: FetchRequestBaseType
 ): Promise<SuccessResultType<ResponseT> | ''> => {
@@ -182,3 +182,28 @@ export const fetchDorms = (prop: dormProp) => fetch<dormType>({
   method: 'POST',
   data: prop
 })
+
+export const fetchQiniuToken = () => fetch<QiniuTokenType>({
+  url: "/tube/access_token",
+  method: 'GET'
+})
+
+export const fetchUploadToQiniu = async (filePath) => {
+  const {access_token, domain_name} = await fetchQiniuToken().then(e => e ? e.data.data : {access_token: '', domain_name: ''})
+  return new Promise((resolve, reject) => {
+    Taro.uploadFile({
+      url: 'https://up-z2.qiniup.com',
+      filePath: filePath,
+      name: 'file',
+      formData: {
+        token: access_token
+      },
+      success(res) {
+        resolve(`https://${domain_name}/${JSON.parse(res.data)?.key}`);
+      },
+      fail(err) {
+        reject(err);
+      }
+    });
+  });
+};

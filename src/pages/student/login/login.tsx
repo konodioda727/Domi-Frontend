@@ -3,6 +3,9 @@ import PageWrap from '@/components/pageWrap/pageWrap';
 import { stuLoginConfig } from '@/configs/loginConfig';
 import React from 'react';
 
+definePageConfig({
+  disableScroll: true
+})
 const StuLogin: React.FC = () => {
   const { loginProps, topBarProps } = stuLoginConfig;
   return (

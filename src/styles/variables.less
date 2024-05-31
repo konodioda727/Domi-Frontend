@@ -50,10 +50,11 @@ body {
   box-sizing: border-box;
   margin: 4vh 0;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
   font-size: @font-medium;
   text-align: center;
+  animation: appear .4s ease-in-out forwards;
 }
 @keyframes appear {
   0% {
@@ -69,5 +70,11 @@ body {
   }
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(90deg);
   }
 }
