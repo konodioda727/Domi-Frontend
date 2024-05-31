@@ -94,7 +94,7 @@ const Login: React.FC<LoginProps> = props => {
           return (
             <>
               <Input
-                className={isError ? 'error-input' : ''}
+                className={isError ? ' error-input ' : ''}
                 key={key}
                 value={paramSet[item.title] || ''}
                 placeholder={item.displayText}
@@ -112,7 +112,7 @@ const Login: React.FC<LoginProps> = props => {
         })}
         {!isLogin && (
           <View className='password-check'>
-            <Input placeholderStyle={'text-align:center'} className={`${paramSet['password'] !== paramSet['check'] && 'error-input'}`} placeholder='再次输入密码' value={paramSet['check'] || ''} onInput={handleDiff} type='text' password></Input>
+            <Input className={`${paramSet['password'] !== paramSet['check'] && 'error-input'}`} placeholder='再次输入密码' value={paramSet['check'] || ''} onInput={handleDiff} type='text' password></Input>
             {(paramSet['password'] !== paramSet['check']) && (
               <View className="error-info">密码不匹配</View>
             )}
@@ -122,7 +122,6 @@ const Login: React.FC<LoginProps> = props => {
           <View className="code-wrap">
             <Input
               value={paramSet['code']}
-              placeholderStyle={'text-align:center'}
               onInput={e => handleInput(e, 'code')}
               className={`code-input ${!paramSet['code'] && 'error-input'}`}
               type="text"
