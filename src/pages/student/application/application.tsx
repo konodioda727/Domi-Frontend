@@ -145,7 +145,7 @@ const Application: React.FC = () => {
                 className="task-short-button"
                 onClick={handleSubmit}
               >
-                {currentStatus?.teaApproved !== 'pending' ? '修改' : '查看'}
+                {currentStatus?.teaApproved === 'pending' ? '修改' : '查看'}
               </Button>
               <Button
                 className="task-short-button"
