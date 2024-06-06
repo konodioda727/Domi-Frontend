@@ -36,14 +36,16 @@ const toDataURL = async (
   if (!canvas) return { errMsg: 'canvas is null', tempFilePath: '' };
 
   return new Promise((resolve, reject) => {
+    canvas.save()
     canvas.draw(true, () => {
       Taro.canvasToTempFilePath({
         canvasId: canvasId,
         fileType: 'png',
-        success: res => resolve(res),
-        fail: err => reject(err),
-      });
+        success: (res) => resolve(res),
+        fail: (err) => reject(err),
+      })
     });
+
   });
 };
 
@@ -67,6 +69,7 @@ const getCanvasSize = async (
  *
  * @see https://juejin.cn/post/6978721559397531678
  */
+//@ts-ignore
 export const CanvasSign: FC<CanvasSignProps> = forwardRef((props, ref) => {
   // 绘图画布引用
   const [context, _] = useState<Taro.CanvasContext>(
@@ -102,6 +105,10 @@ export const CanvasSign: FC<CanvasSignProps> = forwardRef((props, ref) => {
 
   const clear = () => {
     context.draw();
+    context.setLineWidth(4);
+    context.setStrokeStyle('#000000');
+    context.setLineCap('round');
+    context.setLineJoin('round');
   };
 
   const saveAsImage = async () => {
@@ -113,7 +120,6 @@ export const CanvasSign: FC<CanvasSignProps> = forwardRef((props, ref) => {
     saveCanvas.translate(0, height);
     saveCanvas.rotate((-90 * Math.PI) / 180);
     saveCanvas.drawImage(tempFilePath, 0, 0, height, width);
-
     return await toDataURL('saveCanvas', saveCanvas);
   };
 

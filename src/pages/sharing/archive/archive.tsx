@@ -41,7 +41,7 @@ const Archive: FC = () => {
   return (
     <PageWrap topBarProps={{children: '我的申请表', pos: 'centerWithButton'}}>
       <ContentFiled className='archive-page'>
-        <View className="reviewed-items">
+        <View className="reviewed-items archives">
           {forms.map(item => (
             <ReviewItem onClick={(item) => handleItemClick(item)} {...item}></ReviewItem>
           ))}

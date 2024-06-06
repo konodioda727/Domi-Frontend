@@ -2,13 +2,14 @@ import { applicationResponseType } from '@/services/fetchTypes';
 import { Image, View } from '@tarojs/components';
 import {FC} from 'react';
 import './reviewItem.less';
+import {dateGene} from "@/utils/dateGene";
 
 const ReviewItem: FC<applicationResponseType & {onClick?: (formId: number)=>void}> = props => {
   const { id, name, onClick, ctime, school, dst_location, src_location } = props;
   const handleClick = () => {
     onClick && onClick(id)
   };
-  const date = new Date(ctime).toLocaleDateString()
+  const date = dateGene(ctime)
   return (
     <>
       <View className="review-item" onClick={handleClick}>

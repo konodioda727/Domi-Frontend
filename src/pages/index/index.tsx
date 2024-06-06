@@ -15,6 +15,7 @@ import './index.less';
 import {imgMap, progressBarImg} from "@/configs/applicationConfig";
 import {changingImg} from "@/configs/changingStepsConfig";
 import {personalimgList} from "@/configs/personalInfoConfig";
+import {viewPasswordIcon} from "@/configs/loginConfig";
 
 definePageConfig({
   disableScroll: true
@@ -27,7 +28,12 @@ export default function Index() {
       data.push({type: 'image', src: src})
     }
     const pushDatas = (srcs: string[]) => srcs.forEach(pushData)
-    pushDatas([progressBarImg, imgMap.fail, imgMap.success, logoImg, changingImg].concat(Object.values(personalimgList)))
+    pushDatas(
+      [progressBarImg,logoImg, changingImg]
+        .concat([imgMap.fail, imgMap.success])
+        .concat(Object.values(personalimgList))
+        .concat(Object.values(viewPasswordIcon))
+    )
   Taro.preloadAssets({
       data: data,
       success(resp) {

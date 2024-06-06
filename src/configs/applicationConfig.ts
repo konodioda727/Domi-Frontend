@@ -1,6 +1,6 @@
 import {
   applicationTaskState,
-  applicationType,
+  applicationType, imgListType,
 } from '@/pages/student/application/applicationProps';
 
 // 成功、失败颜色
@@ -11,11 +11,16 @@ export const colorMap: { [key in applicationTaskState]: string } = {
 };
 
 // 成功、失败图片
-export const imgMap: { [key in applicationTaskState]: string } = {
+export const imgMap: imgListType = {
   success: 'https://s2.loli.net/2024/02/02/C7MPNeEL5QOsRZk.png',
   fail: 'https://s2.loli.net/2024/02/02/VZ9eNsjYDUigKEI.png',
   pending: '',
 };
+export const submitMap: imgListType = {
+  success: 'https://s3.bmp.ovh/imgs/2024/06/03/0b57d0e16e1ad8a8.png',
+  fail: '',
+  pending: ''
+}
 export const applicationNavConfigs: applicationType = {
   // 提交页面路径
   submitPath: '/pages/student/application/details/approvalForm/approvalForm',
@@ -28,7 +33,5 @@ export const applicationNavConfigs: applicationType = {
   studentAffairPath:
     '/pages/student/application/details/departmentForm/departmentForm',
 };
-
-export const statusArr = ['未提交', '已提交'];
 
 export const progressBarImg = 'https://s2.loli.net/2024/05/17/pM3L8sOhlnjCbgv.png'

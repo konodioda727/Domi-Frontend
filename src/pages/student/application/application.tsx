@@ -4,7 +4,7 @@ import PageWrap from '@/components/pageWrap/pageWrap';
 import {
   applicationNavConfigs,
   colorMap,
-  imgMap, progressBarImg,
+  imgMap, progressBarImg, submitMap,
 } from '@/configs/applicationConfig';
 import {
   TaskElemProps,
@@ -20,7 +20,7 @@ import { formStatusType } from '@/services/fetchTypes';
 import { Nav } from '@/utils/nav';
 import { Image, View } from '@tarojs/components';
 import Taro, {useDidShow} from '@tarojs/taro';
-import React, { useState } from 'react';
+import React, {useMemo, useState} from 'react';
 import './application.less';
 
 definePageConfig({
@@ -37,6 +37,11 @@ const Application: React.FC = () => {
     applicationNavConfigs;
   const [formId, setFormId] = useState<number>(0)
   const [currentStatus, setCurrentStatus] = useState<curStatusType>();
+  const isCompleted = useMemo(() => {
+    const isFail = currentStatus?.teaApproved === 'fail' || currentStatus?.officeApproved === 'fail'
+    const isPass = currentStatus?.officeApproved === 'success'
+    return isFail || isPass
+  }, [currentStatus])
   const getInfo = () => {
     fetchGetMyInfo().then((res) => {
       if(res && res.data.code === 0) {
@@ -117,6 +122,7 @@ const Application: React.FC = () => {
   const handleArchive = () => {
     fetchArchive(currentStatus?.form_id || 1).then((res) => {
       if(res && res.data.code === 0) {
+        Taro.removeStorageSync('form_info')
         Taro.showToast({
           title: '归档成功，快去个人主页下载吧！',
           icon: 'none'
@@ -138,14 +144,14 @@ const Application: React.FC = () => {
           src={progressBarImg}
         ></Image>
         <View className="task-wrap">
-          <TaskELem state={currentStatus?.submitted}>
+          <TaskELem state={currentStatus?.submitted} imgList={submitMap}>
             <View className="task-desc">提交申请表</View>
             <View className="task-button-wrap task-special">
               <Button
                 className="task-short-button"
                 onClick={handleSubmit}
               >
-                {currentStatus?.teaApproved === 'pending' ? '修改' : '查看'}
+                {currentStatus?.submitted === 'pending' ? '修改' : '查看'}
               </Button>
               <Button
                 className="task-short-button"
@@ -185,7 +191,7 @@ const Application: React.FC = () => {
             <View className="task-button-wrap">
               <Button
                 className="task-long-button"
-                disabled={currentStatus?.teaApproved !== 'fail' && currentStatus?.officeApproved !== 'success'}
+                disabled={!isCompleted}
                 onClick={handleArchive}
               >
                 归档
@@ -201,13 +207,13 @@ const Application: React.FC = () => {
 export default Application;
 
 export const TaskELem: React.FC<TaskElemProps> = props => {
-  const { children, state } = props;
+  const { children, state, imgList } = props;
   return (
     <>
       <ContentFiled className="application-task-elem">
         {children}
         {state && (
-          <Image src={imgMap[state]} fadeIn className="task-elem-state" />
+          <Image src={imgList ? imgList[state]: imgMap[state]} fadeIn className="task-elem-state" />
         )}
         <View
           className="progress-stop-point"

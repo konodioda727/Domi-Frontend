@@ -1,24 +1,38 @@
-import { Image, Input, InputProps, Picker, View } from '@tarojs/components';
-import React, {useRef} from 'react';
+import {Image, Input, InputProps, Picker, View} from '@tarojs/components';
+import React, {useRef, useState} from 'react';
 import './input.less';
+import {viewPasswordIcon} from "@/configs/loginConfig";
 
 const InputElem: React.FC<InputProps> = props => {
-  const { className, placeholderClass, onInput, ...restProps } = props;
-  const inputRef = useRef<HTMLInputElement>(null);
-  const handleConfirm = () => {
-    inputRef && inputRef!.current?.blur();
+  const { className, placeholderClass, password, onInput, ...restProps } = props;
+  const [pass, setPass] = useState<boolean>(password || false)
+  const inputRef = useRef<HTMLInputElement>(null)
+  console.log('rerender')
+  const handleShowPass = (e: any) => {
+    e.stopPropagation()
+    setPass(!pass)
+    inputRef && inputRef.current?.blur()
+  }
+  const handleBlur = () => {
+    inputRef && inputRef.current?.blur()
   }
   return (
-    <>
+    <View style={{position: "relative", width: '100%', height: '7vh'}} className={'default-input-wrap'}>
       <Input
         ref={inputRef}
         onInput={onInput}
-        onConfirm={()=>handleConfirm}
+        onBlur={handleBlur}
+        password={pass}
+        alwaysEmbed
+        holdKeyboard
         className={`default-input ${className}`}
-        placeholderClass={`${placeholderClass} default-place-holder`}
         {...restProps}
       ></Input>
-    </>
+     {password &&
+        <View className='show-password-wrap'>
+          <Image className='show-password' onClick={handleShowPass}  src={viewPasswordIcon[pass ? 'invisible' : 'visible']}></Image>
+        </View>}
+    </View>
   );
 };
 

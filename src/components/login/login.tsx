@@ -15,10 +15,11 @@ const Login: React.FC<LoginProps> = props => {
   const [paramSet, setParamSet] = useState({});
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [shouldFetchCode, setShouldFetchCode] = useState<number>(0);
+  const [stop, setStop] = useState<boolean>(true)
   useEffect(() => {
-    if (shouldFetchCode) {
+    if (shouldFetchCode > 0) {
       let counter = setTimeout(() => {
-        setShouldFetchCode(shouldFetchCode - 1);
+        if(stop) setShouldFetchCode(shouldFetchCode - 1);
         clearTimeout(counter);
       }, 1000);
     }
@@ -39,11 +40,13 @@ const Login: React.FC<LoginProps> = props => {
     setParamSet({ ...paramSet, [itemTitle]: e.detail.value });
   };
   const clear = () => {
-    setParamSet({ ...paramSet, code: '', password: '' });
+    setParamSet({ ...paramSet, password: '' });
     setShouldFetchCode(0);
+    setStop(true)
   };
   const handleLogin = () => {
-    console.log(errorSet);
+    setShouldFetchCode(0)
+    setStop(true)
     if (!errorSet.length) onLogin && onLogin(paramSet, clear);
     else
       Taro.showToast({
@@ -52,6 +55,8 @@ const Login: React.FC<LoginProps> = props => {
       });
   };
   const handleRegister = () => {
+    setShouldFetchCode(0)
+    setStop(true)
     if(!isLogin && paramSet['password'] !== paramSet['check']) {
       Taro.showToast({
         title: '密码不匹配',
@@ -77,11 +82,17 @@ const Login: React.FC<LoginProps> = props => {
   const handleCode = useDebounce(() => {
     fetchCode({ email: paramSet['email'] }).then(res => {
       console.log(res);
-      if (res && res.statusCode < 300) {
+      if (res && res.data.code === 0) {
         setShouldFetchCode(60);
+        setStop(false)
         Taro.showToast({
           title: '验证码已发送',
         });
+      } else {
+        Taro.showToast({
+          title: res && res.data.msg,
+          icon: 'none'
+        })
       }
     });
   }, 60);
@@ -92,7 +103,7 @@ const Login: React.FC<LoginProps> = props => {
         {loginConfigs.map((item, key) => {
           const isError = errorSet.find(errItem => errItem.name === item.title) && paramSet[item.title];
           return (
-            <>
+            <View style={{position: 'relative'}}>
               <Input
                 className={isError ? ' error-input ' : ''}
                 key={key}
@@ -107,7 +118,7 @@ const Login: React.FC<LoginProps> = props => {
                   {item.desc || item.displayText + '格式错误'}
                 </View>
               )}
-            </>
+            </View>
           );
         })}
         {!isLogin && (
@@ -123,7 +134,7 @@ const Login: React.FC<LoginProps> = props => {
             <Input
               value={paramSet['code']}
               onInput={e => handleInput(e, 'code')}
-              className={`code-input ${!paramSet['code'] && 'error-input'}`}
+              className={`code-input `}
               type="text"
             ></Input>
             <Button
@@ -133,9 +144,6 @@ const Login: React.FC<LoginProps> = props => {
             >
               {!shouldFetchCode ? '验证码' : `${shouldFetchCode}s`}
             </Button>
-            {/*{!paramSet['code'] && (*/}
-            {/*  <View className="error-info">验证码格式错误</View>*/}
-            {/*)}*/}
           </View>
         )}
         <View className="login-buttons">

@@ -36,7 +36,13 @@ const DetailedInfo: React.FC<DetailedInfoProps> = props => {
   }, []);
   const handleApply = () => {
     if (Object.keys(inputSet).length >= inputs.length) {
-      onSubmit && onSubmit(inputSet);
+      Taro.showModal({
+        title: '注意',
+        content: '请确保所填信息真实性，提交后不可更改',
+        success: () => {
+          onSubmit && onSubmit(inputSet);
+        }
+      })
     } else {
       Taro.showToast({
         title: '字段不能为空',

@@ -26,6 +26,10 @@ const TeacherChecking: React.FC = () => {
   const [ownerSignUrl, setOwnerSignUrl] = useState('');
   const [judged, setJudged] = useState<null | reportType>(null)
   const [signLink, setSignLink] = useState<string>('')
+  const [result, setResult] = useState<boolean>();
+  const [checkingReason, setCheckingReason] = useState('');
+  const [applicationInfo, setApplicationInfo] = useState<string>('');
+
   // 拉起签名页
   useEffect(() => {
     if (ownerSignUrl) {
@@ -57,16 +61,16 @@ const TeacherChecking: React.FC = () => {
       fetchGetMyInfo().then((res) => {
         if(res && res.data.code === 0) {
           fetchReport(formID, res.data.data.role).then((resp) => {
-            if(resp && resp.data.code === 0) setJudged(resp.data.data)
+            if(resp && resp.data.code === 0) {
+              setJudged(resp.data.data)
+              setResult(resp.data.data.pass || false)
+            }
           })
         }
       } )
     })
   });
-  const [result, setResult] = useState<boolean>(true);
-  const [checkingReason, setCheckingReason] = useState('');
-  const [applicationInfo, setApplicationInfo] = useState<string>('');
-  const handleClick = () => {
+ const handleClick = () => {
     const reviewInfo: reviewType = {
       pass: result,
       detail: checkingReason,
@@ -74,13 +78,21 @@ const TeacherChecking: React.FC = () => {
       stamp: '',
       form_id: formID,
     };
-    fetchReview(reviewInfo).then(res => {
-      if (res && res.data.code === 0) {
-        Taro.showToast({
-          title: '提交成功',
-        }).then(() => Back());
-      }
-    });
+    if(checkingReason && signLink && formID) {
+      fetchReview(reviewInfo).then(res => {
+        if (res && res.data.code === 0) {
+          Taro.showToast({
+            title: '提交成功',
+          }).then(() => Back());
+        }
+      });
+    } else {
+      Taro.showToast({
+        title: '请填完所有信息后提交！',
+        icon: 'none'
+      })
+    }
+
   };
   return (
     <>
@@ -135,7 +147,7 @@ const TeacherChecking: React.FC = () => {
           <View className="TeacherChecking-item">
             <View className="TeacherChecking-stamp"></View>
             <Button onClick={handleClick} disabled={judged !== null} className="teacher-confirm">
-              {!judged ? '提交审核' : '已审核'}
+              {!judged ? '确认' : '已审核'}
             </Button>
           </View>
         </ContentFiled>

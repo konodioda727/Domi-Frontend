@@ -27,13 +27,3 @@ const Navbar: React.FC<NavBarProps> = () => {
 
 export default Navbar;
 
-Navbar.defaultProps = (() => {
-  const router = Taro.getCurrentInstance().router || Taro.useRouter();
-  const path = router.path;
-  console.log(path.includes('teacher'));
-  return {
-    items: path.includes('teacher')
-      ? defaultTeaNavbarProps
-      : defaultStuNavbarProps,
-  };
-})();

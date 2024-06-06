@@ -18,6 +18,7 @@ import {
 } from '@/services/fetchTypes';
 import { Nav } from '@/utils/nav';
 import Taro from '@tarojs/taro';
+import academys from "@/pages/student/application/details/approvalForm/formInfo";
 
 export const baseUrl = 'https://domit.muxixyz.com';
 
@@ -186,6 +187,12 @@ export const fetchDorms = (prop: dormProp) => fetch<dormType>({
 export const fetchQiniuToken = () => fetch<QiniuTokenType>({
   url: "/tube/access_token",
   method: 'GET'
+})
+
+export const fetchTutor = (prop: {school:  typeof academys[number]}) => fetch<string[]>({
+  url: '/users/tutors',
+  method: 'POST',
+  data: prop
 })
 
 export const fetchUploadToQiniu = async (filePath) => {

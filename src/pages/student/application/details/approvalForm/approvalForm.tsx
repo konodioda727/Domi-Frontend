@@ -1,7 +1,7 @@
 import Button from '@/components/button/button';
 import { PickerItem } from '@/components/input/input';
 import PageWrap from '@/components/pageWrap/pageWrap';
-import {fetchFormDetail, fetchUploadForm, fetchUploadToQiniu} from '@/services/fetch';
+import {fetchFormDetail, fetchTutor, fetchUploadForm, fetchUploadToQiniu} from '@/services/fetch';
 import { applicationType } from '@/services/fetchTypes';
 import {Back, Nav} from '@/utils/nav';
 import {
@@ -54,6 +54,7 @@ const ApproveInput: React.FC<{
   );
 };
 const ApprovalForm: React.FC = () => {
+  const [tutors, setTutors] = useState<string[]>([])
   const [isEditable, setIsEditable] = useState<boolean>(false)
   const [ownerSignUrl, setOwnerSignUrl] = useState('');
   const [fecthedData, setFecthedData] = useState<applicationType>()
@@ -66,7 +67,13 @@ const ApprovalForm: React.FC = () => {
     const formId = Number(instance.router!.params.formId as string)
     const editable = instance.router!.params.editable  === 'true'
     setIsEditable(editable)
-    setFecthedData(Taro.getStorageSync('form_info'))
+    fetchTutor({school: Taro.getStorageSync('form_info')!.school}).then((res) => {
+      if(res && !res.data.code) {
+        setTutors(res.data.data)
+        renewData('tutor', res.data.data[0])
+      }
+    }).then(() => setFecthedData(Taro.getStorageSync('form_info')))
+
     if(!editable) {
       fetchFormDetail(formId).then(res => {
         if(res && res.data.code === 0) {
@@ -89,10 +96,14 @@ const ApprovalForm: React.FC = () => {
       })
     }
   }, [ownerSignUrl]);
-  const handleSelect = (e: any) => {
+  const handleSelectSchool = (e: any) => {
     const tmp_college = academys[e.target.value];
     renewData('school', tmp_college);
   };
+  const handleSelectTutor = (e: any) => {
+    const tmp_college = tutors[e.target.value];
+    renewData('tutor', tmp_college);
+  }
   const handleSrcPick = (e) => {
     console.log('src_pick',e)
     renewData('src_location', {
@@ -110,19 +121,35 @@ const ApprovalForm: React.FC = () => {
   }
   const handleSubmit = () => {
     const param = fecthedData as applicationType
-    fetchUploadForm({...param}).then(res => {
-      res && res.data.code === 0
-        ? Back().then(() => {
+    if(param['phone']?.length !== 11) {
+      Taro.showToast({
+        title: '请输入正确的手机号',
+        icon: 'none'
+      })
+      return;
+    }
+    if(param["dst_location"] && param["src_location"] && param["tutor"] && param['phone'] && param['signature']) {
+      console.log(param)
+      fetchUploadForm({...param}).then(res => {
+        res && res.data.code === 0
+          ? Back().then(() => {
             Taro.showToast({
               icon: 'success',
               title: '提交成功',
             });
           })
-        : Taro.showToast({
+          : Taro.showToast({
             title: '提交失败',
             icon: 'error',
           });
-    });
+      });
+    } else {
+      Taro.showToast({
+        icon: 'none',
+        title: '请填完所有信息后上交！'
+      })
+    }
+
   };
   const handleSave = () => {
     Taro.setStorageSync('form_info', fecthedData)
@@ -163,16 +190,24 @@ const ApprovalForm: React.FC = () => {
               selected={fecthedData?.school || academys[0]}
               defaultValue={academys.indexOf(fecthedData?.school || academys[0])}
               range={academys}
-              handleSelect={handleSelect}
+              handleSelect={handleSelectSchool}
             ></PickerItem>
           </View>
           <View className="approvalForm-item">
             <Text className="approvalForm-item-tag ">联系方式</Text>
             <ApproveInput disable={!isEditable} setVal={renewData} val={fecthedData?.phone} name="phone"></ApproveInput>
+            {fecthedData?.phone && fecthedData.phone.length !== 11 && <View className='error-info err-abs'>请输入正确手机号</View>}
           </View>
           <View className="approvalForm-item">
             <Text className="approvalForm-item-tag">辅导员</Text>
-            <ApproveInput disable={!isEditable} setVal={renewData} val={fecthedData?.tutor} name="tutor"></ApproveInput>
+            <PickerItem
+              classNames="approvalForm-item-Input"
+              disable={!isEditable}
+              selected={fecthedData?.tutor || tutors[0]}
+              defaultValue={tutors.indexOf(fecthedData?.tutor || tutors[0])}
+              range={tutors}
+              handleSelect={handleSelectTutor}
+            ></PickerItem>
           </View>
           <View className="approvalForm-item">
             <Text className="approvalForm-item-tag ">现居寝室</Text>

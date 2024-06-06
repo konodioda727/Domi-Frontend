@@ -14,6 +14,7 @@ import React, { useState } from 'react';
 import './index.less';
 import Taro, {useDidShow} from "@tarojs/taro";
 import {fetchReport} from "@/services/fetch";
+import {dateGene} from "@/utils/dateGene";
 
 definePageConfig({
   disableScroll: true
@@ -33,7 +34,7 @@ const DepartmentForm: React.FC = () => {
         setCounsellorAdvice(res.data.data.detail || '负责人未提供相关信息')
         setSignature(res.data.data.signature || '')
         setCharger(res.data.data.reporter_name || '')
-        sethandleDate(new Date(res.data.data.ctime || '').toLocaleDateString())
+        sethandleDate(dateGene(res.data.data.ctime || ''))
       }
     })
   })

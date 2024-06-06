@@ -72,14 +72,14 @@ export const stuLoginConfig: LoginPageProps = {
         type: 'password',
         title: 'password',
         displayText: '密码',
-        desc: '密码必须包含字母、数字、#',
+        desc: '密码必须包含字母、数字、特殊符号，且长度不小于8位',
       },
     ],
     logoConfigs: {
       size: 'medium',
     },
     formatTest: [
-      { name: 'password', format: [/^\S+/, /[a-zA-Z]/, /#/, /[0-9]/] },
+      { name: 'password', format: [/^\S+/, /[a-zA-Z]/, /[#|$!%*?&]/, /[0-9]/] },
       { name: 'email', format: [emailRegex] },
     ],
     onLogin: (paramSet: loginType, clear: () => any) => {
@@ -143,3 +143,8 @@ const ToApplication = () => {
 const ToReview = () => {
   Redirect(`/pages/teacher/review/review`);
 };
+
+export const viewPasswordIcon = {
+  visible: 'https://s3.bmp.ovh/imgs/2024/06/02/44648203124cf614.png',
+  invisible: 'https://s3.bmp.ovh/imgs/2024/06/02/d51e49a12736919e.png'
+}
