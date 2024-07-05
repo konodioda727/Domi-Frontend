@@ -9,6 +9,7 @@ import { BaseEventOrig, InputProps, View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import React, { useEffect, useMemo, useState } from 'react';
 import './login.less';
+import MultiColumnPicker from "@/pages/student/application/details/approvalForm/components/picker/multiColumnPicker";
 
 const Login: React.FC<LoginProps> = props => {
   const { loginConfigs, logoConfigs, formatTest, onLogin, onRegister } = props;
@@ -100,6 +101,7 @@ const Login: React.FC<LoginProps> = props => {
     <>
       <ContentFiled className="login-wrap">
         {logoConfigs && <Logo {...logoConfigs}></Logo>}
+        <MultiColumnPicker loc={{area: '南湖', building: '南八', bed: '2', room: '7758'}}></MultiColumnPicker>
         {loginConfigs.map((item, key) => {
           const isError = errorSet.find(errItem => errItem.name === item.title) && paramSet[item.title];
           return (
