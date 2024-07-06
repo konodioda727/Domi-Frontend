@@ -33,10 +33,10 @@ const MultiColumnPicker: FC<{
     let dormIndex = 0;
     let buildingIndex = 0;
     dispatch.fetchBuilding(areaIndex).then((buildingRes: buildingType[]) => {
-      let buildingList = buildingRes.map(building => building.name)
+      if(!buildingRes) return;
+      let buildingList = buildingRes?.map(building => building.name)
       buildingIndex = buildingList.indexOf(loc.building || buildingList[0])
       dispatch.fetchDorm(buildingIndex).then((dormRes) => {
-        console.log(dormRes, buildingIndex)
         dormIndex = dormRes?.indexOf(loc.room) || 0;
         setPickerValue([areaIndex, buildingIndex, dormIndex, bedIndex])
         dispatch.update()

@@ -33,8 +33,8 @@ export const useBedroomInfoStore = (): [bedroomInfoStoreType, bedroomDispatchTyp
       return fetchBuildings({area: pickerInfo.areas[currentAreaIndex]}).then(res => {
         if(res && res.data.code === 0) {
           _workInProgress.buildings =  res.data.data
+          return res.data.data
         }
-        return res.data.data
       })
     },
     async fetchDorm (currentBuildingIndex: number) {
@@ -45,8 +45,8 @@ export const useBedroomInfoStore = (): [bedroomInfoStoreType, bedroomDispatchTyp
       return fetchDorms({building: currentPickedBuilding.alias}).then((res) => {
         if(res && res.data.code === 0) {
           _workInProgress.dorms = res.data.data.list
+          return res.data.data.list
         }
-        return res.data.data.list
       })
     },
     update: function() {
