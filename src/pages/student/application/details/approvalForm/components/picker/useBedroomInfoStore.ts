@@ -1,8 +1,8 @@
-import {useState} from "react";
+import {useMemo} from "react";
 import {areaList, bedList} from "@/configs/areaConfig";
 import {buildingType, dormType} from "@/services/fetchTypes";
-import {fetchBuildings, fetchDorms} from "@/services/fetch";
-
+// import {fetchBuildings, fetchDorms} from "@/services/fetch";
+import {fetchBuildings, fetchDorms} from "./mockPicker";
 export type bedroomInfoStoreType = {
   areas: typeof areaList,
   beds: typeof bedList,
@@ -12,36 +12,45 @@ export type bedroomInfoStoreType = {
 type bedroomDispatchType = {
   fetchBuilding: (currentAreaIndex: number) => Promise<any>;
   fetchDorm: (currentBuildingIndex: number) => Promise<any>;
+  update: () => any;
 }
-const _default_picker: bedroomInfoStoreType = {
+let _default_picker: bedroomInfoStoreType = {
   areas: areaList,
   beds: bedList,
   dorms: [],
   buildings: [],
 }
+let _workInProgress: bedroomInfoStoreType = _default_picker;
 export const useBedroomInfoStore = (): [bedroomInfoStoreType, bedroomDispatchType] => {
-  const [pickerInfo, setPickerInfo] = useState<bedroomInfoStoreType>(_default_picker)
+  const pickerInfo = useMemo(() => {
+    return _default_picker
+  }, [_default_picker]);
   const dispatch: bedroomDispatchType = {
-    fetchBuilding: async (currentAreaIndex: number) => {
+    async fetchBuilding (currentAreaIndex: number) {
       if(currentAreaIndex < 0) {
         return;
       }
       return fetchBuildings({area: pickerInfo.areas[currentAreaIndex]}).then(res => {
         if(res && res.data.code === 0) {
-          setPickerInfo({...pickerInfo, buildings: res.data.data})
+          _workInProgress.buildings =  res.data.data
         }
+        return res.data.data
       })
     },
-    fetchDorm: async (currentBuildingIndex: number) => {
+    async fetchDorm (currentBuildingIndex: number) {
       if(currentBuildingIndex < 0) {
         return;
       }
-      const currentPickedBuilding = pickerInfo.buildings[currentBuildingIndex]
+      const currentPickedBuilding = _workInProgress.buildings[currentBuildingIndex]
       return fetchDorms({building: currentPickedBuilding.alias}).then((res) => {
         if(res && res.data.code === 0) {
-          setPickerInfo({...pickerInfo, dorms: res.data.data.list})
+          _workInProgress.dorms = res.data.data.list
         }
+        return res.data.data.list
       })
+    },
+    update: function() {
+      _default_picker = JSON.parse(JSON.stringify(_workInProgress))
     }
   }
   return [pickerInfo, dispatch]

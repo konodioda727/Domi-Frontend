@@ -13,7 +13,7 @@ export const colorMap: { [key in applicationTaskState]: string } = {
 // 成功、失败图片
 export const imgMap: imgListType = {
   success: 'https://s2.loli.net/2024/02/02/C7MPNeEL5QOsRZk.png',
-  fail: 'https://s2.loli.net/2024/02/02/VZ9eNsjYDUigKEI.png',
+  fail: 'https://s2.loli.net/2024/07/06/3Sj2lKCs1WeYgxB.png',
   pending: '',
 };
 export const submitMap: imgListType = {

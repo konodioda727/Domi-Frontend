@@ -101,7 +101,6 @@ const Login: React.FC<LoginProps> = props => {
     <>
       <ContentFiled className="login-wrap">
         {logoConfigs && <Logo {...logoConfigs}></Logo>}
-        <MultiColumnPicker loc={{area: '南湖', building: '南八', bed: '2', room: '7758'}}></MultiColumnPicker>
         {loginConfigs.map((item, key) => {
           const isError = errorSet.find(errItem => errItem.name === item.title) && paramSet[item.title];
           return (
