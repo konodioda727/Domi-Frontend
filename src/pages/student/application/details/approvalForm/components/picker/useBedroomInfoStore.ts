@@ -1,8 +1,8 @@
 import {useMemo} from "react";
 import {areaList, bedList} from "@/configs/areaConfig";
 import {buildingType, dormType} from "@/services/fetchTypes";
-// import {fetchBuildings, fetchDorms} from "@/services/fetch";
-import {fetchBuildings, fetchDorms} from "./mockPicker";
+import {fetchBuildings, fetchDorms} from "@/services/fetch";
+// import {fetchBuildings, fetchDorms} from "./mockPicker";
 export type bedroomInfoStoreType = {
   areas: typeof areaList,
   beds: typeof bedList,
