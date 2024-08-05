@@ -12,6 +12,7 @@ import {
   Textarea,
   View,
 } from '@tarojs/components';
+import Modal from '@/components/modal';
 import Taro, {useDidShow} from '@tarojs/taro';
 import React, {useEffect, useState} from 'react';
 import academys, {building2AreRuleSet} from './formInfo';
@@ -121,6 +122,10 @@ const ApprovalForm: React.FC = () => {
   }
   const handleSubmit = () => {
     const param = fecthedData as applicationType
+    if(!isEditable) {
+      Modal.show({content: '正在审核，无法进行修改',showCancel: false})
+      return;
+    }
     if(param['phone']?.length !== 11) {
       Taro.showToast({
         title: '请输入正确的手机号',
@@ -130,19 +135,25 @@ const ApprovalForm: React.FC = () => {
     }
     if(param["dst_location"] && param["src_location"] && param["tutor"] && param['phone'] && param['signature']) {
       console.log(param)
-      fetchUploadForm({...param}).then(res => {
-        res && res.data.code === 0
-          ? Back().then(() => {
-            Taro.showToast({
-              icon: 'success',
-              title: '提交成功',
-            });
-          })
-          : Taro.showToast({
-            title: '提交失败',
-            icon: 'error',
+      Modal.show({
+        content: '确认提交申请后，将无法进行修改',
+        conFirmText: '确认提交',
+        cancelText: '返回修改',
+        onSuccess(type) {
+        console.log(type);
+        if(type === 'success') {
+          fetchUploadForm({...param}).then(res => {
+            res && res.data.code === 0
+              ? Back().then(() => {
+                Modal.show({content: '提交成功',showCancel: false})
+              })
+              : Taro.showToast({
+                title: '提交失败',
+                icon: 'error',
+              });
           });
-      });
+        }
+      },})
     } else {
       Taro.showToast({
         icon: 'none',
@@ -152,6 +163,10 @@ const ApprovalForm: React.FC = () => {
 
   };
   const handleSave = () => {
+    if(!isEditable) {
+      Modal.show({content: '正在审核，无法进行修改',showCancel: false})
+      return;
+    }
     Taro.setStorageSync('form_info', fecthedData)
     Taro.showToast({
       title: '保存成功',
@@ -245,10 +260,10 @@ const ApprovalForm: React.FC = () => {
         </View>
       </ScrollView>
       <View className="formButtonbox">
-        <Button className="form-checking-button" disabled={!isEditable} onClick={handleSave}>
+        <Button className="form-checking-button" onClick={handleSave}>
           保存草稿
         </Button>
-        <Button className="form-checking-button" onClick={handleSubmit} disabled={!isEditable}>
+        <Button className="form-checking-button" onClick={handleSubmit}>
           提交申请
         </Button>
       </View>

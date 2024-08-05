@@ -22,6 +22,7 @@ import { Image, View } from '@tarojs/components';
 import Taro, {useDidShow} from '@tarojs/taro';
 import React, {useMemo, useState} from 'react';
 import './application.less';
+import Modal from '@/components/modal';
 
 definePageConfig({
   disableScroll: true
@@ -40,6 +41,14 @@ const Application: React.FC = () => {
   const isCompleted = useMemo(() => {
     const isFail = currentStatus?.teaApproved === 'fail' || currentStatus?.officeApproved === 'fail'
     const isPass = currentStatus?.officeApproved === 'success'
+    let content = isPass 
+    ? '申请已完成，请前往“我的”下载申请表，打印后交给宿管中心' 
+    : '请修改后重新提交申请表，您可以在“我的”查看已提交的申请';
+    if(isPass || isFail) {
+      Modal.show({content: content, showCancel: false, onSuccess() {
+        handleArchive()
+      },})
+    }
     return isFail || isPass
   }, [currentStatus])
   const getInfo = () => {
