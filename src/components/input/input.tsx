@@ -13,11 +13,8 @@ const InputElem: React.FC<InputProps> = props => {
     setPass(!pass)
     inputRef && inputRef.current?.blur()
   }
-  // const handleBlur = () => {
-  //   inputRef && inputRef.current?.blur()
-  // }
   return (
-    <View style={{position: "relative", width: '100%', height: '7vh'}} className={'default-input-wrap'}>
+    <View style={{position: "relative", width: '100%'}} className={'default-input-wrap'}>
       <Input
         ref={inputRef}
         onInput={onInput}

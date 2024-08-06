@@ -16,6 +16,10 @@ import {
 import Taro, { useDidShow } from '@tarojs/taro';
 import React, {useEffect, useState} from 'react';
 import './index.less';
+import { applicationType } from '@/services/fetchTypes';
+import MultiColumnPicker from '@/pages/student/application/details/approvalForm/components/picker/multiColumnPicker';
+import { building2AreRuleSet } from '@/pages/student/application/details/approvalForm/formInfo';
+import { areaList } from '@/configs/areaConfig';
 
 definePageConfig({
   disableScroll: true
@@ -28,8 +32,8 @@ const TeacherChecking: React.FC = () => {
   const [signLink, setSignLink] = useState<string>('')
   const [result, setResult] = useState<boolean>();
   const [checkingReason, setCheckingReason] = useState('');
-  const [applicationInfo, setApplicationInfo] = useState<string>('');
-
+  const [applicationInfo, setApplicationInfo] = useState<applicationType>({} as applicationType);
+  const {name, student_id, phone, src_location, dst_location} = applicationInfo
   // 拉起签名页
   useEffect(() => {
     if (ownerSignUrl) {
@@ -55,7 +59,7 @@ const TeacherChecking: React.FC = () => {
     const instance = Taro.getCurrentInstance();
     const formID = Number(instance.router!.params.formID as string)
     fetchFormDetail(formID).then((res) => {
-      res && setApplicationInfo(res.data.data.reason || '未提供相应信息')
+      res && setApplicationInfo(res.data.data)
       setFormID(formID);
     }).then(() => {
       fetchGetMyInfo().then((res) => {
@@ -98,10 +102,16 @@ const TeacherChecking: React.FC = () => {
     <>
       <PageWrap topBarProps={{ pos: 'centerWithButton', children: '申请详情' }}>
         <ContentFiled className="TeacherChecking-wrap">
-          <View className="TeacherChecking-item-tag">申请信息</View>
+          <View className="TeacherChecking-item-tag" style={{marginBottom:'3vh'}}>申请信息</View>
+          <View className='flex'>姓名：<Text className='text-deep-gray'>{name}</Text></View>
+          <View className='flex'>学号：<Text className='text-deep-gray'>{student_id}</Text></View>
+          <View className='flex'>联系方式：<Text className='text-deep-gray'>{phone}</Text></View>
+          <View className='flex'>现居寝室：<MultiColumnPicker loc={{...src_location, area: building2AreRuleSet(src_location?.building as string) || areaList[0]}} disable onPick={()=>null}></MultiColumnPicker></View>
+          <View className='flex'>拟调寝室（有/暂无）：<MultiColumnPicker loc={{...dst_location, area: building2AreRuleSet(dst_location?.building as string) || areaList[0]}} disable onPick={()=>null}></MultiColumnPicker></View>
+          <View>调整原因：</View>
           <Textarea
-            value={applicationInfo}
-            onInput={e => setApplicationInfo(e.detail.value)}
+            value={applicationInfo.reason}
+            onInput={e => setApplicationInfo({...applicationInfo, reason: e.detail.value})}
             maxlength={500}
             disabled
             className="TeacherChecking-item"
@@ -144,12 +154,9 @@ const TeacherChecking: React.FC = () => {
               : <Image src={judged?.signature || signLink || ''} onClick={jumpToSign} className='teacher-sign teacher-img'></Image>
             }
           </View>
-          <View className="TeacherChecking-item">
-            <View className="TeacherChecking-stamp"></View>
-            <Button onClick={handleClick} disabled={judged !== null} className="teacher-confirm">
+          <Button onClick={handleClick} disabled={judged !== null} className="teacher-confirm">
               {!judged ? '确认' : '已审核'}
             </Button>
-          </View>
         </ContentFiled>
       </PageWrap>
     </>

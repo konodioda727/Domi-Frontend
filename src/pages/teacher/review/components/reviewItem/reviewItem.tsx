@@ -1,14 +1,20 @@
 import { applicationResponseType } from '@/services/fetchTypes';
 import { Image, View } from '@tarojs/components';
-import {FC} from 'react';
+import {FC, useMemo} from 'react';
 import './reviewItem.less';
 import {dateGene} from "@/utils/dateGene";
 
 const ReviewItem: FC<applicationResponseType & {onClick?: (formId: number)=>void}> = props => {
-  const { id, name, onClick, ctime, school, dst_location, src_location } = props;
+  const { id, name, onClick, ctime, school, dst_location, src_location, reason } = props;
   const handleClick = () => {
     onClick && onClick(id)
   };
+  const displayReason = useMemo(() =>{
+    if(reason?.length &&reason?.length > 4) {
+      return reason?.slice(0, 4) + '...'
+    }
+    return reason;
+  }, [reason])
   const date = dateGene(ctime)
   return (
     <>
@@ -32,6 +38,7 @@ const ReviewItem: FC<applicationResponseType & {onClick?: (formId: number)=>void
           ></ReviewItemInfo>
         </View>
         <View className="review-item-footer">
+          <View className='review-item-reason'>调宿理由：{displayReason}</View>
           <View className="review-item-grade">{school}</View>
         </View>
       </View>

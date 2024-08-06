@@ -4,7 +4,7 @@
   .center-abs;
   top: 54%;
   height: 60vh;
-  padding: 2vh;
+  padding: 0;
   flex-direction: column;
   .empty-sign {
     margin: 2vh auto;
@@ -18,13 +18,18 @@
   .reviewed {
     display: flex;
     justify-content: center;
+    align-items: center;
     font-size: 4vw;
+    height: 8vh;
     color: @green;
     .reviewed-text {
-      margin: 0 4vh;
-      padding: 1.4vw 1vw;
-      border-radius: 20px;
       font-size: 4vw;
+      flex: 1;
+      width: 100vw;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     .reviewed-text-selected {
       .reviewed-text;
@@ -36,7 +41,12 @@
   .reviewed-items {
     position: relative;
     height: 50vh;
+    padding: 2vh;
     overflow-y: auto;
+  }
+  .unReviewed {
+    display: flex;
+    justify-content: center;
   }
 }
 

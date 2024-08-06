@@ -10,6 +10,7 @@ import { View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import React, { useEffect, useMemo, useState } from 'react';
 import './detailedInfo.less';
+import Modal from '../modal';
 
 const DetailedInfo: React.FC<DetailedInfoProps> = props => {
   const [inputSet, setInputSet] = useState<{ [key: string]: string }>({});
@@ -55,7 +56,10 @@ const DetailedInfo: React.FC<DetailedInfoProps> = props => {
     setInputSet({ ...inputSet, [`${tag}`]: e.detail.value });
   };
   const handleSelect = (e: any, item) => {
-    setInputSet({ ...inputSet, [item.tag]: item.range![e.target.value] });
+    console.log(e.target.value);
+    if(e.target.value != 0) setInputSet({ ...inputSet, [item.tag]: item.range![e.target.value] });
+    else 
+    Modal.show({ content: '选项不能为空', showCancel: false });
   };
 
   return (
@@ -73,22 +77,25 @@ const DetailedInfo: React.FC<DetailedInfoProps> = props => {
           const isError = errorSet.find(errItem => errItem.name === item.tag);
           return (
             <>
-              {item.type === 'picker' ? (
-                <PickerItem
-                  defaultValue={item.range!.indexOf(item.placeHolder) || 0}
-                  selected={inputSet[item.tag] || item.placeHolder}
-                  handleSelect={e => handleSelect(e, item)}
-                  range={item.range!}
-                  classNames="prelogin-picker"
-                ></PickerItem>
-              ) : (
-                <Input
-                  key={index}
-                  className={`prelogin-input ${isError ? 'error-input' : ''}`}
-                  placeholder={item.placeHolder}
-                  onInput={e => handleInput(e, item.tag)}
-                ></Input>
-              )}
+              <View className='prelogin-input-section'>
+                <View className='prelogin-input_title'>{item.placeHolder}:</View>
+                {item.type === 'picker' ? (
+                  <PickerItem
+                    defaultValue={item.range!.indexOf(item.placeHolder) || 0}
+                    selected={inputSet[item.tag] || item.placeHolder}
+                    handleSelect={e => handleSelect(e, item)}
+                    range={item.range!}
+                    classNames="prelogin-picker"
+                  ></PickerItem>
+                ) : (
+                  <Input
+                    key={index}
+                    className={`prelogin-input ${isError ? 'error-input' : ''}`}
+                    placeholder={''}
+                    onInput={e => handleInput(e, item.tag)}
+                  ></Input>
+                )}
+              </View>
               {isError && (
                 <View className="error-info">{item.placeHolder}格式错误</View>
               )}

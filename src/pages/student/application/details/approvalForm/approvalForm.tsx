@@ -226,11 +226,11 @@ const ApprovalForm: React.FC = () => {
           </View>
           <View className="approvalForm-item">
             <Text className="approvalForm-item-tag ">现居寝室</Text>
-            <MultiColumnPicker disable={!isEditable} onPick={handleSrcPick} loc={{building: fecthedData?.src_location?.building, bed:fecthedData?.src_location?.bed, room: fecthedData?.src_location?.room, area: building2AreRuleSet(fecthedData?.src_location?.building as string) || '西区'}}></MultiColumnPicker>
+            <MultiColumnPicker disable={!isEditable} onPick={handleSrcPick} loc={{...fecthedData?.src_location, area: building2AreRuleSet(fecthedData?.src_location?.building as string) || '西区'}}></MultiColumnPicker>
           </View>
           <View className="approvalForm-item">
             <Text className="approvalForm-item-tag ">拟调寝室</Text>
-            <MultiColumnPicker disable={!isEditable} onPick={handleDstPick} loc={{building: fecthedData?.dst_location?.building, bed:fecthedData?.dst_location?.bed, room: fecthedData?.dst_location?.room, area: building2AreRuleSet(fecthedData?.dst_location?.building as string) || '西区'}}></MultiColumnPicker>
+            <MultiColumnPicker disable={!isEditable} onPick={handleDstPick} loc={{...fecthedData?.dst_location, area: building2AreRuleSet(fecthedData?.dst_location?.building as string) || '西区'}}></MultiColumnPicker>
           </View>
           <View className="form-textarea-intro">个人申请</View>
           <View className="form-textarea-intro">（请阐明调寝原因）</View>

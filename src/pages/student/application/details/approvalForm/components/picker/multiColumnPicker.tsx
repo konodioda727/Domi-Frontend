@@ -76,7 +76,7 @@ const MultiColumnPicker: FC<{
       {pickerValue.every((item) => item !== -1)  ? (
           <Text>{selected.join('-')}</Text>
       ) : (
-          <Text style={{ color: "#686868" }}>请选择</Text>
+          <Text style={{ color: "#686868" }}>暂无</Text>
       )}
     </Picker>
   )

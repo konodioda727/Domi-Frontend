@@ -9,7 +9,7 @@ const { student } = IDRegex;
 const teacherNavUrl = '/pages/teacher/review/review';
 const stuNavUrl = '/pages/student/application/application';
 export const studentConfig: DetailedInfoProps = {
-  text: '同学你好：\n本页信息仅用作对应学院辅导员，\n请放心填写',
+  text: '同学你好：\n本页信息仅辅导员与学工部负责人可见，提交后不可修改，请确保正确无误',
   formatTest: [{ name: 'student_id', format: [student] }],
   inputs: [
     {
@@ -17,14 +17,20 @@ export const studentConfig: DetailedInfoProps = {
       placeHolder: '姓名',
     },
     {
-      tag: 'school',
-      placeHolder: academys[0],
+      tag: 'sex',
+      placeHolder: '请选择性别',
       type: 'picker',
-      range: academys,
+      range: ['请选择性别','男', '女'],
     },
     {
       tag: 'student_id',
       placeHolder: '学号',
+    },
+    {
+      tag: 'school',
+      placeHolder: academys[0],
+      type: 'picker',
+      range: academys,
     },
   ],
   onSubmit: (inputSet: { [key: string]: string }) =>

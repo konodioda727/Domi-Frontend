@@ -3,23 +3,39 @@
 .prelogin-wrap {
   color: @green;
   .center-abs;
-  .prelogin-picker {
-    .default-form-input;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .prelogin-input {
-    margin-top: 5vh;
+  .prelogin-input-section {
+    .prelogin-input_title {
+      font-size: @font-medium;
+      margin-top: 3vh;
+    }
+    .prelogin-input-elem {
+      outline: 0;
+      border: 0;
+      border-radius: 0;
+      height: 3vh !important;
+      border-bottom: 2px @gray solid;
+      margin: 0.5vh 0 0 0;
+      text-align: left;
+    }
+    .prelogin-picker {
+      .default-form-input;
+      .prelogin-input-elem;
+      color: @black;
+      display: flex;
+      align-items: center;
+    }
+    .prelogin-input {
+      // margin-top: 5vh;
+      .prelogin-input-elem
+    }
   }
   .prelogin-text-big {
-    font-size: @font-big;
-    font-weight: @font-bold;
+    font-size: @font-extra-big;
     margin-bottom: 1vh;
   }
   .prelogin-text-small {
     font-size: @font-small;
-    font-weight: @font-bold;
+    color: @yellow;
   }
   .prelogin-button {
     background-color: rgb(242, 196, 59);

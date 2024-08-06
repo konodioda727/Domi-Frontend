@@ -16,12 +16,16 @@
     color: @green;
   }
   .review-item-footer {
-    .flex-center;
+    .flex;
     font-size: @font-medium;
-    flex-direction: row-reverse;
-    justify-content: right;
+    justify-content: space-between;
     .review-item-grade {
-      margin-right: 4vh;
+      margin-right: 2vh;
+      .flex-center;
+    }
+    .review-item-reason {
+      margin-left: 2vh;
+      .flex-center;
     }
   }
   .review-item-header {
@@ -29,10 +33,10 @@
     align-items: center;
     font-size: @font-medium;
     .review-item-name {
-      margin-left: 4vh;
+      margin-left: 2vh;
     }
     .review-item-time {
-      margin-right: 4vh;
+      margin-right: 2vh;
     }
   }
   .review-item-body {

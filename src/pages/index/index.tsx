@@ -16,13 +16,14 @@ import {imgMap, progressBarImg} from "@/configs/applicationConfig";
 import {changingImg} from "@/configs/changingStepsConfig";
 import {personalimgList} from "@/configs/personalInfoConfig";
 import {viewPasswordIcon} from "@/configs/loginConfig";
-import Modal from '@/components/modal';
 import { useRoot } from '@/hooks/useGetRoot';
 
 definePageConfig({
   disableScroll: true
 })
 export default function Index() {
+  // 找到根节点，实现动态挂载
+  useRoot()
   useEffect(() => {
     const data = []
     const pushData = (src: string) => {
@@ -60,8 +61,6 @@ export default function Index() {
         });
     }
   }, []);
-  // 找到根节点，实现动态挂载
-  useRoot()
   return (
     <PageWrap topBarProps={{ pos: 'center', children: 'CCNU换宿申请' }}>
       <ContentFiled className="index-wrap">

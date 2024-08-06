@@ -7,6 +7,7 @@
   transform: translateX(-50%);
   width: 90vw;
   height: 80vh;
+  padding-top: 2vh;
   display: flex;
   color: @green;
   flex-direction: column;
@@ -16,10 +17,13 @@
 .teacher-common {
   display: flex;
   margin-right: 0;
-  width: 30vw;
+  width: 35vw;
+  box-sizing: border-box;
 }
 .teacher-confirm {
   .teacher-common;
+  justify-content: center;
+  margin: 4vh auto;
 }
 .teacher-img {
   height: 6vh;
@@ -27,7 +31,7 @@
 .teacher-sign {
   .teacher-common;
   background-color: #fff;
-  border: 1px solid @green;
+  border: 1px solid @black;
   border-radius: 10px;
   color: @green;
 }
@@ -40,7 +44,7 @@
   color: @green;
 }
 .TeacherChecking-item-tag {
-  color: #023a50;
+  color: @green;
   font-size: 5vw;
   flex-shrink: 0;
   word-break: break-word;
@@ -49,11 +53,11 @@
   margin-top: 2vh;
 }
 .TeacherChecking-item-Input {
-  border: 1px solid black;
   border-radius: 2vw;
-  width: 45vw;
+  width: 35vw;
   padding-left: 5vw;
   height: 3vh;
+  box-sizing: border-box;
 }
 .checking-reslut-label {
   Text {
