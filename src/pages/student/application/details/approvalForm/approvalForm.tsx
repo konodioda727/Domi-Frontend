@@ -226,14 +226,18 @@ const ApprovalForm: React.FC = () => {
           </View>
           <View className="approvalForm-item">
             <Text className="approvalForm-item-tag ">现居寝室</Text>
+          </View>
+          <View className="approvalForm-item">
             <MultiColumnPicker disable={!isEditable} onPick={handleSrcPick} loc={{...fecthedData?.src_location, area: building2AreRuleSet(fecthedData?.src_location?.building as string) || '西区'}}></MultiColumnPicker>
           </View>
           <View className="approvalForm-item">
             <Text className="approvalForm-item-tag ">拟调寝室</Text>
+          </View>
+          <View className="approvalForm-item">
             <MultiColumnPicker disable={!isEditable} onPick={handleDstPick} loc={{...fecthedData?.dst_location, area: building2AreRuleSet(fecthedData?.dst_location?.building as string) || '西区'}}></MultiColumnPicker>
           </View>
-          <View className="form-textarea-intro">个人申请</View>
-          <View className="form-textarea-intro">（请阐明调寝原因）</View>
+          <View className="form-textarea-intro" style={{marginBottom:'-2vh'}}>申请详情</View>
+          <View className="form-textarea-intro">（请阐述调寝原因、具体原因）</View>
           <Textarea
             id="changingReason"
             value={fecthedData?.reason}
