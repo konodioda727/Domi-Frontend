@@ -20,8 +20,9 @@
     justify-content: center;
     align-items: center;
     font-size: 4vw;
-    height: 8vh;
+    height: 7vh;
     color: @green;
+    border-bottom: 2px solid ;
     .reviewed-text {
       font-size: 4vw;
       flex: 1;
@@ -44,9 +45,17 @@
     padding: 2vh;
     overflow-y: auto;
   }
-  .unReviewed {
-    display: flex;
-    justify-content: center;
-  }
 }
 
+.unReviewed {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  margin-top: 2vh;
+  bottom: 12vh;
+  margin: auto;
+  color: @gray;
+  font-size: @font-medium;
+  text-align: center;
+  width: 100%;
+}

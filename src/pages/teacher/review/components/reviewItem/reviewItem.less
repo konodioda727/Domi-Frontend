@@ -1,7 +1,7 @@
 @import '../../../../../styles/variables';
 
 .review-item {
-  height: 20vh;
+  height: 16vh;
   border-radius: 3vw;
   border: 2px solid @black;
   position: relative;
@@ -9,15 +9,16 @@
   animation: appear .3s ease-in-out forwards;
   .review-item-header,
   .review-item-footer {
-    height: 5vh;
+    height: 4vh;
     position: relative;
     width: 100%;
     display: flex;
+    font-size: @font-small;
     color: @green;
   }
   .review-item-footer {
     .flex;
-    font-size: @font-medium;
+    font-size: @font-small;
     justify-content: space-between;
     .review-item-grade {
       margin-right: 2vh;
@@ -31,7 +32,7 @@
   .review-item-header {
     justify-content: space-between;
     align-items: center;
-    font-size: @font-medium;
+    font-size: @font-small;
     .review-item-name {
       margin-left: 2vh;
     }
@@ -40,7 +41,7 @@
     }
   }
   .review-item-body {
-    height: 10vh;
+    height: 8vh;
     background-color: @deep-green;
     width: 100%;
     .review-item-arrow {

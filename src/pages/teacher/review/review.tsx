@@ -66,7 +66,7 @@ const Review: React.FC = () => {
             {!reviewItems.length && <View className='empty-sign'>空空如也～</View>}
           </View>
         </ContentFiled>
-        <View className='unReviewed'>未审批共{reviewItems.length}条</View>
+        <View className='unReviewed'>{isReviewed ? '已': '未'}审批共{reviewItems.length}条</View>
       </PageWrap>
     </>
   );
