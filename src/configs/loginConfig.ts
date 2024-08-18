@@ -141,7 +141,12 @@ const ToApplication = () => {
   });
 };
 const ToReview = () => {
-  Redirect(`/pages/teacher/review/review`);
+  fetchGetMyInfo().then(res => {
+    res && res.data.data.student_id
+      ? Redirect('/pages/teacher/review/review')
+      : Redirect('/pages/teacher/changePassword/index');
+  });
+  // Redirect(`/pages/teacher/review/review`);
 };
 
 export const viewPasswordIcon = {

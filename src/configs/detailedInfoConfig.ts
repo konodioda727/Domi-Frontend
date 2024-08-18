@@ -84,3 +84,29 @@ export const handleSubmit = (
     }
   });
 };
+export const teacherConfig: DetailedInfoProps = {
+  text: '老师您好',
+  inputs: [
+    {
+      tag: 'current',
+      placeHolder: '目前账号',
+      size: 'sm',
+      disabled: true,
+      data: 'currentAcc'
+    },
+    {
+      tag: 'newacc',
+      placeHolder: '新账号',
+    },
+    {
+      tag: 'newpass',
+      placeHolder: '新密码'
+    },
+    {
+      tag: 'confirm',
+      placeHolder: '确认密码'
+    }
+  ],
+  onSubmit: (inputSet: { [key: string]: string }) =>
+    handleSubmit(inputSet, teacherNavUrl),
+}

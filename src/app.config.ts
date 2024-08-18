@@ -9,8 +9,7 @@ export default defineAppConfig({
     'pages/teacher/login/login',
     'pages/teacher/review/review',
     'pages/teacher/personalInfo/personalInfo',
-    'pages/teacher/detailedInfoCounselor/detailedInfoCounselor',
-    'pages/teacher/detailedInfoSupervisor/detailedInfoSupervisor',
+    'pages/teacher/changePassword/index',
 
     'pages/student/detailedInfo/detailedInfo',
     'pages/student/login/login',

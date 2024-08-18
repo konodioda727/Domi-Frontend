@@ -6,6 +6,9 @@ import React from 'react';
 definePageConfig({
   disableScroll: true
 })
+/** 
+ * @deprecated 旧需求，不再使用，目前更新为均价changePassword
+ */
 const PreLog: React.FC = () => {
   return (
     <>

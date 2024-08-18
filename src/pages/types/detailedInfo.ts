@@ -1,5 +1,6 @@
 export interface DetailedInfoProps {
   text: string;
+  data?: Record<string, any>;
   onSubmit?: (...args: any) => any;
   formatTest?: { name: string; format: RegExp[] }[];
   inputs: {
@@ -7,6 +8,9 @@ export interface DetailedInfoProps {
     tag: keyof DetailedInfoType;
     type?: 'text' | 'picker';
     range?: string[];
+    size?: 'sm' | 'bg' |'md';
+    disabled?: boolean;
+    data?: string
   }[];
 }
 

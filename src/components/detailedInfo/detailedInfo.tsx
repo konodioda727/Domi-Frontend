@@ -14,7 +14,7 @@ import Modal from '../modal';
 
 const DetailedInfo: React.FC<DetailedInfoProps> = props => {
   const [inputSet, setInputSet] = useState<{ [key: string]: string }>({});
-  const { text, inputs, formatTest, onSubmit } = props;
+  const { text, inputs, formatTest, onSubmit, data: dataset } = props;
   const texts = text.split('\n');
   const errorSet = useMemo(() => {
     return formatTest
@@ -85,13 +85,15 @@ const DetailedInfo: React.FC<DetailedInfoProps> = props => {
                     selected={inputSet[item.tag] || item.placeHolder}
                     handleSelect={e => handleSelect(e, item)}
                     range={item.range!}
-                    classNames="prelogin-picker"
+                  disable={item.disabled ?? false}
+                    classNames={`prelogin-${item.size ?? 'md'} "prelogin-picker"`}
                   ></PickerItem>
                 ) : (
                   <Input
                     key={index}
-                    className={`prelogin-input ${isError ? 'error-input' : ''}`}
-                    placeholder={''}
+                    className={`prelogin-input ${isError ? 'error-input' : ''} prelogin-${item.size ?? 'md'}`}
+                    placeholder={item.data ? dataset![item.data] : ''}
+                    disabled={item.disabled ?? false}
                     onInput={e => handleInput(e, item.tag)}
                   ></Input>
                 )}
@@ -104,7 +106,7 @@ const DetailedInfo: React.FC<DetailedInfoProps> = props => {
         })}
 
         <Button className="prelogin-button" onClick={handleApply}>
-          开始申请
+          我已确认
         </Button>
       </ContentFiled>
     </>
