@@ -10,14 +10,14 @@ export const stuPersonalInfoTag: switchCarType[] = [
   'introduction',
   'download',
   'feedback',
-  'exit',
+  // 'exit',
 ];
 export const teaPersonalInfoTag: switchCarType[] = [
   'introduction',
   'download',
   'feedback',
   'change',
-  'exit',
+  // 'exit',
 ];
 
 export const personalimgList = {
