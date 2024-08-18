@@ -11,7 +11,7 @@ import {
   loginType,
   teacherLoginType,
 } from '@/services/fetchTypes';
-import { Redirect } from '@/utils/nav';
+import { Nav, Redirect } from '@/utils/nav';
 import { emailRegex } from '@/utils/regexps';
 import Taro from '@tarojs/taro';
 
@@ -137,14 +137,14 @@ const ToApplication = () => {
   fetchGetMyInfo().then(res => {
     res && res.data.data.student_id
       ? Redirect('/pages/student/application/application')
-      : Redirect('/pages/student/detailedInfo/detailedInfo');
+      : Nav('/pages/student/detailedInfo/detailedInfo');
   });
 };
 const ToReview = () => {
   fetchGetMyInfo().then(res => {
-    res && res.data.data.student_id
+    res && res.data.data.pwd_edited
       ? Redirect('/pages/teacher/review/review')
-      : Redirect('/pages/teacher/changePassword/index');
+      : Nav('/pages/teacher/changePassword/index');
   });
   // Redirect(`/pages/teacher/review/review`);
 };

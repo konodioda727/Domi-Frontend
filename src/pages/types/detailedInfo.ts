@@ -6,6 +6,7 @@ export interface DetailedInfoProps {
   inputs: {
     placeHolder: string;
     tag: keyof DetailedInfoType;
+    confirm?: string,
     type?: 'text' | 'picker';
     range?: string[];
     size?: 'sm' | 'bg' |'md';

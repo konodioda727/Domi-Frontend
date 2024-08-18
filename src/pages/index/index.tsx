@@ -13,10 +13,11 @@ import React, { useEffect } from 'react';
 import PageWrap from '../../components/pageWrap/pageWrap';
 import './index.less';
 import {imgMap, progressBarImg} from "@/configs/applicationConfig";
-import {changingImg} from "@/configs/changingStepsConfig";
+import {changingImgs} from "@/configs/changingStepsConfig";
 import {personalimgList} from "@/configs/personalInfoConfig";
 import {viewPasswordIcon} from "@/configs/loginConfig";
 import { useRoot } from '@/hooks/useGetRoot';
+import { teacherNavUrl } from '@/configs/detailedInfoConfig';
 
 definePageConfig({
   disableScroll: true
@@ -32,10 +33,11 @@ export default function Index() {
     }
     const pushDatas = (srcs: string[]) => srcs.forEach(pushData)
     pushDatas(
-      [progressBarImg,logoImg, changingImg]
+      [progressBarImg,logoImg]
         .concat([imgMap.fail, imgMap.success])
         .concat(Object.values(personalimgList))
         .concat(Object.values(viewPasswordIcon))
+        .concat(Object.values(changingImgs))
     )
   Taro.preloadAssets({
       data: data,
@@ -50,9 +52,15 @@ export default function Index() {
       fetchGetMyInfo()
         .then(res => {
           const role = res && res.data.data.role;
-          if (res) {
+          if (res && res.data.code === 0) {
+            if(role !== 'RoleStudent') {
+              !res.data.data.pwd_edited 
+                ? Nav('/pages/teacher/changePassword/index') 
+                : Redirect(ifLoginNavPath[role])
+              return;
+            }
             res.data.code === 0
-              ? Redirect(ifLoginNavPath[role])
+              ? Redirect(ifLoginNavPath[role]) 
               : Redirect(ifInfoEditNavPath[role]);
           }
         })
