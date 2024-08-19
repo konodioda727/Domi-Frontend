@@ -129,6 +129,11 @@ export const fetchSearchItems = (prop: searchItemType) => fetch<applicationRespo
   method: 'POST',
   data: prop
 })
+export const fetchEditPassword = (prop: {new_password: string}) => fetch<string>({
+  url: '/users/edit_password',
+  method: 'PUT',
+  data: prop
+})
 export const fetchWithdrawForm = (formId: number) =>
   fetch<any>({
     url: `/forms/${formId}/withdraw`,

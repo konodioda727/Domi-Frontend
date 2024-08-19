@@ -5,8 +5,11 @@ import {
   stuPersonalInfoTag,
   teaPersonalInfoTag,
 } from '@/configs/personalInfoConfig';
-import { View } from '@tarojs/components';
+import { View, Image } from '@tarojs/components';
 import React, { useMemo } from 'react';
+import { fetchLogout } from '@/services/fetch';
+import Taro from '@tarojs/taro';
+import { Redirect } from '@/utils/nav';
 import './personalInfo.less';
 
 const PersonalInfo: React.FC<PersonalInfoProps> = props => {
@@ -32,6 +35,16 @@ const PersonalInfo: React.FC<PersonalInfoProps> = props => {
           <PersonSwitchCard type={tag} />
         ))}
       </View>
+      <Image className='quit' src='https://s2.loli.net/2024/08/18/Y5ZCvMXjTpsQDE6.png' onClick={() => fetchLogout().then(res => {
+          if (res && res.data.code === 0) {
+            Taro.showToast({
+              title: '登出成功',
+            }).then(() => {
+              Taro.clearStorage();
+              Redirect('/pages/index/index');
+            });
+          }
+        })}></Image>
     </ContentFiled>
   );
 };

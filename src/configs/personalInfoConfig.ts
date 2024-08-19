@@ -10,19 +10,21 @@ export const stuPersonalInfoTag: switchCarType[] = [
   'introduction',
   'download',
   'feedback',
-  'exit',
+  // 'exit',
 ];
 export const teaPersonalInfoTag: switchCarType[] = [
   'introduction',
   'download',
   'feedback',
-  'exit',
+  'change',
+  // 'exit',
 ];
 
 export const personalimgList = {
   intro: 'https://s2.loli.net/2024/02/03/q1hkVgLceaNs4mu.png',
   feedback: 'https://s2.loli.net/2024/02/03/Sargwk2iJqDROIf.png',
   download: 'https://s2.loli.net/2024/02/03/1wimo7Pl9HMNnjS.png',
+  change: 'https://s2.loli.net/2024/08/13/v7eomwZ3aHp82hL.png',
   exit: 'https://s2.loli.net/2024/02/03/pCOVJsznTFoUX95.png'
 }
 
@@ -43,6 +45,11 @@ export const personalInfoConfig: { [key in switchCarType]: PersonaltabProps } =
       icon: personalimgList.download,
       text: '换宿申请表查看',
       navURl: '/pages/sharing/archive/archive',
+    },
+    change: {
+      icon: personalimgList.change,
+      text: '修改密码',
+      navURl: '/pages/teacher/changePassword/index'
     },
     exit: {
       icon: personalimgList.exit,

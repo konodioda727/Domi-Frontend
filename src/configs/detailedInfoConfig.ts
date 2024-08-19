@@ -1,12 +1,13 @@
+import Modal from '@/components/modal';
 import academys from '@/pages/student/application/details/approvalForm/formInfo';
 import { DetailedInfoProps } from '@/pages/types/detailedInfo';
-import { fetchChangeInfo } from '@/services/fetch';
-import { Nav } from '@/utils/nav';
+import { fetchChangeInfo, fetchEditPassword } from '@/services/fetch';
+import { Nav, Redirect } from '@/utils/nav';
 import { IDRegex } from '@/utils/regexps';
 import Taro from '@tarojs/taro';
 
 const { student } = IDRegex;
-const teacherNavUrl = '/pages/teacher/review/review';
+export const teacherNavUrl = '/pages/teacher/review/review';
 const stuNavUrl = '/pages/student/application/application';
 export const studentConfig: DetailedInfoProps = {
   text: '同学你好：\n本页信息仅辅导员与学工部负责人可见，提交后不可修改，请确保正确无误',
@@ -84,3 +85,42 @@ export const handleSubmit = (
     }
   });
 };
+export const teacherConfig: DetailedInfoProps = {
+  text: '老师您好',
+  inputs: [
+    {
+      tag: 'current',
+      placeHolder: '目前账号',
+      size: 'sm',
+      disabled: true,
+      data: 'currentAcc'
+    },
+    {
+      tag: 'new_account',
+      placeHolder: '新账号',
+    },
+    {
+      tag: 'new_password',
+      placeHolder: '新密码'
+    },
+    {
+      tag: 'confirm',
+      placeHolder: '确认密码',
+      confirm: 'new_password'
+    }
+  ],
+  onSubmit: (inputSet: { [key: string]: string }) => fetchEditPassword({new_password: inputSet['new_password']}).then(res => {
+    if (res && res.data.code === 0) {
+      Modal.show({
+        content: '信息修改成功',
+        onSuccess: () => {
+          Redirect(teacherNavUrl);
+        }
+      })
+    } else {
+      Modal.show({
+        content: res && res.data.msg,
+      });
+    }
+  }),
+}

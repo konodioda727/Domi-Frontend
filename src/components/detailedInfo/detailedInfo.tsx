@@ -3,7 +3,6 @@ import ContentFiled from '@/components/contentField/contentFiled';
 import Input, { PickerItem } from '@/components/input/input';
 import {
   DetailedInfoProps,
-  DetailedInfoType,
 } from '@/pages/types/detailedInfo';
 import { fetchGetMyInfo } from '@/services/fetch';
 import { View } from '@tarojs/components';
@@ -14,7 +13,8 @@ import Modal from '../modal';
 
 const DetailedInfo: React.FC<DetailedInfoProps> = props => {
   const [inputSet, setInputSet] = useState<{ [key: string]: string }>({});
-  const { text, inputs, formatTest, onSubmit } = props;
+  const { text, inputs, formatTest, onSubmit, data: dataset } = props;
+  const [shouldUpload, setShouldUpload] = useState<boolean>(false)
   const texts = text.split('\n');
   const errorSet = useMemo(() => {
     return formatTest
@@ -36,7 +36,7 @@ const DetailedInfo: React.FC<DetailedInfoProps> = props => {
     });
   }, []);
   const handleApply = () => {
-    if (Object.keys(inputSet).length >= inputs.length) {
+    if (Object.keys(inputSet).length >= inputs.length && shouldUpload) {
       Taro.showModal({
         title: '注意',
         content: '请确保所填信息真实性，提交后不可更改',
@@ -52,8 +52,11 @@ const DetailedInfo: React.FC<DetailedInfoProps> = props => {
       });
     }
   };
-  const handleInput = (e: any, tag: keyof DetailedInfoType) => {
-    setInputSet({ ...inputSet, [`${tag}`]: e.detail.value });
+  const handleInput = (e: any, item: DetailedInfoProps['inputs'][0]) => {
+    const {tag, confirm} = item
+    if(!confirm) setInputSet({ ...inputSet, [`${tag}`]: e.detail.value });
+    if(!!confirm && inputSet[confirm] !== e.detail.value) setShouldUpload(false) 
+    if(!!confirm && inputSet[confirm] === e.detail.value) setShouldUpload(true)
   };
   const handleSelect = (e: any, item) => {
     console.log(e.target.value);
@@ -85,26 +88,26 @@ const DetailedInfo: React.FC<DetailedInfoProps> = props => {
                     selected={inputSet[item.tag] || item.placeHolder}
                     handleSelect={e => handleSelect(e, item)}
                     range={item.range!}
-                    classNames="prelogin-picker"
+                  disable={item.disabled ?? false}
+                    classNames={`prelogin-${item.size ?? 'md'} "prelogin-picker"`}
                   ></PickerItem>
-                ) : (
+                ) : 
                   <Input
                     key={index}
-                    className={`prelogin-input ${isError ? 'error-input' : ''}`}
-                    placeholder={''}
-                    onInput={e => handleInput(e, item.tag)}
+                    className={`prelogin-input ${isError ? 'error-input' : ''} prelogin-${item.size ?? 'md'}`}
+                    placeholder={item.data ? dataset![item.data] : ''}
+                    disabled={item.disabled ?? false}
+                    onInput={e => handleInput(e, item)}
                   ></Input>
-                )}
+                }
               </View>
-              {isError && (
-                <View className="error-info">{item.placeHolder}格式错误</View>
-              )}
+              {!shouldUpload && item.confirm ?  <View className="error-info">{item.placeHolder}格式错误</View> : null}
             </>
           );
         })}
 
         <Button className="prelogin-button" onClick={handleApply}>
-          开始申请
+          我已确认
         </Button>
       </ContentFiled>
     </>

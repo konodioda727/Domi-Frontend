@@ -64,6 +64,7 @@ export interface PersonalInfoResponseType {
   name: string;
   school: string;
   student_id: string;
+  pwd_edited: boolean;
   role: string;
   [property: string]: any;
 }
