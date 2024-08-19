@@ -70,6 +70,7 @@ const MultiColumnPicker: FC<{
   }
   return (
     <Picker
+      style={{width:'80vw',height:'3vh',paddingTop:'1vh',textAlign:'center',borderRadius:'1vh',border:'1px solid grey'}}
       mode="multiSelector"
       style={style}
       className={ `defaultMultiSelector ${classNames}` }
