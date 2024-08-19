@@ -7,6 +7,9 @@ import {Back, Nav} from '@/utils/nav';
 import {
   Image,
   Input,
+  Label,
+  Radio,
+  RadioGroup,
   ScrollView,
   Text,
   Textarea,
@@ -58,6 +61,7 @@ const ApprovalForm: React.FC = () => {
   const [tutors, setTutors] = useState<string[]>([])
   const [isEditable, setIsEditable] = useState<boolean>(false)
   const [ownerSignUrl, setOwnerSignUrl] = useState('');
+  const [roomChecked,setRoomChecked]=useState(true)//有无目标寝室
   const [fecthedData, setFecthedData] = useState<applicationType>()
   const renewData = (name: string, value: any) => {
     setFecthedData({...fecthedData, [name]: value})
@@ -183,6 +187,9 @@ const ApprovalForm: React.FC = () => {
       Nav(`/pages/sharing/signPage/signPage?type=${eventKey}`)
     }
   };
+  useEffect(()=>{
+    if(!roomChecked)setFecthedData(pre=>{return{...pre,dst_location:''}})
+  },[roomChecked])
   return (
     <PageWrap
       topBarProps={{ pos: 'leftWithButton', children: 'CCNU 换宿审批' }}
@@ -232,6 +239,10 @@ const ApprovalForm: React.FC = () => {
           </View>
           <View className="approvalForm-item">
             <Text className="approvalForm-item-tag ">拟调寝室</Text>
+            <RadioGroup onChange={e=>setRoomChecked(e.detail.value=='有')}>
+              <Label className='radio_roomchecked'><Radio value='有' color='#005767' checked={roomChecked}></Radio>有</Label>
+              <Label className='radio_roomchecked'><Radio value='暂无' color='#005767' checked={!roomChecked}></Radio>暂无</Label>
+            </RadioGroup>
           </View>
           <View className="approvalForm-item">
             <MultiColumnPicker disable={!isEditable} onPick={handleDstPick} loc={{...fecthedData?.dst_location, area: building2AreRuleSet(fecthedData?.dst_location?.building as string) || ''}}></MultiColumnPicker>
