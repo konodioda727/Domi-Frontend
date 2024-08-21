@@ -1,4 +1,4 @@
-import {useMemo} from "react";
+import {useMemo, useState} from "react";
 import {areaList, bedList} from "@/configs/areaConfig";
 import {buildingType, dormType} from "@/services/fetchTypes";
 import {fetchBuildings, fetchDorms} from "@/services/fetch";
@@ -14,14 +14,15 @@ type bedroomDispatchType = {
   fetchDorm: (currentBuildingIndex: number) => Promise<any>;
   update: () => any;
 }
-let _default_picker: bedroomInfoStoreType = {
-  areas: areaList,
-  beds: bedList,
-  dorms: [],
-  buildings: [],
-}
-let _workInProgress: bedroomInfoStoreType = _default_picker;
+
 export const useBedroomInfoStore = (): [bedroomInfoStoreType, bedroomDispatchType] => {
+  const [_default_picker, update] = useState<bedroomInfoStoreType>( {
+    areas: areaList,
+    beds: bedList,
+    dorms: [],
+    buildings: [],
+  })
+  let _workInProgress: bedroomInfoStoreType = _default_picker;
   const pickerInfo = useMemo(() => {
     return _default_picker
   }, [_default_picker]);
@@ -32,7 +33,7 @@ export const useBedroomInfoStore = (): [bedroomInfoStoreType, bedroomDispatchTyp
       }
       return fetchBuildings({area: pickerInfo.areas[currentAreaIndex]}).then(res => {
         if(res && res.data.code === 0) {
-          _workInProgress.buildings =  res.data.data
+          _workInProgress.buildings = res.data.data
           return res.data.data
         }
       })
@@ -50,7 +51,7 @@ export const useBedroomInfoStore = (): [bedroomInfoStoreType, bedroomDispatchTyp
       })
     },
     update: function() {
-      _default_picker = JSON.parse(JSON.stringify(_workInProgress))
+      update(JSON.parse(JSON.stringify(_workInProgress))) 
     }
   }
   return [pickerInfo, dispatch]

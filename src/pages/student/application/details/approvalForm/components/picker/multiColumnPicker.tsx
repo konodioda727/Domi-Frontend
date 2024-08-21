@@ -17,7 +17,7 @@ const MultiColumnPicker: FC<{
   const { buildings, beds, areas, dorms } = dormInfo
   const range = useMemo(() => {
     return [areas, buildings.map(building => building.name), dorms, beds]
-  }, [dormInfo]);
+  }, [areas, buildings, dorms, beds]);
 
  const selected = useMemo(() => {
     return [areas[pickerValue[0]], buildings[pickerValue[1]]?.name, dorms[pickerValue[2]], beds[pickerValue[3]]]
@@ -29,14 +29,15 @@ const MultiColumnPicker: FC<{
   }
   // 根据loc初始化picker
   useEffect(() => {
+    if(!loc.area) return;
    const areaIndex = areas.indexOf(loc.area)
-   console.log('area', areaIndex, loc.area, loc);
    
     const bedIndex = beds.indexOf(loc.bed || beds[0])
     let dormIndex = 0;
     let buildingIndex = 0;
     dispatch.fetchBuilding(areaIndex).then((buildingRes: buildingType[]) => {
       if(!buildingRes) return;
+      
       let buildingList = buildingRes?.map(building => building.name)
       buildingIndex = buildingList.indexOf(loc.building || buildingList[0])
       dispatch.fetchDorm(buildingIndex).then((dormRes) => {
@@ -57,11 +58,11 @@ const MultiColumnPicker: FC<{
     switch (column) {
       case 0:
         dispatch.fetchBuilding(value).then(() => {
-          dispatch.fetchDorm(pickerValue[1]).then(dispatch.update)
+          dispatch.fetchDorm(pickerValue[1]).then(() => dispatch.update())
         })
         break;
       case 1:
-        dispatch.fetchDorm(value).then(dispatch.update)
+        dispatch.fetchDorm(value).then(() => dispatch.update())
         break;
       default:
         break;

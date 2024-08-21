@@ -136,9 +136,7 @@ const registerSuccessProcess = (
 const ToApplication = () => {
   fetchGetMyInfo().then(res => {
     res && res.data.data.student_id
-      ? res.data.data.pwd_edited
-        ? Redirect('/pages/student/application/application')
-        : Nav('/pages/student/changePassword/index') 
+      ? Redirect('/pages/student/application/application')
       : Nav('/pages/student/detailedInfo/detailedInfo');
   });
 };
