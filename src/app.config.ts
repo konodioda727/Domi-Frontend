@@ -11,6 +11,7 @@ export default defineAppConfig({
     'pages/teacher/personalInfo/personalInfo',
     'pages/teacher/changePassword/index',
 
+    'pages/student/changePassword/index',
     'pages/student/detailedInfo/detailedInfo',
     'pages/student/login/login',
     'pages/student/application/application',

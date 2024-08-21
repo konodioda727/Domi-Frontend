@@ -103,11 +103,11 @@ const TeacherChecking: React.FC = () => {
       <PageWrap topBarProps={{ pos: 'centerWithButton', children: '申请详情' }}>
         <ContentFiled className="TeacherChecking-wrap">
           <View className="TeacherChecking-item-tag" style={{marginBottom:'3vh'}}>申请信息</View>
-          <View className='flex'>姓名：<Text className='text-deep-gray'>{name}</Text></View>
-          <View className='flex'>学号：<Text className='text-deep-gray'>{student_id}</Text></View>
-          <View className='flex'>联系方式：<Text className='text-deep-gray'>{phone}</Text></View>
-          <View className='flex'>现居寝室：<MultiColumnPicker loc={{...src_location, area: building2AreRuleSet(src_location?.building as string) || areaList[0]}} disable onPick={()=>null}></MultiColumnPicker></View>
-          <View className='flex'>拟调寝室（有/暂无）：<MultiColumnPicker loc={{...dst_location, area: building2AreRuleSet(dst_location?.building as string) || areaList[0]}} disable onPick={()=>null}></MultiColumnPicker></View>
+          <View className='grid-container'>学号：<Text className='text-deep-gray'>{student_id}</Text></View>
+          <View className='grid-container'>姓名：<Text className='text-deep-gray'>{name}</Text></View>
+          <View className='grid-container'>联系方式：<Text className='text-deep-gray'>{phone}</Text></View>
+          <View className='grid-container'>现居寝室：<MultiColumnPicker style={{width: 'auto'}} loc={{...src_location, area: building2AreRuleSet(src_location?.building as string) || areaList[0]}} disable onPick={()=>null}></MultiColumnPicker></View>
+          <View className='grid-container'>{"拟调寝室(有/暂无):"}<MultiColumnPicker style={{width: 'auto'}} loc={{...dst_location, area: building2AreRuleSet(dst_location?.building as string) || areaList[0]}} disable onPick={()=>null}></MultiColumnPicker></View>
           <View>调整原因：</View>
           <Textarea
             value={applicationInfo.reason}

@@ -124,3 +124,44 @@ export const teacherConfig: DetailedInfoProps = {
     }
   }),
 }
+
+export const studentPasswordConfig: DetailedInfoProps = {
+  text: '同学您好',
+  inputs: [
+    {
+      tag: 'current',
+      placeHolder: '目前账号',
+      size: 'sm',
+      disabled: true,
+      data: 'currentAcc'
+    },
+
+    {
+      tag: 'origin_password',
+      placeHolder: '原密码',
+    },
+    {
+      tag: 'new_password',
+      placeHolder: '新密码'
+    },
+    {
+      tag: 'confirm',
+      placeHolder: '确认密码',
+      confirm: 'new_password'
+    }
+  ],
+  onSubmit: (inputSet: { [key: string]: string }) => fetchEditPassword({new_password: inputSet['new_password']}).then(res => {
+    if (res && res.data.code === 0) {
+      Modal.show({
+        content: '信息修改成功',
+        onSuccess: () => {
+          Redirect(stuNavUrl);
+        }
+      })
+    } else {
+      Modal.show({
+        content: res && res.data.msg,
+      });
+    }
+  }),
+}

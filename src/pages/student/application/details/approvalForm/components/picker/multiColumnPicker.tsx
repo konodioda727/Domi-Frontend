@@ -1,4 +1,4 @@
-import {FC, useEffect, useMemo, useState} from 'react'
+import {CSSProperties, FC, useEffect, useMemo, useState} from 'react'
 import {BaseEventOrig, Picker, PickerMultiSelectorProps, Text} from "@tarojs/components";
 import {buildingType, LocationType} from "@/services/fetchTypes";
 import {
@@ -9,11 +9,12 @@ const MultiColumnPicker: FC<{
   onPick?: (e: string[]) => void,
   loc: LocationType & {area: string},
   disable?: boolean
-}> = ({onPick, disable, loc}) => {
+  classNames?: string
+  style?: CSSProperties
+}> = ({onPick, disable, loc, classNames, style}) => {
  const [dormInfo, dispatch] = useBedroomInfoStore()
   const [pickerValue, setPickerValue] = useState<number[]>([-1, -1, -1, -1])
   const { buildings, beds, areas, dorms } = dormInfo
-
   const range = useMemo(() => {
     return [areas, buildings.map(building => building.name), dorms, beds]
   }, [dormInfo]);
@@ -29,6 +30,8 @@ const MultiColumnPicker: FC<{
   // 根据loc初始化picker
   useEffect(() => {
    const areaIndex = areas.indexOf(loc.area)
+   console.log('area', areaIndex, loc.area, loc);
+   
     const bedIndex = beds.indexOf(loc.bed || beds[0])
     let dormIndex = 0;
     let buildingIndex = 0;
@@ -42,7 +45,7 @@ const MultiColumnPicker: FC<{
         dispatch.update()
       })
     })
-  }, []);
+  }, [loc]);
 
   const handleColChange = async (e: BaseEventOrig<PickerMultiSelectorProps.ColumnChangeEventDetail> | {detail: {column: number, value: number}}) => {
     const {column, value} = e.detail
@@ -66,15 +69,16 @@ const MultiColumnPicker: FC<{
   }
   return (
     <Picker
-      style={{width:'80vw',height:'3vh',paddingTop:'1vh',textAlign:'center',borderRadius:'1vh',border:'1px solid grey'}}
       mode="multiSelector"
+      style={style}
+      className={ `defaultMultiSelector ${classNames}` }
       range={range}
       disabled={disable}
       value={pickerValue}
       onChange={e => handleChange(e)}
       onColumnChange={e => handleColChange(e)}
     >
-      {pickerValue.every((item) => item !== -1)  ? (
+      {pickerValue[0] !== -1  ? (
           <Text>{selected.join('-')}</Text>
       ) : (
           <Text style={{ color: "#686868" }}>暂无</Text>

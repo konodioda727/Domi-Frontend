@@ -53,14 +53,10 @@ export default function Index() {
         .then(res => {
           const role = res && res.data.data.role;
           if (res && res.data.code === 0) {
-            if(role !== 'RoleStudent') {
-              !res.data.data.pwd_edited 
-                ? Nav('/pages/teacher/changePassword/index') 
-                : Redirect(ifLoginNavPath[role])
-              return;
-            }
-            res.data.code === 0
-              ? Redirect(ifLoginNavPath[role]) 
+            res.data.data.school
+              ? !res.data.data.pwd_edited 
+                  ? Nav(`/pages/${role === 'RoleStudent' ? 'student' : 'teacher'}/changePassword/index`) 
+                  : Redirect(ifLoginNavPath[role])
               : Redirect(ifInfoEditNavPath[role]);
           }
         })

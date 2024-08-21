@@ -10,13 +10,14 @@ export const stuPersonalInfoTag: switchCarType[] = [
   'introduction',
   'download',
   'feedback',
+  'stuChange',
   // 'exit',
 ];
 export const teaPersonalInfoTag: switchCarType[] = [
   'introduction',
   'download',
   'feedback',
-  'change',
+  'teaChange',
   // 'exit',
 ];
 
@@ -46,10 +47,15 @@ export const personalInfoConfig: { [key in switchCarType]: PersonaltabProps } =
       text: '换宿申请表查看',
       navURl: '/pages/sharing/archive/archive',
     },
-    change: {
+    teaChange: {
       icon: personalimgList.change,
       text: '修改密码',
       navURl: '/pages/teacher/changePassword/index'
+    },
+    stuChange: {
+      icon: personalimgList.change,
+      text: '修改密码',
+      navURl: '/pages/student/changePassword/index'
     },
     exit: {
       icon: personalimgList.exit,

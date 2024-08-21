@@ -11,4 +11,4 @@ export interface PersonalInfoProps {
   type: 'teacher' | 'student';
   data?: PersonalInfoResponseType;
 }
-export type switchCarType = 'introduction' | 'feedback' | 'download' | 'change' | 'exit';
+export type switchCarType = 'introduction' | 'feedback' | 'download' | 'stuChange' | 'teaChange' | 'exit';
