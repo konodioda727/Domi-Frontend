@@ -239,7 +239,7 @@ const ApprovalForm: React.FC = () => {
           </View>
           <View className="approvalForm-item">
             <Text className="approvalForm-item-tag ">拟调寝室</Text>
-            <RadioGroup onChange={e=>setRoomChecked(e.detail.value=='有')}>
+            <RadioGroup style={{display:isEditable?'':'none'}} onChange={e=>setRoomChecked(e.detail.value=='有')}>
               <Label className='radio_roomchecked'><Radio value='有' color='#005767' checked={roomChecked}></Radio>有</Label>
               <Label className='radio_roomchecked'><Radio value='暂无' color='#005767' checked={!roomChecked}></Radio>暂无</Label>
             </RadioGroup>

@@ -2,7 +2,7 @@
     "miniprogramRoot": "dist/",
     "projectname": "domi",
     "description": "desc",
-    "appid": "touristappid",
+    "appid": "wx6c336674de33402a",
     "setting": {
         "urlCheck": true,
         "es6": false,
