@@ -151,7 +151,7 @@ const TeacherChecking: React.FC = () => {
                 ...dst_location,
                 area:
                   building2AreRuleSet(dst_location?.building as string) ||
-                  areaList[0],
+                  '',
               }}
               disable
               onPick={() => null}

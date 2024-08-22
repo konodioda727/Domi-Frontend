@@ -1,4 +1,4 @@
-import {CSSProperties, FC, useEffect, useMemo, useState} from 'react'
+import {CSSProperties, FC, useEffect, useMemo, useState, memo} from 'react'
 import {BaseEventOrig, Picker, PickerMultiSelectorProps, Text} from "@tarojs/components";
 import {buildingType, LocationType} from "@/services/fetchTypes";
 import {
@@ -46,7 +46,7 @@ const MultiColumnPicker: FC<{
         dispatch.update()
       })
     })
-  }, [loc]);
+  }, [loc.area, loc.building, loc.bed, loc.room]);
 
   const handleColChange = async (e: BaseEventOrig<PickerMultiSelectorProps.ColumnChangeEventDetail> | {detail: {column: number, value: number}}) => {
     const {column, value} = e.detail
@@ -89,4 +89,4 @@ const MultiColumnPicker: FC<{
   )
 }
 
-export default MultiColumnPicker
+export default memo(MultiColumnPicker)

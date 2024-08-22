@@ -2,7 +2,7 @@ import Button from '@/components/button/button';
 import { PickerItem } from '@/components/input/input';
 import PageWrap from '@/components/pageWrap/pageWrap';
 import {fetchFormDetail, fetchTutor, fetchUploadForm, fetchUploadToQiniu} from '@/services/fetch';
-import { applicationType } from '@/services/fetchTypes';
+import { applicationType, LocationType } from '@/services/fetchTypes';
 import {Back, Nav} from '@/utils/nav';
 import {
   Image,
@@ -61,8 +61,7 @@ const ApprovalForm: React.FC = () => {
   const [tutors, setTutors] = useState<string[]>([])
   const [isEditable, setIsEditable] = useState<boolean>(false)
   const [ownerSignUrl, setOwnerSignUrl] = useState('');
-  const [roomChecked,setRoomChecked]=useState(true)//有无目标寝室
-  const [fecthedData, setFecthedData] = useState<applicationType>()
+  const [fecthedData, setFecthedData] = useState<applicationType & {roomChecked?: boolean}>()
   const renewData = (name: string, value: any) => {
     setFecthedData({...fecthedData, [name]: value})
     handleInput(name, value)
@@ -125,7 +124,7 @@ const ApprovalForm: React.FC = () => {
     })
   }
   const handleSubmit = () => {
-    const param = fecthedData as applicationType
+    const param = fecthedData as applicationType & {roomChecked?: boolean}
     if(!isEditable) {
       Modal.show({content: '正在审核，无法进行修改',showCancel: false})
       return;
@@ -137,7 +136,7 @@ const ApprovalForm: React.FC = () => {
       })
       return;
     }
-    if(param["dst_location"] && param["src_location"] && param["tutor"] && param['phone'] && param['signature']) {
+    if((param["dst_location"] || !param['roomChecked']) && param["src_location"] && param["tutor"] && param['phone'] && param['signature']) {
       console.log(param)
       Modal.show({
         content: '确认提交申请后，将无法进行修改',
@@ -146,7 +145,7 @@ const ApprovalForm: React.FC = () => {
         onSuccess(type) {
         console.log(type);
         if(type === 'success') {
-          fetchUploadForm({...param}).then(res => {
+          fetchUploadForm({...param, dst_location: param['roomChecked'] ? param['dst_location'] : {building: '', room: '', bed: ''}}).then(res => {
             res && res.data.code === 0
               ? Back().then(() => {
                 Modal.show({content: '提交成功',showCancel: false})
@@ -187,9 +186,6 @@ const ApprovalForm: React.FC = () => {
       Nav(`/pages/sharing/signPage/signPage?type=${eventKey}`)
     }
   };
-  useEffect(()=>{
-    if(!roomChecked)setFecthedData(pre=>{return{...pre,dst_location:''}})
-  },[roomChecked])
   return (
     <PageWrap
       topBarProps={{ pos: 'leftWithButton', children: 'CCNU 换宿审批' }}
@@ -239,9 +235,12 @@ const ApprovalForm: React.FC = () => {
           </View>
           <View className="approvalForm-item">
             <Text className="approvalForm-item-tag ">拟调寝室</Text>
-            <RadioGroup style={{display:isEditable?'':'none'}} onChange={e=>setRoomChecked(e.detail.value=='有')}>
-              <Label className='radio_roomchecked'><Radio value='有' color='#005767' checked={roomChecked}></Radio>有</Label>
-              <Label className='radio_roomchecked'><Radio value='暂无' color='#005767' checked={!roomChecked}></Radio>暂无</Label>
+            <RadioGroup onChange={e=>{
+              // setRoomChecked(e.detail.value=='有')
+              renewData('roomChecked', e.detail.value=='有')
+              }}>
+              <Label className='radio_roomchecked'><Radio value='有' color='#005767' disabled={!isEditable} checked={fecthedData?.roomChecked}></Radio>有</Label>
+              <Label className='radio_roomchecked'><Radio value='暂无' color='#005767' disabled={!isEditable} checked={!fecthedData?.roomChecked}></Radio>暂无</Label>
             </RadioGroup>
           </View>
           <View className="approvalForm-item">
