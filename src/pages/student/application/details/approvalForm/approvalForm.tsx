@@ -237,7 +237,7 @@ const ApprovalForm: React.FC = () => {
             <MultiColumnPicker disable={!isEditable} onPick={handleDstPick} loc={{...fecthedData?.dst_location, area: building2AreRuleSet(fecthedData?.dst_location?.building as string) || ''}}></MultiColumnPicker>
           </View>
           <View className="form-textarea-intro" style={{marginBottom:'-2vh'}}>申请详情</View>
-          <View className="form-textarea-intro">（请阐述调寝原因、具体原因）</View>
+          <View className="form-textarea-intro">（请阐述调寝原因、具体需求）</View>
           <Textarea
             id="changingReason"
             value={fecthedData?.reason}
