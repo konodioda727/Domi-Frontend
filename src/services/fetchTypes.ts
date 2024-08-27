@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro';
-
+import { APPLICATION_STATUS } from '../pages/types/loginProps';
 export interface FetchResponseBaseType<T> {
   code: number;
   data: T;
@@ -111,7 +111,7 @@ export interface applicationListType {
 export interface applicationResponseType extends applicationType {
   pdf: string;
   Finished: boolean;
-  status: 'StatusTutorPass' | string
+  status: string
   ctime: number;
   id: number;
 }

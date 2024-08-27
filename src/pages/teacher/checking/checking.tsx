@@ -25,6 +25,7 @@ import {
 import Taro, { useDidShow } from '@tarojs/taro';
 import React, { useEffect, useState } from 'react';
 import './index.less';
+import Modal from '@/components/modal';
 
 definePageConfig({
   disableScroll: true,
@@ -35,6 +36,7 @@ const TeacherChecking: React.FC = () => {
   const [ownerSignUrl, setOwnerSignUrl] = useState('');
   const [judged, setJudged] = useState<null | reportType>(null);
   const [signLink, setSignLink] = useState<string>('');
+  const [stampLink, setStampLink] = useState<string>('')
   const [result, setResult] = useState<boolean>();
   const [checkingReason, setCheckingReason] = useState('');
   const [shouldShowStamp, setShouldShowStamp] = useState<boolean>(false);
@@ -63,6 +65,11 @@ const TeacherChecking: React.FC = () => {
       Nav(`/pages/sharing/signPage/signPage?type=${eventKey}`);
     }
   };
+  const handleStamp = () => {
+    judged 
+      ? Modal.show({content: '审核完毕，不能再次盖章'})
+      : setStampLink('https://domi.muxixyz.com/FpvlpHhGQ3L-6avVjTb1nFad6kra')
+  }
   useDidShow(() => {
     // 这个是可以拿到当前的app实例 page实例 和router
     const instance = Taro.getCurrentInstance();
@@ -92,7 +99,7 @@ const TeacherChecking: React.FC = () => {
       pass: result,
       detail: checkingReason,
       signature: signLink,
-      stamp: '',
+      stamp: stampLink,
       form_id: formID,
     };
     if (checkingReason && signLink && formID) {
@@ -224,7 +231,12 @@ const TeacherChecking: React.FC = () => {
           </View>
           {shouldShowStamp ? (
             <View className="TeacherChecking-item teacher-stamp">
-              <View className="TeacherChecking-stamp"></View>
+              <View className="TeacherChecking-stamp" onClick={handleStamp}>
+                {judged?.stamp || stampLink
+                ? <Image className='TeacherChecking-stamp' src={judged?.stamp || stampLink}></Image>
+                : <View>点击盖章</View>
+              }
+              </View>
               <Button
                 onClick={handleClick}
                 disabled={judged !== null}

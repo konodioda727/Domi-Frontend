@@ -3,9 +3,11 @@ import { Image, View } from '@tarojs/components';
 import {FC, useMemo} from 'react';
 import './reviewItem.less';
 import {dateGene} from "@/utils/dateGene";
+import { imgMap } from '@/configs/applicationConfig';
+import { APPLICATION_STATUS } from '@/pages/types/loginProps';
 
 const ReviewItem: FC<applicationResponseType & {onClick?: (formId: number)=>void}> = props => {
-  const { id, name, onClick, ctime, school, dst_location, src_location, reason } = props;
+  const { id, name, onClick, ctime, school, dst_location, src_location, reason, status, gender } = props;
   const handleClick = () => {
     onClick && onClick(id)
   };
@@ -20,7 +22,7 @@ const ReviewItem: FC<applicationResponseType & {onClick?: (formId: number)=>void
     <>
       <View className="review-item" onClick={handleClick}>
         <View className="review-item-header">
-          <View className="review-item-name">{name}</View>
+          <View className="review-item-name">{`${name}\t${gender}`}</View>
           <View className="review-item-time">{date}</View>
         </View>
         <View className="review-item-body">
@@ -41,6 +43,9 @@ const ReviewItem: FC<applicationResponseType & {onClick?: (formId: number)=>void
           <View className='review-item-reason'>调宿理由：{displayReason}</View>
           <View className="review-item-grade">{school}</View>
         </View>
+        {status !== APPLICATION_STATUS.SUBMIT && (
+          <Image src={imgMap[status.toLowerCase().includes('pass') ? 'success' : 'fail']} fadeIn className="review-item-state" />
+        )}
       </View>
     </>
   );
