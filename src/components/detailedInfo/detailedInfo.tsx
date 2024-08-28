@@ -14,7 +14,7 @@ import Modal from '../modal';
 const DetailedInfo: React.FC<DetailedInfoProps> = props => {
   const [inputSet, setInputSet] = useState<{ [key: string]: string }>({});
   const { text, inputs, formatTest, onSubmit, data: dataset } = props;
-  const [shouldUpload, setShouldUpload] = useState<boolean>(false)
+  const [shouldUpload, setShouldUpload] = useState<boolean | null>(null)
   const texts = text.split('\n');
   const errorSet = useMemo(() => {
     return formatTest
@@ -36,7 +36,7 @@ const DetailedInfo: React.FC<DetailedInfoProps> = props => {
     });
   }, []);
   const handleApply = () => {
-    if (Object.keys(inputSet).length >= inputs.length && shouldUpload) {
+    if (Object.keys(inputSet).length >= inputs.length && shouldUpload !== false) {
       Taro.showModal({
         title: '注意',
         content: '请确保所填信息真实性，提交后不可更改',

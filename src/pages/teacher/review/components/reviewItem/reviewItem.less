@@ -44,13 +44,19 @@
     height: 8vh;
     background-color: @deep-green;
     width: 100%;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: 1fr 1fr 1fr;
     .review-item-arrow {
-      width: 16vw;
-      height: 4vh;
+      width: 12vw;
+      height: 3vh;
+      align-self: center;
+      justify-self: center;
     }
-    .flex-center;
+    // .flex-center;
     .review-item-info {
-      margin: 0 3vh 0 3vh;
+      // margin: 0 3vh 0 3vh;
       color: white;
       font-size: @font-medium;
       text-align: center;

@@ -33,7 +33,7 @@ const ReviewItem: FC<applicationResponseType & {onClick?: (formId: number)=>void
             className="review-item-arrow"
           ></Image>
           <ReviewItemInfo
-            building={dst_location?.building || ''}
+            building={dst_location?.building || '暂无'}
             room={dst_location?.room || ''}
           ></ReviewItemInfo>
         </View>

@@ -6,6 +6,7 @@
   height: 60vh;
   padding: 0;
   flex-direction: column;
+  overflow: hidden;
   .empty-sign {
     margin: 2vh auto;
     position: relative;
@@ -42,8 +43,12 @@
   .reviewed-items {
     position: relative;
     height: 50vh;
+    width: 80vw;
     padding: 2vh;
     overflow-y: auto;
+  }
+  ::-webkit-scrollbar {
+    display: none;
   }
 }
 

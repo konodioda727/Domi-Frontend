@@ -18,7 +18,7 @@ export const studentConfig: DetailedInfoProps = {
       placeHolder: '姓名',
     },
     {
-      tag: 'sex',
+      tag: 'gender',
       placeHolder: '请选择性别',
       type: 'picker',
       range: ['请选择性别','男', '女'],
